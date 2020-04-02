@@ -34,7 +34,7 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
         firebaseApp.auth().signInWithEmailAndPassword(email, pass)
             .then(() => {
                 console.log("IN")
-                Router.push('/admin/dashboard')
+                Router.push('/user/dashboard')
             })
             .catch((e) => {
                 console.log(e)
@@ -49,7 +49,7 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
     return (
         <>
             <Head>
-                <title>Sisforma-Admin</title>
+                <title>Sisforma</title>
             </Head>
             {/* <AuthLayout> */}
             {/* <motion.div exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}> */}

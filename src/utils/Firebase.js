@@ -7,14 +7,14 @@ import 'firebase/functions';
 
 // Config
 const config = {
-    apiKey: "AIzaSyD4RzMhc_1p2JoQJQJkHupDVDYqxvUTyCM",
-    authDomain: "midtrans-testing.firebaseapp.com",
-    databaseURL: "https://midtrans-testing.firebaseio.com",
-    projectId: "midtrans-testing",
-    storageBucket: "midtrans-testing.appspot.com",
-    messagingSenderId: "940556024401",
-    appId: "1:940556024401:web:381d34b1526f31b43f9670",
-    measurementId: "G-QL80JYFCDC"
+    apiKey: "AIzaSyBMK4gSFvz3-yLXZ2aQW6xKpZdiq6NaGqQ",
+    authDomain: "sisforma-dd047.firebaseapp.com",
+    databaseURL: "https://sisforma-dd047.firebaseio.com",
+    projectId: "sisforma-dd047",
+    storageBucket: "sisforma-dd047.appspot.com",
+    messagingSenderId: "14065969425",
+    appId: "1:14065969425:web:826a0c621d4af9e5c244b0",
+    measurementId: "G-2GGJ5YL8G3"
 };
 
 let firebaseApp = !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();

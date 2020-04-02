@@ -35,31 +35,105 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 var routes = [
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    layout: "/admin"
-  },
-  {
-    path: "/dashboard/table",
-    name: "Tables",
-    icon: "fa fa-envelope-square text-red",
-    layout: "/admin"
-  },
-  {
-    path: "/dashboard/form",
-    name: "Form",
-    icon: "ni ni-bullet-list-67 text-blue",
-    layout: "/admin"
-  },
-  {
-    path: "/dashboard/modal",
-    name: "Modal",
-    icon: "ni ni-bullet-list-67 text-blue",
-    layout: "/admin"
-  },
-];
+    {
+      path: "/dashboard",
+      name: "Home",
+      icon: "ni ni-tv-2 text-primary",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/table",
+      name: "Proposal",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/tableketersediaan",
+      name: "Cek Ketersediaan",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/tablepeminjaman",
+      name: "Peminjaman",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/archiveuser",
+      name: "Archive",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/modal",
+      name: "Modal",
+      icon: "ni ni-bullet-list-67 text-blue",
+      layout: "/user"
+    },
+  ];
+
+  var routes2 = [
+    {
+      path: "/dashboard",
+      name: "Home",
+      icon: "ni ni-tv-2 text-primary",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/daftarpeminjamantempat",
+      name: "Daftar Permohonan",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/tempat",
+      name: "Daftar Tempat",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/archiveadmintempat",
+      name: "Archive",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/modal_tempat",
+      name: "Modals",
+      icon: "ni ni-bullet-list-67 text-blue",
+      layout: "/user"
+    },
+
+  ];
+
+  var routes3 = [
+    {
+      path: "/dashboard",
+      name: "Home",
+      icon: "ni ni-tv-2 text-primary",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/daftarpeminjamantempat",
+      name: "Daftar Permohonan",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/daftarpeminjamantempat",
+      name: "Archive",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/modal",
+      name: "Modals",
+      icon: "ni ni-bullet-list-67 text-blue",
+      layout: "/user"
+    },
+
+  ];
 
 const Sidebar = () => {
 
@@ -71,7 +145,7 @@ const Sidebar = () => {
   const router = useRouter();
 
   // creates the links that appear in the left menu / Sidebar
-  function createLinks() {
+  function createLinks(routes) {
     const output = [];
     routes.map((prop, key) => {
       output.push(
@@ -190,15 +264,21 @@ const Sidebar = () => {
             </Row>
           </div>
           {/* Navigation */}
-          <Nav navbar>{createLinks()}</Nav>
+          <h6 className="navbar-heading text-muted">Ormawa</h6>
+          <Nav navbar>{createLinks(routes)}</Nav>
           {/* Divider */}
           <hr className="my-3" />
           {/* Heading */}
-          <h6 className="navbar-heading text-muted">Documentation</h6>
+          <h6 className="navbar-heading text-muted">Admin Peminjaman Tempat</h6>
+          <Nav navbar>{createLinks(routes2)}</Nav>
+          <hr className="my-3" />
+          {/* Heading */}
+          <h6 className="navbar-heading text-muted">Admin Persetujuan Proposal Pusat</h6>
+          <Nav navbar>{createLinks(routes3)}</Nav>
           {/* Navigation */}
           <Nav className="mb-md-3" navbar>
             <NavItem>
-              <NavLink href="">
+              <NavLink href="/dashboard/table">
                 <i className="ni ni-spaceship" />
                 Getting started
                 </NavLink>

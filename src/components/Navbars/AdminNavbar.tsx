@@ -54,7 +54,7 @@ const AdminNavbar = () => {
                       />  */}
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
-                    <span className="mb-0 text-sm font-weight-bold">Jessica Jones</span>
+                    <span className="mb-0 text-sm font-weight-bold" style={{color: 'black'}}>{firebaseApp.auth().currentUser ? firebaseApp.auth().currentUser.email : ''}</span>
                   </Media>
                 </Media>
               </DropdownToggle>

@@ -12,7 +12,7 @@ import "~/public/css/argon-dashboard-react.css";
 import 'aos/dist/aos.css';
 
 // Layout
-import { HOC } from '~/src/utils/withAdminAuth';
+import { HOC, HOCUser } from '~/src/utils/withAdminAuth';
 import NormalLayout from '~/src/layouts/NormalLayout';
 import AuthLayout from '~/src/layouts/AuthLayout';
 
@@ -28,9 +28,24 @@ export default function MyApp({ Component, pageProps, router }) {
 				if (path.includes('admin/dashboard')) {
 					Router.push('/admin');
 				}
+
+				if (path.includes('user/dashboard')) {
+					Router.push('/user');
+				}
 			}
 		});
 	}, []);
+
+	
+	if (router.pathname.includes('user/dashboard')) {
+		return (
+			<Store>
+				<HOCUser>
+					<Component {...pageProps} />
+				</HOCUser>
+			</Store>
+		);
+	}
 
 	if (router.pathname.includes('admin/dashboard')) {
 		return (
@@ -43,7 +58,7 @@ export default function MyApp({ Component, pageProps, router }) {
 	}
 
 
-	if (router.pathname.includes('admin')) {
+	if (router.pathname.includes('admin') || router.pathname.includes('user')) {
 		return (
 			<Store>
 				<AuthLayout>

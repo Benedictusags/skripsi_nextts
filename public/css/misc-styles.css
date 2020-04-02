@@ -3,6 +3,10 @@
 	src: url("../fonts/amandasignature.ttf") format("ttf");
 }
 
+.dropdown-custom {
+display:block !important;
+width:100% !important;
+}
 
 /* Search */
 .search-container {
