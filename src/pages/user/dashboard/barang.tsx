@@ -42,7 +42,7 @@ const TableRow = ({ name }) => {
     return (
         <tr>
             <td>{name}</td>
-            <td> Mantap-mantap
+            <td> 100
             </td>
             <td>
             <Badge color="" className="badge-dot mr-4">
@@ -92,13 +92,13 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     const SAMPLE = [
         {
-            name: 'Lapangan Albertus'
+            name: 'Korsi'
         },
         {
-            name: 'Sporthall'
+            name: 'Meja'
         },
         {
-            name: 'Teather'
+            name: 'Spiker'
         },
     ];
 
@@ -130,7 +130,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Daftar dan Ketersediaan Tempat</h3>
+                                        <h3 className="mb-0">Daftar dan Ketersediaan Barang</h3>
                                     </div>
                                     <div className="col text-right">
                                         <Button
@@ -138,7 +138,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                             onClick={e => e.preventDefault()}
                                             size="sm"
                                         >
-                                            + Tempat
+                                            + Barang
                                                 </Button>
                                     </div>
                                 </Row>
@@ -181,7 +181,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 <thead className="thead-light">
                                     <tr>
                                         <th scope="col">Nama Tempat</th>
-                                        <th scope="col">Deskripsi</th>
+                                        <th scope="col">Jumlah</th>
                                         <th scope="col">Status</th>
                                         <th scope="col" />
                                     </tr>

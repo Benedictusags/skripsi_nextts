@@ -60,7 +60,7 @@ const DashboardFormPage: NextPage<{ userAgent: string }> = () => {
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center">
                   <Col xs="8">
-                    <h3 className="mb-0">Archive Peminjaman Tempat</h3>
+                    <h3 className="mb-0">Archive Proposal + LPJ Organisasi</h3>
                   </Col>
                 </Row>
               </CardHeader>
@@ -70,7 +70,7 @@ const DashboardFormPage: NextPage<{ userAgent: string }> = () => {
                     <div className="card">
                         <div className="card-header">
                             <a className="card-link" data-toggle="collapse" href="#collapseOne">
-                                SENAT IKOM
+                                HMPSSI
                             </a>
                         </div>
                         <Table className="align-items-center table-flush" responsive>
@@ -78,26 +78,8 @@ const DashboardFormPage: NextPage<{ userAgent: string }> = () => {
                                     <tr>
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Tempat</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col" />
-                                    </tr>
-                                </thead>
-                        </Table>
-                    </div>
-                    <div className="card">
-                        <div className="card-header">
-                            <a className="card-link" data-toggle="collapse" href="#collapseOne">
-                                BEM IKOM
-                            </a>
-                        </div>
-                        <Table className="align-items-center table-flush" responsive>
-                                <thead className="thead-light">
-                                    <tr>
-                                        <th scope="col">Judul Acara</th>
-                                        <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Tempat</th>
-                                        <th scope="col">Status</th>
+                                        <th scope="col">Anggaran</th>
+                                        <th scope="col">LPJ</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>

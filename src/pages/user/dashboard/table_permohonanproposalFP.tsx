@@ -42,11 +42,12 @@ const TableRow = ({ name }) => {
     return (
         <tr>
             <td>{name}</td>
-            <td> Mantap-mantap
+            <td>Acara Apa</td>
+            <td> 21/03/2020 - 23/03/2020
             </td>
             <td>
             <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Tersedia
+                    <i className="bg-green" />Approved
                 </Badge>
             </td>
             <td className="text-right">
@@ -92,13 +93,13 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     const SAMPLE = [
         {
-            name: 'Lapangan Albertus'
+            name: 'BEM IKOM'
         },
         {
-            name: 'Sporthall'
+            name: 'SENAT IKOM'
         },
         {
-            name: 'Teather'
+            name: 'BEM FHK'
         },
     ];
 
@@ -130,24 +131,21 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Daftar dan Ketersediaan Tempat</h3>
-                                    </div>
-                                    <div className="col text-right">
-                                        <Button
-                                            color="primary"
-                                            onClick={e => e.preventDefault()}
-                                            size="sm"
-                                        >
-                                            + Tempat
-                                                </Button>
+                                        <h3 className="mb-0">Daftar Pengajuan Proposal</h3>
                                     </div>
                                 </Row>
 
                             </CardHeader>
                             <CardBody className="bg-secondary">
-                                <Row>
+                                <Row className="align-items-center">
                                     <Col lg="3">
-                                            <FormGroup>
+                                        <FormGroup>
+                                            {/* <label
+                                                    className="form-control-label"
+                                                    htmlFor="input-username"
+                                                >
+                                                    Username
+                                                </label> */}
                                             <Input
                                                 className="form-control-alternative form-control-sm"
                                                 placeholder="Search"
@@ -158,31 +156,18 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                                     setCurrPage(0);
                                                 }}
                                             />
-                                            </FormGroup>
-                                    </Col>
-                                        <Col lg="3">
-                                            <FormGroup>
-                                        <div className="input-group input-group-alternative input-group-sm">
-                                            <div className="input-group-prepend">
-                                            <span className="input-group-text"><i className="ni ni-calendar-grid-58"></i></span>
-                                            </div>
-                                        <Input  
-                                            className="flatpickr datetimepicker form-control form-control-sm" 
-                                            id="tanggal_mulai"
-                                            placeholder="Datetimepicker" 
-                                            type="text" 
-                                        />
-                                        </div>
                                         </FormGroup>
                                     </Col>
+
                                 </Row>
                             </CardBody>
                             <Table className="align-items-center table-flush" responsive>
                                 <thead className="thead-light">
                                     <tr>
-                                        <th scope="col">Nama Tempat</th>
-                                        <th scope="col">Deskripsi</th>
-                                        <th scope="col">Status</th>
+                                        <th scope="col">Nama Organisasi</th>
+                                        <th scope="col">Judul Acara</th>
+                                        <th scope="col">Tangal Acara</th>
+                                        <th scope="col">Status Fakultas/Progdi</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>

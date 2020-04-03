@@ -81,7 +81,7 @@ var routes = [
       layout: "/user"
     },
     {
-      path: "/dashboard/daftarpeminjamantempat",
+      path: "/dashboard/table_peminjamantempat",
       name: "Daftar Permohonan",
       icon: "fa fa-envelope-square text-red",
       layout: "/user"
@@ -93,13 +93,47 @@ var routes = [
       layout: "/user"
     },
     {
-      path: "/dashboard/archiveadmintempat",
+      path: "/dashboard/archive_admintempat",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
       layout: "/user"
     },
     {
       path: "/dashboard/modal_tempat",
+      name: "Modals",
+      icon: "ni ni-bullet-list-67 text-blue",
+      layout: "/user"
+    },
+
+  ];
+
+  var routes25 = [
+    {
+      path: "/dashboard",
+      name: "Home",
+      icon: "ni ni-tv-2 text-primary",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/table_peminjamanbarang",
+      name: "Daftar Permohonan",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/barang",
+      name: "Daftar Barang",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/archive_admintempat",
+      name: "Archive",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/modal_barang",
       name: "Modals",
       icon: "ni ni-bullet-list-67 text-blue",
       layout: "/user"
@@ -115,13 +149,41 @@ var routes = [
       layout: "/user"
     },
     {
-      path: "/dashboard/daftarpeminjamantempat",
+      path: "/dashboard/table_permohonanproposal",
       name: "Daftar Permohonan",
       icon: "fa fa-envelope-square text-red",
       layout: "/user"
     },
     {
-      path: "/dashboard/daftarpeminjamantempat",
+      path: "/dashboard/archive_adminpusat",
+      name: "Archive",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/modal",
+      name: "Modals",
+      icon: "ni ni-bullet-list-67 text-blue",
+      layout: "/user"
+    },
+
+  ];
+
+  var routes35 = [
+    {
+      path: "/dashboard",
+      name: "Home",
+      icon: "ni ni-tv-2 text-primary",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/table_permohonanproposalFP",
+      name: "Daftar Permohonan",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/user"
+    },
+    {
+      path: "/dashboard/archive_adminprogdi",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
       layout: "/user"
@@ -264,7 +326,7 @@ const Sidebar = () => {
             </Row>
           </div>
           {/* Navigation */}
-          <h6 className="navbar-heading text-muted">Ormawa</h6>
+          <h6 className="navbar-heading text-muted">Organisasi / User</h6>
           <Nav navbar>{createLinks(routes)}</Nav>
           {/* Divider */}
           <hr className="my-3" />
@@ -272,18 +334,16 @@ const Sidebar = () => {
           <h6 className="navbar-heading text-muted">Admin Peminjaman Tempat</h6>
           <Nav navbar>{createLinks(routes2)}</Nav>
           <hr className="my-3" />
+          <h6 className="navbar-heading text-muted">Admin Peminjaman Barang</h6>
+          <Nav navbar>{createLinks(routes25)}</Nav>
+          <hr className="my-3" />
           {/* Heading */}
           <h6 className="navbar-heading text-muted">Admin Persetujuan Proposal Pusat</h6>
           <Nav navbar>{createLinks(routes3)}</Nav>
+          <hr className="my-3" />
+          <h6 className="navbar-heading text-muted">Admin Persetujuan Proposal Fak/Progdi</h6>
+          <Nav navbar>{createLinks(routes35)}</Nav>
           {/* Navigation */}
-          <Nav className="mb-md-3" navbar>
-            <NavItem>
-              <NavLink href="/dashboard/table">
-                <i className="ni ni-spaceship" />
-                Getting started
-                </NavLink>
-            </NavItem>
-          </Nav>
         </Collapse>
       </Container>
     </Navbar>

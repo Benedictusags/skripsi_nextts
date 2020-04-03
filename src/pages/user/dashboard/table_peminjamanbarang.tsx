@@ -42,11 +42,15 @@ const TableRow = ({ name }) => {
     return (
         <tr>
             <td>{name}</td>
-            <td> Mantap-mantap
+            <td> Ikomers
+            </td>
+            <td> 21/03/2020 - 23/03/2020
+            </td>
+            <td> Disana
             </td>
             <td>
             <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Tersedia
+                    <i className="bg-red" />Pending
                 </Badge>
             </td>
             <td className="text-right">
@@ -92,13 +96,13 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     const SAMPLE = [
         {
-            name: 'Lapangan Albertus'
+            name: 'BEM IKOM'
         },
         {
-            name: 'Sporthall'
+            name: 'BEM IKOM'
         },
         {
-            name: 'Teather'
+            name: 'SENAT IKOM'
         },
     ];
 
@@ -116,7 +120,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     return (
         <div>
             <Head>
-                <title>My page title</title>
+                <title>Sisforma - Peminjaman </title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             {/* <Header /> */}
@@ -130,16 +134,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Daftar dan Ketersediaan Tempat</h3>
-                                    </div>
-                                    <div className="col text-right">
-                                        <Button
-                                            color="primary"
-                                            onClick={e => e.preventDefault()}
-                                            size="sm"
-                                        >
-                                            + Tempat
-                                                </Button>
+                                        <h3 className="mb-0">Peminjaman</h3>
                                     </div>
                                 </Row>
 
@@ -158,31 +153,18 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                                     setCurrPage(0);
                                                 }}
                                             />
-                                            </FormGroup>
-                                    </Col>
-                                        <Col lg="3">
-                                            <FormGroup>
-                                        <div className="input-group input-group-alternative input-group-sm">
-                                            <div className="input-group-prepend">
-                                            <span className="input-group-text"><i className="ni ni-calendar-grid-58"></i></span>
-                                            </div>
-                                        <Input  
-                                            className="flatpickr datetimepicker form-control form-control-sm" 
-                                            id="tanggal_mulai"
-                                            placeholder="Datetimepicker" 
-                                            type="text" 
-                                        />
-                                        </div>
-                                        </FormGroup>
+                                    </FormGroup>
                                     </Col>
                                 </Row>
                             </CardBody>
                             <Table className="align-items-center table-flush" responsive>
                                 <thead className="thead-light">
                                     <tr>
-                                        <th scope="col">Nama Tempat</th>
-                                        <th scope="col">Deskripsi</th>
-                                        <th scope="col">Status</th>
+                                        <th scope="col">Nama Organisasi</th>
+                                        <th scope="col">Nama Acara</th>
+                                        <th scope="col">Tanggal Acara</th>
+                                        <th scope="col">Barang</th>
+                                        <th scope="col">Status </th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
