@@ -42,6 +42,7 @@ import NormalModal from '~/src/components/Modals/NormalModal';
 import FormModal from '~/src/components/Modals/FormModal';
 import FPBModal from '~/src/components/Modals/FPBModal';
 import FPTModal from '~/src/components/Modals/FPTModal';
+import MDUModal from '~/src/components/Modals/MDUModal';
 
 const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
 
@@ -50,6 +51,7 @@ const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
     const [showFM, setShowFM] = useState(false);
     const [showFPB, setShowFPB] = useState(false);
     const [showFPT, setShowFPT] = useState(false);
+    const [showMDU, setShowMDU] = useState(false);
 
     return (
         <div>
@@ -106,6 +108,14 @@ const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
                                         Form Peminjaman Tempat
                                     </Button>
 
+                                    <Button
+                                        color="info"
+                                        onClick={() => setShowMDU(true)}
+                                        size="lg"
+                                    >
+                                        Modal Details Proposal
+                                    </Button>
+
 
                                     <Button
                                         color="danger"
@@ -145,6 +155,11 @@ const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
             <FPTModal
                 isOpen={showFPT}
                 toggle={() => setShowFPT(!showFPT)}
+            />
+
+            <MDUModal
+                isOpen={showMDU}
+                toggle={() => setShowMDU(!showMDU)}
             />
         </div>
 

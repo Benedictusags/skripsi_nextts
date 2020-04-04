@@ -71,19 +71,19 @@ const TableRow = ({ name }) => {
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Action
+                            Detail
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Another action
+                            Print
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Something else here
+                            Delete
                                                             </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>

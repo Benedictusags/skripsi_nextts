@@ -160,12 +160,6 @@ var routes = [
       icon: "fa fa-envelope-square text-red",
       layout: "/user"
     },
-    {
-      path: "/dashboard/modal",
-      name: "Modals",
-      icon: "ni ni-bullet-list-67 text-blue",
-      layout: "/user"
-    },
 
   ];
 
@@ -186,12 +180,6 @@ var routes = [
       path: "/dashboard/archive_adminprogdi",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
-      layout: "/user"
-    },
-    {
-      path: "/dashboard/modal",
-      name: "Modals",
-      icon: "ni ni-bullet-list-67 text-blue",
       layout: "/user"
     },
 

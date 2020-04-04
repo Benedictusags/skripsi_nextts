@@ -39,11 +39,13 @@ import { withAdminAuth } from '~/src/utils/withAdminAuth';
 import AdminLayout from '../../../layouts/AdminLayout';
 
 import TTModal from '~/src/components/Modals/TTModal';
+import MDTModal from '~/src/components/Modals/MDTModal';
 
 const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
 
  
     const [showTTModal, setShowTTModal] = useState(false);
+    const [showMDTModal, setShowMDTModal] = useState(false);
 
     return (
         <div>
@@ -73,6 +75,14 @@ const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
                                     >
                                         Form Penambahan Tempat
                                     </Button>
+
+                                    <Button
+                                        color="info"
+                                        onClick={() => setShowMDTModal(true)}
+                                        size="lg"
+                                    >
+                                        Detai Permohonan Tempat
+                                    </Button>
                                 </CardBody>
                             </Card>
                         </Col>
@@ -82,7 +92,13 @@ const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
             <TTModal
                 isOpen={showTTModal}
                 toggle={() => setShowTTModal(!showTTModal)}
+                
+            />    
+            <MDTModal
+                isOpen={showMDTModal}
+                toggle={() => setShowMDTModal(!showMDTModal)}
             />
+                
         </div>
 
     );

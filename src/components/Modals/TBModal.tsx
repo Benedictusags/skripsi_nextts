@@ -68,6 +68,13 @@ const TBModal = ({isOpen, toggle}) => {
                   placeholder="Nama Tempat" 
                   type="text" 
               />
+              <div className="form-group">
+                <label className="form-control-label">Status</label>
+                <select id="inputState" className="form-control form-control-alternative">
+                  <option selected>Status</option>
+                  <option>Tersedia</option>
+                </select>
+              </div>
               </div>
               <br></br>
               <button type="submit" className="btn btn-primary btn-sm float-right" >Submit</button>

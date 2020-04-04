@@ -39,11 +39,13 @@ import { withAdminAuth } from '~/src/utils/withAdminAuth';
 import AdminLayout from '../../../layouts/AdminLayout';
 
 import TBModal from '~/src/components/Modals/TBModal';
+import MDBModal from '~/src/components/Modals/MDBModal';
 
 const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
 
  
     const [showTBModal, setShowTBModal] = useState(false);
+    const [showMDBModal, setShowMDBModal] = useState(false);
 
     return (
         <div>
@@ -73,6 +75,14 @@ const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
                                     >
                                         Form Penambahan Barang
                                     </Button>
+
+                                    <Button
+                                        color="info"
+                                        onClick={() => setShowMDBModal(true)}
+                                        size="lg"
+                                    >
+                                        Detail Pengajuan Barang
+                                    </Button>
                                 </CardBody>
                             </Card>
                         </Col>
@@ -82,6 +92,10 @@ const DashboardModalPage: NextPage<{ userAgent: string }> = () => {
             <TBModal
                 isOpen={showTBModal}
                 toggle={() => setShowTBModal(!showTBModal)}
+            />
+            <MDBModal
+                isOpen={showMDBModal}
+                toggle={() => setShowMDBModal(!showMDBModal)}
             />
         </div>
 

@@ -89,8 +89,10 @@ const FPTModal = ({isOpen, toggle}) => {
               </div>
               </div>
               <br></br>
-              <button type="submit" className="btn btn-primary btn-sm float-right" >Submit</button>
-              <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
+              <div className="modal-footer">
+                <button type="submit" className="btn btn-primary btn-sm float-right" >Submit</button>
+                <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
+              </div>
               </form>
               </div>
             </Modal>

@@ -60,6 +60,13 @@ const TTModal = ({isOpen, toggle}) => {
                   type="text" 
               />
               </div>
+              <div className="form-group">
+                <label className="form-control-label">Status</label>
+                <select id="inputState" className="form-control form-control-alternative">
+                  <option selected>Status</option>
+                  <option>Tersedia</option>
+                </select>
+              </div>
               <br></br>
               <button type="submit" className="btn btn-primary btn-sm float-right" >Submit</button>
               <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>

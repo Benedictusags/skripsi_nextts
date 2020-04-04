@@ -65,8 +65,7 @@ const DashboardFormPage: NextPage<{ userAgent: string }> = () => {
                 </Row>
               </CardHeader>
               <CardBody>
-              <div id="accordion">
-                    
+              <div id="accordion">     
                     <div className="card">
                         <div className="card-header">
                             <a className="card-link" data-toggle="collapse" href="#collapseOne">
