@@ -34,46 +34,34 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-var routes = [
+
+  var routes35 = [
     {
       path: "/dashboard",
       name: "Home",
       icon: "ni ni-tv-2 text-primary",
-      layout: "/user"
+      layout: "/PROGDI"
     },
     {
-      path: "/dashboard/table",
-      name: "Proposal",
+      path: "/dashboard/table_permohonanproposalP",
+      name: "Daftar Permohonan",
       icon: "fa fa-envelope-square text-red",
-      layout: "/user"
+      layout: "/PROGDI"
     },
     {
-      path: "/dashboard/tableketersediaan",
-      name: "Cek Ketersediaan",
-      icon: "fa fa-envelope-square text-red",
-      layout: "/user"
-    },
-    {
-      path: "/dashboard/tablepeminjaman",
-      name: "Peminjaman",
-      icon: "fa fa-envelope-square text-red",
-      layout: "/user"
-    },
-    {
-      path: "/dashboard/archiveuser",
+      path: "/dashboard/archive_adminprogdi",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
-      layout: "/user"
+      layout: "/PROGDI"
     },
     {
-      path: "/dashboard/modal",
-      name: "Modal",
-      icon: "ni ni-bullet-list-67 text-blue",
-      layout: "/user"
-    },
+      path: "/dashboard/modal_progdi",
+        name: "Modals",
+        icon: "ni ni-bullet-list-67 text-blue",
+        layout: "/PROGDI"
+      },
+
   ];
-
-
 
 const Sidebar = () => {
 
@@ -203,10 +191,8 @@ const Sidebar = () => {
               </Col>
             </Row>
           </div>
+          <Nav navbar>{createLinks(routes35)}</Nav>
           {/* Navigation */}
-          <Nav navbar>{createLinks(routes)}</Nav>
-          {/* Divider */}
-    
         </Collapse>
       </Container>
     </Navbar>

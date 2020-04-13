@@ -42,12 +42,15 @@ const TableRow = ({ name }) => {
     return (
         <tr>
             <td>{name}</td>
-            <td>Acara Apa</td>
+            <td> Ikomers
+            </td>
             <td> 21/03/2020 - 23/03/2020
+            </td>
+            <td> Disana
             </td>
             <td>
             <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Approved
+                    <i className="bg-red" />Pending
                 </Badge>
             </td>
             <td className="text-right">
@@ -67,7 +70,7 @@ const TableRow = ({ name }) => {
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Action
+                            Detail
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
@@ -96,10 +99,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             name: 'BEM IKOM'
         },
         {
-            name: 'SENAT IKOM'
+            name: 'BEM IKOM'
         },
         {
-            name: 'BEM FHK'
+            name: 'SENAT IKOM'
         },
     ];
 
@@ -117,7 +120,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     return (
         <div>
             <Head>
-                <title>My page title</title>
+                <title>Sisforma - Peminjaman </title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             {/* <Header /> */}
@@ -131,21 +134,15 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Daftar Pengajuan Proposal</h3>
+                                        <h3 className="mb-0">Peminjaman</h3>
                                     </div>
                                 </Row>
 
                             </CardHeader>
                             <CardBody className="bg-secondary">
-                                <Row className="align-items-center">
+                                <Row>
                                     <Col lg="3">
-                                        <FormGroup>
-                                            {/* <label
-                                                    className="form-control-label"
-                                                    htmlFor="input-username"
-                                                >
-                                                    Username
-                                                </label> */}
+                                            <FormGroup>
                                             <Input
                                                 className="form-control-alternative form-control-sm"
                                                 placeholder="Search"
@@ -156,18 +153,18 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                                     setCurrPage(0);
                                                 }}
                                             />
-                                        </FormGroup>
+                                    </FormGroup>
                                     </Col>
-
                                 </Row>
                             </CardBody>
                             <Table className="align-items-center table-flush" responsive>
                                 <thead className="thead-light">
                                     <tr>
                                         <th scope="col">Nama Organisasi</th>
-                                        <th scope="col">Judul Acara</th>
-                                        <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Status Fakultas/Progdi</th>
+                                        <th scope="col">Nama Acara</th>
+                                        <th scope="col">Tanggal Acara</th>
+                                        <th scope="col">Barang</th>
+                                        <th scope="col">Status </th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>

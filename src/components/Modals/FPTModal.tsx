@@ -46,9 +46,9 @@ const FPTModal = ({isOpen, toggle}) => {
               {/* Bagian Barang */}
               <label htmlFor="inputAddress" className="form-control-label">Nama Acara</label>
                 <select id="inputState" className="form-control form-control-alternative">
-              <option selected>Pilih Acara yang sudah di Setujui</option>
-              <option>...</option>
-              </select>
+                 <option selected>Pilih Acara yang sudah di Setujui</option>
+                 <option>...</option>
+                </select>
               <br></br>
               <label htmlFor="inputState" className="form-control-label">Nama Tempat</label>
                 <select id="inputState" className="form-control form-control-alternative">

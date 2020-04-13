@@ -34,46 +34,28 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-var routes = [
+
+  var routes35 = [
     {
       path: "/dashboard",
       name: "Home",
       icon: "ni ni-tv-2 text-primary",
-      layout: "/user"
+      layout: "/Fakultas"
     },
     {
-      path: "/dashboard/table",
-      name: "Proposal",
+      path: "/dashboard/table_permohonanproposalF",
+      name: "Daftar Permohonan",
       icon: "fa fa-envelope-square text-red",
-      layout: "/user"
+      layout: "/Fakultas"
     },
     {
-      path: "/dashboard/tableketersediaan",
-      name: "Cek Ketersediaan",
+      path: "/dashboard/modal_fakultas",
+      name: "modals",
       icon: "fa fa-envelope-square text-red",
-      layout: "/user"
+      layout: "/Fakultas"
     },
-    {
-      path: "/dashboard/tablepeminjaman",
-      name: "Peminjaman",
-      icon: "fa fa-envelope-square text-red",
-      layout: "/user"
-    },
-    {
-      path: "/dashboard/archiveuser",
-      name: "Archive",
-      icon: "fa fa-envelope-square text-red",
-      layout: "/user"
-    },
-    {
-      path: "/dashboard/modal",
-      name: "Modal",
-      icon: "ni ni-bullet-list-67 text-blue",
-      layout: "/user"
-    },
+
   ];
-
-
 
 const Sidebar = () => {
 
@@ -203,10 +185,8 @@ const Sidebar = () => {
               </Col>
             </Row>
           </div>
+          <Nav navbar>{createLinks(routes35)}</Nav>
           {/* Navigation */}
-          <Nav navbar>{createLinks(routes)}</Nav>
-          {/* Divider */}
-    
         </Collapse>
       </Container>
     </Navbar>

@@ -12,7 +12,7 @@ import "~/public/css/argon-dashboard-react.css";
 import 'aos/dist/aos.css';
 
 // Layout
-import { HOC, HOCUser } from '~/src/utils/withAdminAuth';
+import { HOC, HOCUser, HOCUPT, HOCBAU, HOCPROGDI, HOCPusat, HOCFakultas } from '~/src/utils/withAdminAuth';
 import NormalLayout from '~/src/layouts/NormalLayout';
 import AuthLayout from '~/src/layouts/AuthLayout';
 
@@ -32,6 +32,22 @@ export default function MyApp({ Component, pageProps, router }) {
 				if (path.includes('user/dashboard')) {
 					Router.push('/user');
 				}
+				if (path.includes('UPT/dashboard')) {
+					Router.push('/UPT');
+				}
+				if (path.includes('BAU/dashboard')) {
+					Router.push('/BAU');
+				}
+				if (path.includes('PROGDI/dashboard')) {
+					Router.push('/PROGDI');
+				}
+				if (path.includes('Fakultas/dashboard')) {
+					Router.push('/Fakultas');	
+				}
+				if (path.includes('Pusat/dashboard')) {
+					Router.push('/Pusat');
+				}
+				
 			}
 		});
 	}, []);
@@ -46,6 +62,57 @@ export default function MyApp({ Component, pageProps, router }) {
 			</Store>
 		);
 	}
+
+	if (router.pathname.includes('UPT/dashboard')) {
+		return (
+			<Store>
+				<HOCUPT>
+					<Component {...pageProps} />
+				</HOCUPT>
+			</Store>
+		);
+	}
+
+	if (router.pathname.includes('BAU/dashboard')) {
+		return (
+			<Store>
+				<HOCBAU>
+					<Component {...pageProps} />
+				</HOCBAU>
+			</Store>
+		);
+	}
+
+	if (router.pathname.includes('PROGDI/dashboard')) {
+		return (
+			<Store>
+				<HOCPROGDI>
+					<Component {...pageProps} />
+				</HOCPROGDI>
+			</Store>
+		);
+	}
+
+	if (router.pathname.includes('Fakultas/dashboard')) {
+		return (
+			<Store>
+				<HOCFakultas>
+					<Component {...pageProps} />
+				</HOCFakultas>
+			</Store>
+		);
+	}
+
+	if (router.pathname.includes('Pusat/dashboard')) {
+		return (
+			<Store>
+				<HOCPusat>
+					<Component {...pageProps} />
+				</HOCPusat>
+			</Store>
+		);
+	}
+
 
 	if (router.pathname.includes('admin/dashboard')) {
 		return (

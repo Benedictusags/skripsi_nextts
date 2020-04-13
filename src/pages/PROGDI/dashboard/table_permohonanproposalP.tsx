@@ -50,11 +50,6 @@ const TableRow = ({ name }) => {
                     <i className="bg-green" />Approved
                 </Badge>
             </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-red" />Pending
-                </Badge>
-            </td>
             <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
@@ -172,8 +167,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         <th scope="col">Nama Organisasi</th>
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Status Fakultas/Progdi</th>
-                                        <th scope="col">Status Pusat</th>
+                                        <th scope="col">Status Progdi</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
