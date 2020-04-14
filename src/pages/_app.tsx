@@ -125,7 +125,7 @@ export default function MyApp({ Component, pageProps, router }) {
 	}
 
 
-	if (router.pathname.includes('admin') || router.pathname.includes('user')) {
+	if (router.pathname.includes('admin') || router.pathname.includes('user') || router.pathname.includes('UPT') || router.pathname.includes('BAU') || router.pathname.includes('Fakultas') || router.pathname.includes('PROGDI') || router.pathname.includes('Pusat')) {
 		return (
 			<Store>
 				<AuthLayout>
