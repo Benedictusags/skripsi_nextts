@@ -12,7 +12,7 @@ import "~/public/css/argon-dashboard-react.css";
 import 'aos/dist/aos.css';
 
 // Layout
-import { HOC, HOCUser, HOCUPT, HOCBAU, HOCPROGDI, HOCPusat, HOCFakultas } from '~/src/utils/withAdminAuth';
+import { HOC, HOCUserFakultas, HOCUserProgdi, HOCUserUniversitas, HOCUPT, HOCBAU, HOCPROGDI, HOCPusat, HOCFakultas } from '~/src/utils/withAdminAuth';
 import NormalLayout from '~/src/layouts/NormalLayout';
 import AuthLayout from '~/src/layouts/AuthLayout';
 
@@ -29,8 +29,14 @@ export default function MyApp({ Component, pageProps, router }) {
 					Router.push('/admin');
 				}
 
-				if (path.includes('user/dashboard')) {
-					Router.push('/user');
+				if (path.includes('UserFakultas/dashboard')) {
+					Router.push('/UserFakultas');
+				}
+				if (path.includes('UserProgdi/dashboard')) {
+					Router.push('/UserProgdi');
+				}
+				if (path.includes('UserUniversitas/dashboard')) {
+					Router.push('/UserUniversitas');
 				}
 				if (path.includes('UPT/dashboard')) {
 					Router.push('/UPT');
@@ -53,12 +59,32 @@ export default function MyApp({ Component, pageProps, router }) {
 	}, []);
 
 	
-	if (router.pathname.includes('user/dashboard')) {
+	if (router.pathname.includes('UserFakultas/dashboard')) {
 		return (
 			<Store>
-				<HOCUser>
+				<HOCUserFakultas>
 					<Component {...pageProps} />
-				</HOCUser>
+				</HOCUserFakultas>
+			</Store>
+		);
+	}
+
+	if (router.pathname.includes('UserProgdi/dashboard')) {
+		return (
+			<Store>
+				<HOCUserProgdi>
+					<Component {...pageProps} />
+				</HOCUserProgdi>
+			</Store>
+		);
+	}
+
+	if (router.pathname.includes('UserUniversitas/dashboard')) {
+		return (
+			<Store>
+				<HOCUserUniversitas>
+					<Component {...pageProps} />
+				</HOCUserUniversitas>
 			</Store>
 		);
 	}
@@ -125,7 +151,7 @@ export default function MyApp({ Component, pageProps, router }) {
 	}
 
 
-	if (router.pathname.includes('admin') || router.pathname.includes('user') || router.pathname.includes('UPT') || router.pathname.includes('BAU') || router.pathname.includes('Fakultas') || router.pathname.includes('PROGDI') || router.pathname.includes('Pusat')) {
+	if (router.pathname.includes('admin') || router.pathname.includes('UserFakultas') || router.pathname.includes('UserProgdi') || router.pathname.includes('UPT') || router.pathname.includes('BAU') || router.pathname.includes('Fakultas') || router.pathname.includes('PROGDI') || router.pathname.includes('Pusat')) {
 		return (
 			<Store>
 				<AuthLayout>

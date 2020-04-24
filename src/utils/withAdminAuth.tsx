@@ -6,12 +6,14 @@ import Router from 'next/router';
 import { AuthContext } from '~/src/store/context';
 
 import AdminLayout from '~/src/layouts/AdminLayout';
-import UserLayout from '~/src/layouts/UserLayout';
+import UserFakultasLayout from '~/src/layouts/UserFakultasLayout';
 import UPTLayout from '~/src/layouts/UPTLayout';
 import BAULayout from '~/src/layouts/BAULayout';
 import PROGDILayout from '~/src/layouts/PROGDILayout';
 import PusatLayout from '~/src/layouts/PusatLayout';
 import FakultasLayout from '~/src/layouts/FakultasLayout';
+import UserProgdiLayout from '~/src/layouts/UserProgdiLayout';
+import UserUniversitasLayout from '~/src/layouts/UserUniversitasLayout';
 
 export function withAdminAuth<T>(Component: FunctionComponent<T>): FunctionComponent {
     return (props: T) => (
@@ -54,14 +56,14 @@ export const HOC: NextComponentType = ({ children }) => {
 }
 
 
-export const HOCUser: NextComponentType = ({ children }) => {
+export const HOCUserFakultas: NextComponentType = ({ children }) => {
 
     const [isLoading, setIsLoading] = useState(true);
 
     const { loggedIn, admin } = useContext(AuthContext);
 
     useEffect(() => {
-        if (loggedIn && Router.pathname.includes('user/dashboard')) {
+        if (loggedIn && Router.pathname.includes('UserFakultas/dashboard')) {
             // if (admin) {
                 setIsLoading(false);
             // } else {
@@ -77,9 +79,73 @@ export const HOCUser: NextComponentType = ({ children }) => {
             {
                 isLoading ?
                     (<h1>Loading . . .</h1>) : (
-                        <UserLayout>
+                        <UserFakultasLayout>
                             {children}
-                        </UserLayout>
+                        </UserFakultasLayout>
+                    )
+            }
+        </>
+    );
+}
+
+export const HOCUserProgdi: NextComponentType = ({ children }) => {
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    const { loggedIn, admin } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (loggedIn && Router.pathname.includes('UserProgdi/dashboard')) {
+            // if (admin) {
+                setIsLoading(false);
+            // } else {
+                // firebaseApp.auth().signOut();
+            // }
+        // } else {
+            // firebaseApp.auth().signOut();
+        }
+    }, [loggedIn, admin]);
+
+    return (
+        <>
+            {
+                isLoading ?
+                    (<h1>Loading . . .</h1>) : (
+                        <UserProgdiLayout>
+                            {children}
+                        </UserProgdiLayout>
+                    )
+            }
+        </>
+    );
+}
+
+export const HOCUserUniversitas: NextComponentType = ({ children }) => {
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    const { loggedIn, admin } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (loggedIn && Router.pathname.includes('UserUniversitas/dashboard')) {
+            // if (admin) {
+                setIsLoading(false);
+            // } else {
+                // firebaseApp.auth().signOut();
+            // }
+        // } else {
+            // firebaseApp.auth().signOut();
+        }
+    }, [loggedIn, admin]);
+
+    return (
+        <>
+            {
+                isLoading ?
+                    (<h1>Loading . . .</h1>) : (
+                        <UserUniversitasLayout>
+                            {children}
+                        </UserUniversitasLayout>
                     )
             }
         </>

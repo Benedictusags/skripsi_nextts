@@ -45,14 +45,7 @@ const TableRow = ({ name }) => {
             <td> 21/03/2020 - 23/03/2020
             </td>
             <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Approved
-                </Badge>
-            </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-warning" />pending
-                </Badge>
+            LPJIKOM.docx
             </td>
             <td className="text-right">
                 <UncontrolledDropdown>
@@ -71,19 +64,19 @@ const TableRow = ({ name }) => {
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Detail
+                            Action
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Print
+                            Another action
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Delete
+                            Something else here
                                                             </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -135,16 +128,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Pengajuan Proposal</h3>
-                                    </div>
-                                    <div className="col text-right">
-                                        <Button
-                                            color="primary"
-                                            onClick={e => e.preventDefault()}
-                                            size="sm"
-                                        >
-                                            + Proposal
-                                                </Button>
+                                        <h3 className="mb-0">Archive Dokumen</h3>
                                     </div>
                                 </Row>
 
@@ -179,8 +163,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                     <tr>
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Status Fakultas/Progdi</th>
-                                        <th scope="col">Status Pusat</th>
+                                        <th scope="col">LPJ</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>

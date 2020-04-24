@@ -36,8 +36,9 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
+import MDTModal from '~/src/components/Modals/MDTModal';
 
-const TableRow = ({ name }) => {
+const TableRow = ({ name, setShowMDTModal }) => {
 
     return (
         <tr>
@@ -68,21 +69,21 @@ const TableRow = ({ name }) => {
                     <DropdownMenu className="dropdown-menu-arrow" right>
                         <DropdownItem
                             href="#pablo"
-                            onClick={e => e.preventDefault()}
+                            onClick={() => setShowMDTModal(true)}
                         >
-                            Action
+                            Details
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Another action
+                            Delete
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Something else here
+                            Print
                                                             </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -105,7 +106,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             name: 'SENAT IKOM'
         },
     ];
-
+    const [showMDTModal, setShowMDTModal] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -173,7 +174,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         SAMPLE ?
                                             getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} />
+                                                    <TableRow name={data.name} setShowMDTModal={setShowMDTModal} />
                                                 );
                                             }) : null
                                     }
@@ -215,7 +216,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-
+            <MDTModal
+                isOpen={showMDTModal}
+                toggle={() => setShowMDTModal(!showMDTModal)}
+            />                            
         </div>
 
     );

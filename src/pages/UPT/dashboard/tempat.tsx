@@ -36,6 +36,7 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
+import TTModal from '~/src/components/Modals/TTModal';
 
 const TableRow = ({ name }) => {
 
@@ -66,19 +67,13 @@ const TableRow = ({ name }) => {
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Action
+                            Edit
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Another action
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Something else here
+                            Delete
                                                             </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -101,7 +96,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             name: 'Teather'
         },
     ];
-
+    const [showTTModal, setShowTTModal] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -135,7 +130,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                     <div className="col text-right">
                                         <Button
                                             color="primary"
-                                            onClick={e => e.preventDefault()}
+                                            onClick={() => setShowTTModal(true)}
                                             size="sm"
                                         >
                                             + Tempat
@@ -233,7 +228,11 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-
+            <TTModal
+                isOpen={showTTModal}
+                toggle={() => setShowTTModal(!showTTModal)}
+                
+            />                              
         </div>
 
     );

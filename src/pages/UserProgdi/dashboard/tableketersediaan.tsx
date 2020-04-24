@@ -36,20 +36,22 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import MDProposal from '~/src/components/Modals/MDProposal';
 
-
-const TableRow = ({ name, setShowMDProposal}) => {
+const TableRow = ({ name }) => {
 
     return (
         <tr>
             <td>{name}</td>
-            <td>Acara Apa</td>
             <td> 21/03/2020 - 23/03/2020
             </td>
             <td>
             <Badge color="" className="badge-dot mr-4">
                     <i className="bg-green" />Approved
+                </Badge>
+            </td>
+            <td>
+            <Badge color="" className="badge-dot mr-4">
+                    <i className="bg-warning" />pending
                 </Badge>
             </td>
             <td className="text-right">
@@ -67,21 +69,21 @@ const TableRow = ({ name, setShowMDProposal}) => {
                     <DropdownMenu className="dropdown-menu-arrow" right>
                         <DropdownItem
                             href="#pablo"
-                            onClick={() => setShowMDProposal(true)}
+                            onClick={e => e.preventDefault()}
                         >
-                            Details
+                            Action
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Delete
+                            Another action
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Print
+                            Something else here
                                                             </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -95,17 +97,16 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     const SAMPLE = [
         {
-            name: 'BEM IKOM'
+            name: 'ikomers'
         },
         {
-            name: 'SENAT IKOM'
+            name: 'DIES NATALIES'
         },
         {
-            name: 'BEM FHK'
+            name: 'ASAL MUTER'
         },
     ];
 
-    const [showMDProposal, setShowMDProposal] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -134,21 +135,25 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Daftar Pengajuan Proposal</h3>
+                                        <h3 className="mb-0">Ketersediaan</h3>
                                     </div>
                                 </Row>
 
                             </CardHeader>
                             <CardBody className="bg-secondary">
-                                <Row className="align-items-center">
+                                <Row>
                                     <Col lg="3">
                                         <FormGroup>
-                                            {/* <label
-                                                    className="form-control-label"
-                                                    htmlFor="input-username"
-                                                >
-                                                    Username
-                                                </label> */}
+                                        <select id="inputState" className="form-control form-control-sm form-control-alternative">
+                                            <option selected>Pilih Jenis Ketersediaan</option>
+                                            <option>Tempat</option>
+                                            <option>Barang</option> 
+                                            </select>
+                                            <br></br>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col lg="3">
+                                            <FormGroup>
                                             <Input
                                                 className="form-control-alternative form-control-sm"
                                                 placeholder="Search"
@@ -159,72 +164,30 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                                     setCurrPage(0);
                                                 }}
                                             />
+                                            </FormGroup>
+                                    </Col>
+                                        <Col lg="3">
+                                            <FormGroup>
+                                        <div className="input-group input-group-alternative input-group-sm">
+                                            <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="ni ni-calendar-grid-58"></i></span>
+                                            </div>
+                                        <Input  
+                                            className="flatpickr datetimepicker form-control form-control-sm" 
+                                            id="tanggal_mulai"
+                                            placeholder="Datetimepicker" 
+                                            type="text" 
+                                        />
+                                        </div>
                                         </FormGroup>
                                     </Col>
-
                                 </Row>
                             </CardBody>
-                            <Table className="align-items-center table-flush" responsive>
-                                <thead className="thead-light">
-                                    <tr>
-                                        <th scope="col">Nama Organisasi</th>
-                                        <th scope="col">Judul Acara</th>
-                                        <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Status Progdi</th>
-                                        <th scope="col" />
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        SAMPLE ?
-                                            getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
-                                                return (
-                                                    <TableRow name={data.name} setShowMDProposal={setShowMDProposal} />
-                                                );
-                                            }) : null
-                                    }
-                                </tbody>
-                            </Table>
-                            <CardFooter className="py-4">
-                                <nav aria-label="...">
-                                    <nav className="justify-content-end mb-0 pagination" >
-                                        <ReactPaginate
-                                            onPageChange={({ selected }) => setCurrPage(selected)}
-
-                                            breakLabel={'...'}
-                                            breakClassName={'break-me'}
-                                            pageCount={filterItem(SAMPLE, text, ['name']).length / 10}
-                                            marginPagesDisplayed={2}
-                                            pageRangeDisplayed={3}
-
-                                            containerClassName={'pagination justify-content-end mb-0'}
-
-                                            pageClassName={'page-item'}
-                                            pageLinkClassName={'page-link'}
-                                            activeClassName={'active'}
-
-                                            previousLabel={<i className="fas fa-angle-left" />}
-                                            previousClassName={'page-item'}
-                                            previousLinkClassName={'page-link'}
-
-                                            nextLabel={<i className="fas fa-angle-right" />}
-                                            nextClassName={'page-item'}
-                                            nextLinkClassName={'page-link'}
-                                            forcePage={currPage}
-                                        />
-                                    </nav>
-
-                                </nav>
-
-                            </CardFooter>
                         </Card>
                     </div>
                 </Row>
             </Container>
-            <MDProposal
-                isOpen={showMDProposal}
-                toggle={() => setShowMDProposal(!showMDProposal)}
-            />                            
+
         </div>
 
     );

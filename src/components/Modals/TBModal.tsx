@@ -43,20 +43,11 @@ const TBModal = ({isOpen, toggle}) => {
                     Penambahan Barang 
                     </h6>
               <div className="form-group">
-              <label className="form-control-label"> Nama Tempat</label>
+              <label className="form-control-label"> Nama Barang</label>
               <Input  
                   className="form-control form-control-sm form-control-alternative" 
                   id="tanggal_mulai"
-                  placeholder="Nama Tempat" 
-                  type="text" 
-              />
-              </div>
-              <div className="form-group">
-              <label className="form-control-label">Deskripsi</label>
-              <Input  
-                  className="form-control form-control-sm form-control-alternative" 
-                  id="tanggal_mulai"
-                  placeholder="Nama Tempat" 
+                  placeholder="Nama Barang" 
                   type="text" 
               />
               </div>
@@ -65,9 +56,10 @@ const TBModal = ({isOpen, toggle}) => {
               <Input  
                   className="form-control form-control-sm form-control-alternative" 
                   id="tanggal_mulai"
-                  placeholder="Nama Tempat" 
+                  placeholder="QTY" 
                   type="text" 
               />
+              <br></br>
               <div className="form-group">
                 <label className="form-control-label">Status</label>
                 <select id="inputState" className="form-control form-control-alternative">

@@ -1,4 +1,5 @@
-import React from "react";
+import { NextPage } from 'next';
+import React, { useState } from 'react';
 // reactstrap components
 import {
   Button,
@@ -17,7 +18,16 @@ import {
   Col
 } from "reactstrap";
 
+import MAProposal from '~/src/components/Modals/MAProposal';
+import MRProposal from '~/src/components/Modals/MRProposal';
+
+
 const MDUModal = ({isOpen, toggle}) => {
+
+  const [showMAProposal, setShowMAProposal] = useState(false);
+  const [showMRProposal, setShowMRProposal] = useState(false);
+
+
     return (
         <Modal
               className="modal-dialog-centered"
@@ -88,8 +98,18 @@ const MDUModal = ({isOpen, toggle}) => {
                 <Button color="link" type="button">
                   Print
                 </Button>
-              <button type="submit" className="btn btn-primary btn-sm float-right" >Approve</button>
-              <button type="submit" className="btn btn-danger btn-sm float-right" >Reject</button>
+              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMAProposal(true)} >Approve</button>
+              <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRProposal(true)} >Reject</button>
+
+              <MAProposal
+                isOpen={showMAProposal}
+                toggle={() => setShowMAProposal(!showMAProposal)}
+              />
+
+              <MRProposal
+                isOpen={showMRProposal}
+                toggle={() => setShowMRProposal(!showMRProposal)}
+              />
               </div>
             </Modal>
           

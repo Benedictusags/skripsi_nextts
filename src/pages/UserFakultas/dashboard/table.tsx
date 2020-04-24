@@ -36,20 +36,25 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import MDProposal from '~/src/components/Modals/MDProposal';
+import FormModal from '~/src/components/Modals/FormModal';
+import MDUModal from '~/src/components/Modals/MDUModal';
+import MULModal from '~/src/components/Modals/MULModal';
 
-
-const TableRow = ({ name, setShowMDProposal}) => {
+const TableRow = ({ name, setShowFM, setShowMDU, setShowMUL }) => {
 
     return (
         <tr>
             <td>{name}</td>
-            <td>Acara Apa</td>
             <td> 21/03/2020 - 23/03/2020
             </td>
             <td>
             <Badge color="" className="badge-dot mr-4">
                     <i className="bg-green" />Approved
+                </Badge>
+            </td>
+            <td>
+            <Badge color="" className="badge-dot mr-4">
+                    <i className="bg-warning" />pending
                 </Badge>
             </td>
             <td className="text-right">
@@ -67,21 +72,27 @@ const TableRow = ({ name, setShowMDProposal}) => {
                     <DropdownMenu className="dropdown-menu-arrow" right>
                         <DropdownItem
                             href="#pablo"
-                            onClick={() => setShowMDProposal(true)}
+                            onClick={() => setShowMDU(true)}
                         >
-                            Details
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
+                            Detail
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
                             Print
+                                                            </DropdownItem>
+                        <DropdownItem
+                            href="#pablo"
+                            onClick={() => setShowMUL(true)}
+                        >
+                            Upload LPJ
+                                                            </DropdownItem>
+                        <DropdownItem
+                            href="#pablo"
+                            onClick={e => e.preventDefault()}
+                        >
+                            Delete
                                                             </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -95,17 +106,19 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     const SAMPLE = [
         {
-            name: 'BEM IKOM'
+            name: 'ikomers'
         },
         {
-            name: 'SENAT IKOM'
+            name: 'DIES NATALIES'
         },
         {
-            name: 'BEM FHK'
+            name: 'ASAL MUTER'
         },
     ];
 
-    const [showMDProposal, setShowMDProposal] = useState(false);
+    const [showFM, setShowFM] = useState(false);
+    const [showMDU, setShowMDU] = useState(false);
+    const [showMUL, setShowMUL] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -134,7 +147,16 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Daftar Pengajuan Proposal</h3>
+                                        <h3 className="mb-0">Pengajuan Proposal</h3>
+                                    </div>
+                                    <div className="col text-right">
+                                        <Button
+                                            color="primary"
+                                            onClick={() => setShowFM(true)}
+                                            size="sm"
+                                        >
+                                            + Proposal
+                                                </Button>
                                     </div>
                                 </Row>
 
@@ -167,10 +189,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <Table className="align-items-center table-flush" responsive>
                                 <thead className="thead-light">
                                     <tr>
-                                        <th scope="col">Nama Organisasi</th>
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Status Progdi</th>
+                                        <th scope="col">Status Fakultas</th>
+                                        <th scope="col">Status Pusat</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
@@ -179,7 +201,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         SAMPLE ?
                                             getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} setShowMDProposal={setShowMDProposal} />
+                                                    <TableRow name={data.name} setShowFM={setShowFM} setShowMDU={setShowMDU} setShowMUL={setShowMUL} />
                                                 );
                                             }) : null
                                     }
@@ -221,10 +243,21 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-            <MDProposal
-                isOpen={showMDProposal}
-                toggle={() => setShowMDProposal(!showMDProposal)}
-            />                            
+
+            <FormModal
+                isOpen={showFM}
+                toggle={() => setShowFM(!showFM)}
+            />
+
+            <MDUModal
+                isOpen={showMDU}
+                toggle={() => setShowMDU(!showMDU)}
+            />
+
+            <MULModal
+                isOpen={showMUL}
+                toggle={() => setShowMUL(!showMUL)}
+            />                                    
         </div>
 
     );

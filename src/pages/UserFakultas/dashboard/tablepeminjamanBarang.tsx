@@ -32,21 +32,24 @@ import {
 } from "reactstrap";
 
 
-
+{/* BAGIAN USER*/}
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import MDProposal from '~/src/components/Modals/MDProposal';
+
+import FPBModal from '~/src/components/Modals/FPBModal';
+import MDPBModal from '~/src/components/Modals/MDPBModal';
 
 
-const TableRow = ({ name, setShowMDProposal}) => {
+const TableRow = ({ name, setShowFPB, setShowMDPB }) => {
 
     return (
         <tr>
             <td>{name}</td>
-            <td>Acara Apa</td>
             <td> 21/03/2020 - 23/03/2020
             </td>
+            <td>Korsi</td>
+            <td>50</td>
             <td>
             <Badge color="" className="badge-dot mr-4">
                     <i className="bg-green" />Approved
@@ -67,21 +70,21 @@ const TableRow = ({ name, setShowMDProposal}) => {
                     <DropdownMenu className="dropdown-menu-arrow" right>
                         <DropdownItem
                             href="#pablo"
-                            onClick={() => setShowMDProposal(true)}
+                            onClick={() => setShowMDPB(true)}
                         >
-                            Details
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
+                            Detail
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
                             Print
+                                                            </DropdownItem>
+                        <DropdownItem
+                            href="#pablo"
+                            onClick={e => e.preventDefault()}
+                        >
+                            Delete
                                                             </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -95,17 +98,17 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     const SAMPLE = [
         {
-            name: 'BEM IKOM'
+            name: 'ikomers'
         },
         {
-            name: 'SENAT IKOM'
+            name: 'Tawuran'
         },
         {
-            name: 'BEM FHK'
+            name: 'Bambu Gila On the Road'
         },
     ];
-
-    const [showMDProposal, setShowMDProposal] = useState(false);
+    const [showFPB, setShowFPB] = useState(false);
+    const [showMDPB, setShowMDPB] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -120,7 +123,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     return (
         <div>
             <Head>
-                <title>My page title</title>
+                <title>Sisforma - Peminjaman </title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             {/* <Header /> */}
@@ -134,21 +137,23 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Daftar Pengajuan Proposal</h3>
+                                        <h3 className="mb-0">Peminjaman</h3>
+                                    </div>
+                                    <div className="col text-right">
+                                        <Button
+                                            color="primary"
+                                            onClick={() => setShowFPB(true)}
+                                            size="sm"
+                                        >
+                                            + Peminjaman
+                                                </Button>
                                     </div>
                                 </Row>
-
                             </CardHeader>
                             <CardBody className="bg-secondary">
-                                <Row className="align-items-center">
+                                <Row>
                                     <Col lg="3">
-                                        <FormGroup>
-                                            {/* <label
-                                                    className="form-control-label"
-                                                    htmlFor="input-username"
-                                                >
-                                                    Username
-                                                </label> */}
+                                            <FormGroup>
                                             <Input
                                                 className="form-control-alternative form-control-sm"
                                                 placeholder="Search"
@@ -159,18 +164,19 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                                     setCurrPage(0);
                                                 }}
                                             />
-                                        </FormGroup>
+                                    </FormGroup>
                                     </Col>
-
                                 </Row>
                             </CardBody>
                             <Table className="align-items-center table-flush" responsive>
                                 <thead className="thead-light">
                                     <tr>
-                                        <th scope="col">Nama Organisasi</th>
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Status Progdi</th>
+                                        <th scope="col">Jenis Barang</th>
+                                        <th scope="col">QTY</th>
+                                        <th scope="col">Status</th>
+
                                         <th scope="col" />
                                     </tr>
                                 </thead>
@@ -179,7 +185,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         SAMPLE ?
                                             getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} setShowMDProposal={setShowMDProposal} />
+                                                    <TableRow name={data.name} setShowFPB={setShowFPB} setShowMDPB={setShowMDPB} />
                                                 );
                                             }) : null
                                     }
@@ -221,10 +227,17 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-            <MDProposal
-                isOpen={showMDProposal}
-                toggle={() => setShowMDProposal(!showMDProposal)}
-            />                            
+            <FPBModal
+                isOpen={showFPB}
+                toggle={() => setShowFPB(!showFPB)}
+            /> 
+
+            <MDPBModal
+                isOpen={showMDPB}
+                toggle={() => setShowMDPB(!showMDPB)}
+            /> 
+
+                                          
         </div>
 
     );

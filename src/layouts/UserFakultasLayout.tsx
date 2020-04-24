@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 import AdminNavbar from "../components/Navbars/AdminNavbar";
 import AdminFooter from "../components/Footers/AdminFooter";
-import Sidebar from "../components/Sidebar/SidebarUser";
+import Sidebar from "../components/Sidebar/SidebarUserFakultas";
 
 
 const AdminLayout = ({ children }) => {

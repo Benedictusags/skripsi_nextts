@@ -36,8 +36,9 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
+import MDProposal from '~/src/components/Modals/MDProposal';
 
-const TableRow = ({ name }) => {
+const TableRow = ({ name, setShowMDProposal}) => {
 
     return (
         <tr>
@@ -68,23 +69,23 @@ const TableRow = ({ name }) => {
                         <i className="fas fa-ellipsis-v" />
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-arrow" right>
-                        <DropdownItem
+                    <DropdownItem
                             href="#pablo"
-                            onClick={e => e.preventDefault()}
+                            onClick={() => setShowMDProposal(true)}
                         >
-                            Action
+                            Details
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Another action
+                            Delete
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Something else here
+                            Print
                                                             </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -107,7 +108,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             name: 'BEM FHK'
         },
     ];
-
+    const [showMDProposal, setShowMDProposal] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -182,7 +183,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         SAMPLE ?
                                             getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} />
+                                                    <TableRow name={data.name} setShowMDProposal={setShowMDProposal} />
                                                 );
                                             }) : null
                                     }
@@ -224,7 +225,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-
+            <MDProposal
+                isOpen={showMDProposal}
+                toggle={() => setShowMDProposal(!showMDProposal)}
+            />                              
         </div>
 
     );

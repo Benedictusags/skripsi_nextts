@@ -17,7 +17,7 @@ import {
   Col
 } from "reactstrap";
 
-const MDUModal = ({isOpen, toggle}) => {
+const MDPTModal = ({isOpen, toggle}) => {
     return (
         <Modal
               className="modal-dialog-centered"
@@ -52,32 +52,12 @@ const MDUModal = ({isOpen, toggle}) => {
                                 <td scope="col">Loren Ipsum Dolor Jancok</td>
                             </tr>
                             <tr>
-                                <td scope="col">Tempat</td>
+                                <td scope="col">Nama Tempat</td>
                                 <td scope="col">:</td>
                                 <td scope="col">Loren Ipsum Dolor Jancok</td>
                             </tr>
-                            <tr>
-                                <td scope="col">Anggaran</td>
-                                <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">Status Fak/Progdi</td>
-                                <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">Status Pusat</td>
-                                <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">Anggaran yang disetujui/Komentar</td>
-                                <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">Dokumen Proposal</td>
+                             <tr>
+                                <td scope="col">Status</td>
                                 <td scope="col">:</td>
                                 <td scope="col">Loren Ipsum Dolor Jancok</td>
                             </tr>
@@ -89,7 +69,7 @@ const MDUModal = ({isOpen, toggle}) => {
                   Print
                 </Button>
                 <Button
-                  className="close"
+                  className="ml-auto"
                   color="primary"
                   data-dismiss="modal"
                   type="button"
@@ -103,4 +83,4 @@ const MDUModal = ({isOpen, toggle}) => {
     );
 }
 
-export default MDUModal;
+export default MDPTModal;

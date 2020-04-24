@@ -36,8 +36,10 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
+import TBModal from '~/src/components/Modals/TBModal';
 
-const TableRow = ({ name }) => {
+
+const TableRow = ({ name, setShowTBModal }) => {
 
     return (
         <tr>
@@ -47,7 +49,7 @@ const TableRow = ({ name }) => {
             <td>
             <Badge color="" className="badge-dot mr-4">
                     <i className="bg-green" />Tersedia
-                </Badge>
+            </Badge>
             </td>
             <td className="text-right">
                 <UncontrolledDropdown>
@@ -66,26 +68,23 @@ const TableRow = ({ name }) => {
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Action
+                            Detail
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Another action
+                            Delete
                                                             </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Something else here
-                                                            </DropdownItem>
+                                                            
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </td>
         </tr>
     );
 }
+
+
 
 
 const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
@@ -102,6 +101,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         },
     ];
 
+    const [showTBModal, setShowTBModal] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -111,6 +111,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     function setSortData(path) {
         setSortPath(path);
         setFlag(!flag);
+
     }
 
     return (
@@ -135,7 +136,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                     <div className="col text-right">
                                         <Button
                                             color="primary"
-                                            onClick={e => e.preventDefault()}
+                                            onClick={() => setShowTBModal(true)}
                                             size="sm"
                                         >
                                             + Barang
@@ -191,7 +192,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         SAMPLE ?
                                             getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} />
+                                                    <TableRow name={data.name} setShowTBModal={setShowTBModal} />
                                                 );
                                             }) : null
                                     }
@@ -233,11 +234,19 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-
+            <TBModal
+                isOpen={showTBModal}
+                toggle={() => setShowTBModal(!showTBModal)}
+            />                                  
         </div>
 
     );
 }
 
 
+
+
 export default DashboardTablePage;
+
+
+

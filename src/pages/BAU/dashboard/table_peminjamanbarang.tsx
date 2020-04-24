@@ -37,7 +37,12 @@ import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 
-const TableRow = ({ name }) => {
+import MDBModal from '~/src/components/Modals/MDBModal';
+
+
+    
+
+const TableRow =  ({ name, setShowMDBModal }) => {
 
     return (
         <tr>
@@ -46,7 +51,7 @@ const TableRow = ({ name }) => {
             </td>
             <td> 21/03/2020 - 23/03/2020
             </td>
-            <td> Disana
+            <td> Korsi
             </td>
             <td>
             <Badge color="" className="badge-dot mr-4">
@@ -57,7 +62,6 @@ const TableRow = ({ name }) => {
                 <UncontrolledDropdown>
                     <DropdownToggle
                         className="btn-icon-only text-light"
-                        href="#pablo"
                         role="button"
                         size="sm"
                         color=""
@@ -67,23 +71,22 @@ const TableRow = ({ name }) => {
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-arrow" right>
                         <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
+                            onClick={() => setShowMDBModal(true)}
                         >
                             Detail
                                                             </DropdownItem>
                         <DropdownItem
-                            href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Another action
+                            Delete
                                                             </DropdownItem>
                         <DropdownItem
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                         >
-                            Something else here
+                            Print
                                                             </DropdownItem>
+                                                            
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </td>
@@ -105,7 +108,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             name: 'SENAT IKOM'
         },
     ];
-
+    const [showMDBModal, setShowMDBModal] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -173,7 +176,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         SAMPLE ?
                                             getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} />
+                                                    <TableRow name={data.name} setShowMDBModal={setShowMDBModal}  />
                                                 );
                                             }) : null
                                     }
@@ -216,9 +219,13 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 </Row>
             </Container>
 
+            <MDBModal
+                isOpen={showMDBModal}
+                toggle={() => setShowMDBModal(!showMDBModal)}
+            />
         </div>
 
-    );
+        );
 }
 
 

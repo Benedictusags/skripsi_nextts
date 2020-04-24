@@ -34,7 +34,7 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
         firebaseApp.auth().signInWithEmailAndPassword(email, pass)
             .then(() => {
                 console.log("IN")
-                Router.push('/user/dashboard')
+                Router.push('/UserUniversitas/dashboard')
             })
             .catch((e) => {
                 console.log(e)
