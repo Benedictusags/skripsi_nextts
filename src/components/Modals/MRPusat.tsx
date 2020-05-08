@@ -16,12 +16,13 @@ import {
   Col
 } from "reactstrap";
 
-function updateData() {
-  fetch('http://localhost:3001/updateLPJ', {
+function rejectData() {
+  fetch('http://localhost:3001/feedbackPusat', {
     method: 'POST', // GET / POST DARI POSTMAN 
     body: JSON.stringify({
-        id: 1, 
-        Lpj: "MANTAP.CO",
+        id: 3, 
+        aprp:  "Rejected",
+        komenp: "Proposalmu Rakmutu!",
     }),
      headers: {
         'Accept': 'application/json',
@@ -61,20 +62,20 @@ const FormModal = ({isOpen, toggle}) => {
               <div className="modal-body">
               <form>
               <h6 className="heading-small text-muted mb-4">
-                    Upload Lembar Pertanggungjawaban
+                    Penolakan Proposal
               </h6>
               <div className="form-group"> 
-              <label htmlFor="inputAddress" className="form-control-label">Pilih File LPJ</label>
+              <label htmlFor="inputAddress" className="form-control-label">Alasan Tidak Diestujui</label>
               <Input  
                 className="form-control form-control-alternative" 
                 id="nama_acara"
-                placeholder="Rp. XXXXX" 
-                type="file" 
+                placeholder="Karena...." 
+                type="text" 
               />
               </div>
               <br></br>
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={updateData} >Submit</button>
+                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={rejectData} >Submit</button>
                 <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
               </div>
               </form>

@@ -23,6 +23,7 @@ export function withAdminAuth<T>(Component: FunctionComponent<T>): FunctionCompo
     );
 }
 
+
 export const HOC: NextComponentType = ({ children }) => {
 
     const [isLoading, setIsLoading] = useState(true);

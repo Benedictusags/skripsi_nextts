@@ -36,9 +36,9 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import MDProposal from '~/src/components/Modals/MDProposal';
+import DPPusat from '~/src/components/Modals/DPPusat';
 
-const TableRow = ({ name, setShowMDProposal}) => {
+const TableRow = ({ name, setShowDPPusat}) => {
 
     return (
         <tr>
@@ -71,7 +71,7 @@ const TableRow = ({ name, setShowMDProposal}) => {
                     <DropdownMenu className="dropdown-menu-arrow" right>
                     <DropdownItem
                             href="#pablo"
-                            onClick={() => setShowMDProposal(true)}
+                            onClick={() => setShowDPPusat(true)}
                         >
                             Details
                                                             </DropdownItem>
@@ -108,7 +108,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             name: 'BEM FHK'
         },
     ];
-    const [showMDProposal, setShowMDProposal] = useState(false);
+    const [showDPPusat, setShowDPPusat] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -183,7 +183,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         SAMPLE ?
                                             getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} setShowMDProposal={setShowMDProposal} />
+                                                    <TableRow name={data.name} setShowDPPusat={setShowDPPusat} />
                                                 );
                                             }) : null
                                     }
@@ -225,9 +225,9 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-            <MDProposal
-                isOpen={showMDProposal}
-                toggle={() => setShowMDProposal(!showMDProposal)}
+            <DPPusat
+                isOpen={showDPPusat}
+                toggle={() => setShowDPPusat(!showDPPusat)}
             />                              
         </div>
 

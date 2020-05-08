@@ -18,14 +18,35 @@ import {
   Col
 } from "reactstrap";
 
-import MAProposal from '~/src/components/Modals/MAProposal';
-import MRProposal from '~/src/components/Modals/MRProposal';
+function approveData() {
+    fetch('http://localhost:3001/feedbackFakultas', {
+      method: 'POST', // GET / POST DARI POSTMAN 
+      body: JSON.stringify({
+          id: 3, 
+          aprf:  "Approved",
+          komenf: "",
+      }),
+       headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+          console.log(data);
+      })
+      .catch((e) => {
+          window.alert(e);
+      });
+  }
+
+
+import MRFakultas from '~/src/components/Modals/MRFakultas';
 
 
 const MDUModal = ({isOpen, toggle}) => {
 
-  const [showMAProposal, setShowMAProposal] = useState(false);
-  const [showMRProposal, setShowMRProposal] = useState(false);
+  const [showMRFakultas, setShowMRFakultas] = useState(false);
 
 
     return (
@@ -98,17 +119,12 @@ const MDUModal = ({isOpen, toggle}) => {
                 <Button color="link" type="button">
                   Print
                 </Button>
-              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMAProposal(true)} >Approve</button>
-              <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRProposal(true)} >Reject</button>
+              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Approve</button>
+              <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRFakultas(true)} >Reject</button>
 
-              <MAProposal
-                isOpen={showMAProposal}
-                toggle={() => setShowMAProposal(!showMAProposal)}
-              />
-
-              <MRProposal
-                isOpen={showMRProposal}
-                toggle={() => setShowMRProposal(!showMRProposal)}
+              <MRFakultas
+                isOpen={showMRFakultas}
+                toggle={() => setShowMRFakultas(!showMRFakultas)}
               />
               </div>
             </Modal>

@@ -1,4 +1,5 @@
-import React from "react";
+import { NextPage } from 'next';
+import React, { useState } from 'react';
 // reactstrap components
 import {
   Button,
@@ -17,7 +18,33 @@ import {
   Col
 } from "reactstrap";
 
+function approveData() {
+  fetch('http://localhost:3001/feedbackPeminjamanTempat', {
+    method: 'POST', // GET / POST DARI POSTMAN 
+    body: JSON.stringify({
+        id: 2, 
+        status:  "Approved",
+        komen: "",
+    }),
+     headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((e) => {
+        window.alert(e);
+    });
+}
+
+import MRUpt from '~/src/components/Modals/MRUpt';
+
 const MDTModal = ({isOpen, toggle}) => {
+
+  const [showMRUpt, setShowMRUpt] = useState(false);
     return (
         <Modal
               className="modal-dialog-centered"
@@ -60,8 +87,13 @@ const MDTModal = ({isOpen, toggle}) => {
                 </Table>
               </div>
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary btn-sm float-right" >Approve</button>
-                <button type="submit" className="btn btn-danger btn-sm float-right" >Reject</button>
+                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Approve</button>
+                <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRUpt(true)} >Reject</button>
+
+              <MRUpt
+                isOpen={showMRUpt}
+                toggle={() => setShowMRUpt(!showMRUpt)}
+              />
               </div>
             </Modal>
           

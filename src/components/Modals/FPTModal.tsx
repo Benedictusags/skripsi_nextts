@@ -16,6 +16,32 @@ import {
   Col
 } from "reactstrap";
 
+function insertData() {
+  fetch('http://localhost:3001/addPeminjamanTempat', {
+    method: 'POST', // GET / POST DARI POSTMAN 
+    body: JSON.stringify({ 
+        user:  "Senat",
+        acara: "Perang Sarung",
+        tanggal_mulai: 1234,
+        tanggal_selesai: 4321,
+        nama_tempat: "sporthall",
+        status: "pending",
+        komen: "",
+    }),
+     headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((e) => {
+        window.alert(e);
+    });
+}
+
 const FPTModal = ({isOpen, toggle}) => {
     return (
         <Modal
@@ -90,7 +116,7 @@ const FPTModal = ({isOpen, toggle}) => {
               </div>
               <br></br>
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary btn-sm float-right" >Submit</button>
+                <button type="submit" className="btn btn-primary btn-sm float-right"  onClick={insertData} >Submit</button>
                 <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
               </div>
               </form>

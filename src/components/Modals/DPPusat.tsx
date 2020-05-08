@@ -1,4 +1,5 @@
-import React from "react";
+import { NextPage } from 'next';
+import React, { useState } from 'react';
 // reactstrap components
 import {
   Button,
@@ -17,24 +18,16 @@ import {
   Col
 } from "reactstrap";
 
-function showData() {
-  fetch('http://localhost:3001/getProposal', {
-    method: 'GET', // GET / POST DARI POSTMAN 
-     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    }
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((e) => {
-        window.alert(e);
-    });
-}
+import MAPusat from '~/src/components/Modals/MAPusat';
+import MRPusat from '~/src/components/Modals/MRPusat';
+
 
 const MDUModal = ({isOpen, toggle}) => {
+
+  const [showMAPusat, setShowMAPusat] = useState(false);
+  const [showMRPusat, setShowMRPusat] = useState(false);
+
+
     return (
         <Modal
               className="modal-dialog-centered"
@@ -102,18 +95,21 @@ const MDUModal = ({isOpen, toggle}) => {
                 </Table>
               </div>
               <div className="modal-footer">
-                <Button color="link" type="button" onClick={showData}>
+                <Button color="link" type="button">
                   Print
                 </Button>
-                <Button
-                  className="close"
-                  color="primary"
-                  data-dismiss="modal"
-                  type="button"
-                  onClick={toggle}
-                >
-                  Close
-                </Button>
+              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMAPusat(true)} >Approve</button>
+              <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRPusat(true)} >Reject</button>
+
+              <MAPusat
+                isOpen={showMAPusat}
+                toggle={() => setShowMAPusat(!showMAPusat)}
+              />
+
+              <MRPusat
+                isOpen={showMRPusat}
+                toggle={() => setShowMRPusat(!showMRPusat)}
+              />
               </div>
             </Modal>
           

@@ -36,17 +36,16 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import MDProposal from '~/src/components/Modals/MDProposal';
+import DPProgdi from '~/src/components/Modals/DPProgdi';
 
 
-const TableRow = ({ name, setShowMDProposal}) => {
+const TableRow = ({ name, setShowDPProgdi}) => {
 
     return (
         <tr>
             <td>{name}</td>
             <td>Acara Apa</td>
-            <td> 21/03/2020 - 23/03/2020
-            </td>
+            <td> 21/03/2020 - 23/03/2020 </td>
             <td>
             <Badge color="" className="badge-dot mr-4">
                     <i className="bg-green" />Approved
@@ -67,7 +66,7 @@ const TableRow = ({ name, setShowMDProposal}) => {
                     <DropdownMenu className="dropdown-menu-arrow" right>
                         <DropdownItem
                             href="#pablo"
-                            onClick={() => setShowMDProposal(true)}
+                            onClick={() => setShowDPProgdi(true)}
                         >
                             Details
                                                             </DropdownItem>
@@ -105,7 +104,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         },
     ];
 
-    const [showMDProposal, setShowMDProposal] = useState(false);
+    const [showDPProgdi, setShowDPProgdi] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
@@ -179,7 +178,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         SAMPLE ?
                                             getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} setShowMDProposal={setShowMDProposal} />
+                                                    <TableRow name={data.name} setShowDPProgdi={setShowDPProgdi} />
                                                 );
                                             }) : null
                                     }
@@ -221,9 +220,9 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-            <MDProposal
-                isOpen={showMDProposal}
-                toggle={() => setShowMDProposal(!showMDProposal)}
+            <DPProgdi
+                isOpen={showDPProgdi}
+                toggle={() => setShowDPProgdi(!showDPProgdi)}
             />                            
         </div>
 

@@ -16,6 +16,28 @@ import {
   Col
 } from "reactstrap";
 
+function insertData() {
+  fetch('http://localhost:3001/addTempat', {
+    method: 'POST', // GET / POST DARI POSTMAN 
+    body: JSON.stringify({ 
+        nama_tempat:"Lapangan Albertus",
+        deskripsi:"Lapangan futsal dan serbaguna",
+        status: "Tersedia",
+    }),
+     headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((e) => {
+        window.alert(e);
+    });
+}
+
 const TTModal = ({isOpen, toggle}) => {
     return (
         <Modal
@@ -68,7 +90,7 @@ const TTModal = ({isOpen, toggle}) => {
                 </select>
               </div>
               <br></br>
-              <button type="submit" className="btn btn-primary btn-sm float-right" >Submit</button>
+              <button type="submit" className="btn btn-primary btn-sm float-right"  onClick={insertData} >Submit</button>
               <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
               </form>
               </div>

@@ -49,7 +49,7 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
     return (
         <>
             <Head>
-                <title>Sisforma</title>
+                <title>Sisforma-BAU</title>
             </Head>
             {/* <AuthLayout> */}
             {/* <motion.div exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}> */}

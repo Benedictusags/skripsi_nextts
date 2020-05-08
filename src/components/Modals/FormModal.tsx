@@ -16,6 +16,38 @@ import {
   Col
 } from "reactstrap";
 
+function insertData() {
+  fetch('http://localhost:3001/addProposal', {
+    method: 'POST', // GET / POST DARI POSTMAN 
+    body: JSON.stringify({ 
+        judul_acara:  "acaraan",
+        tanggal_mulai: 1234,
+        tanggal_selesai: 4321,
+        dikampus: 1,
+        tempat: "Unika",
+        anggaran: 300000,
+        file: "aaaaa",
+        user: "hmpssi",
+        aprf: "pending",
+        aprp: "pending",
+        komenf: "",
+        komenp: "",
+        Lpj: "",
+    }),
+     headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((e) => {
+        window.alert(e);
+    });
+}
+
 const FormModal = ({isOpen, toggle}) => {
     return (
         <Modal
@@ -105,7 +137,7 @@ const FormModal = ({isOpen, toggle}) => {
                 type="file" 
               />
               <br></br>
-              <button type="submit" className="btn btn-primary btn-sm float-right" >Submit</button>
+              <button type="submit" className="btn btn-primary btn-sm float-right"  onClick={insertData}  >Submit</button>
               <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
               </form>
               </div>
