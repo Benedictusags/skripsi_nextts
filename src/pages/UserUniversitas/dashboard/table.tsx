@@ -36,7 +36,7 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import FormModal from '~/src/components/Modals/FormModal';
+import FPPusat from '~/src/components/Modals/FPPusat';
 import MDUModal from '~/src/components/Modals/MDUModal';
 import MULModal from '~/src/components/Modals/MULModal';
 
@@ -238,7 +238,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 </Row>
             </Container>
 
-            <FormModal
+            <FPPusat
                 isOpen={showFM}
                 toggle={() => setShowFM(!showFM)}
             />

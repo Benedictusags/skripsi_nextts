@@ -42,7 +42,7 @@ function approveData() {
 
 import MRUpt from '~/src/components/Modals/MRUpt';
 
-const MDTModal = ({isOpen, toggle}) => {
+const MDTModal = ({isOpen, toggle, data}) => {
 
   const [showMRUpt, setShowMRUpt] = useState(false);
     return (
@@ -71,17 +71,32 @@ const MDTModal = ({isOpen, toggle}) => {
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.acara}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Mulai</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.tanggal_mulai}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Selesai</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.tanggal_selesai}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Tempat</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.nama_tempat}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Mulai - Selesai</td>
+                                <td scope="col">Status</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.status}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Komentar</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.komen}</td>
                             </tr>
                         </tbody>
                 </Table>

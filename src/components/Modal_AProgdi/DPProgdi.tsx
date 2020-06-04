@@ -1,4 +1,5 @@
-import React from "react";
+import { NextPage } from 'next';
+import React, { useState } from 'react';
 // reactstrap components
 import {
   Button,
@@ -17,7 +18,16 @@ import {
   Col
 } from "reactstrap";
 
+import MAProgdi from '~/src/components/Modal_AProgdi/MAProgdi';
+import MRProgdi from '~/src/components/Modal_AProgdi/MRProgdi';
+
+
 const MDUModal = ({isOpen, toggle, data}) => {
+
+  const [showMAProgdi, setShowMAProgdi] = useState(false);
+  const [showMRProgdi, setShowMRProgdi] = useState(false);
+
+
     return (
         <Modal
               className="modal-dialog-centered"
@@ -72,11 +82,6 @@ const MDUModal = ({isOpen, toggle, data}) => {
                                 <td scope="col">{data.aprf}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Status Pusat</td>
-                                <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
-                            </tr>
-                            <tr>
                                 <td scope="col">Anggaran yang disetujui/Komentar</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.komenf}</td>
@@ -93,15 +98,29 @@ const MDUModal = ({isOpen, toggle, data}) => {
                 <Button color="link" type="button">
                   Print
                 </Button>
-                <Button
-                  className="close"
-                  color="primary"
-                  data-dismiss="modal"
-                  type="button"
-                  onClick={toggle}
-                >
-                  Close
-                </Button>
+
+              {
+
+                 data.aprf === 'Pending' ?
+
+              (<> 
+              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMAProgdi(true)} >Approve</button> 
+              <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRProgdi(true)} >Reject</button> 
+              </>) : null
+              
+              }
+              
+              <MAProgdi
+                isOpen={showMAProgdi}
+                toggle={() => setShowMAProgdi(!showMAProgdi)}
+                id={data.id}
+              />
+
+              <MRProgdi
+                isOpen={showMRProgdi}
+                toggle={() => setShowMRProgdi(!showMRProgdi)}
+                id={data.id}
+              />
               </div>
             </Modal>
           

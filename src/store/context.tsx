@@ -4,10 +4,16 @@ const initialAuthContext: {
     loggedIn: boolean;
     admin: boolean;
     userEmail: string;
+    changeEmail: (newEmail: string)=>void;
+    changeAuth: (newAuth: boolean)=>void;
+    changeAdmin: (newAdmin: boolean)=>void;
 } = {
     loggedIn: false,
     admin: false,
     userEmail: '',
+    changeEmail: ()=>null,
+    changeAuth: ()=>null,
+    changeAdmin: ()=>null,
 };
 
 export const AuthContext = createContext(initialAuthContext);

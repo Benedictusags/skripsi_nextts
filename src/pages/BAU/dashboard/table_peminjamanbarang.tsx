@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -31,33 +31,72 @@ import {
     Input
 } from "reactstrap";
 
-
-
 import _ from 'lodash';
-
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-
 import MDBModal from '~/src/components/Modals/MDBModal';
 
 
-    
+const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
-const TableRow =  ({ name, setShowMDBModal }) => {
+    const [showMDBModal, setShowMDBModal] = useState(false);
+    const [text, setText] = useState('');
+    const [currPage, setCurrPage] = useState(0);
+
+    const [sortPath, setSortPath] = useState('');
+    const [flag, setFlag] = useState(true);
+
+    const [daftar, setDaftar] = useState([{ user: '', acara:'', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', QTY: '', status: '', komen: '' }]);
+    const [detailsData, setDetailsData] = useState({});
+
+    useEffect(() => {
+        fetch('http://localhost:3001/getPeminjamanBarang', {
+            method: 'GET', // GET / POST DARI POSTMAN 
+             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                const values = data.values;
+                let newDatas = [];
+                values.forEach(value => {
+                    newDatas.push({
+                        user: value.user,
+                        acara: value.acara,
+                        tanggal_mulai: value.tanggal_mulai,
+                        tanggal_selesai: value.tanggal_selesai,
+                        nama_barang: value.nama_barang,
+                        QTY: value.QTY,
+                        status: value.status,
+                        komen: value.komen,
+                    });
+                });
+                setDaftar(newDatas);
+            })
+            .catch((e) => {
+                window.alert(e);
+            });
+    },[]);
+
+    function setSortData(path) {
+        setSortPath(path);
+        setFlag(!flag);
+    }
+
+    function openDetailsModal(data) {
+        setShowMDBModal(true);
+        setDetailsData(data);
+    }
+
+const TableRow =  ({ user, acara, tanggal_mulai, tanggal_selesai, status, setShowMDBModal }) => {
 
     return (
         <tr>
-            <td>{name}</td>
-            <td> Ikomers
-            </td>
-            <td> 21/03/2020 - 23/03/2020
-            </td>
-            <td> Korsi
-            </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-red" />Pending
-                </Badge>
-            </td>
+            <td>{user}</td>
+            <td>{acara}</td>
+            <td>{tanggal_mulai} - {tanggal_selesai}</td>
+            <td>{status}</td>
             <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
@@ -93,32 +132,6 @@ const TableRow =  ({ name, setShowMDBModal }) => {
         </tr>
     );
 }
-
-
-const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
-
-    const SAMPLE = [
-        {
-            name: 'BEM IKOM'
-        },
-        {
-            name: 'BEM IKOM'
-        },
-        {
-            name: 'SENAT IKOM'
-        },
-    ];
-    const [showMDBModal, setShowMDBModal] = useState(false);
-    const [text, setText] = useState('');
-    const [currPage, setCurrPage] = useState(0);
-
-    const [sortPath, setSortPath] = useState('');
-    const [flag, setFlag] = useState(true);
-
-    function setSortData(path) {
-        setSortPath(path);
-        setFlag(!flag);
-    }
 
     return (
         <div>
@@ -166,17 +179,22 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         <th scope="col">Nama Organisasi</th>
                                         <th scope="col">Nama Acara</th>
                                         <th scope="col">Tanggal Acara</th>
-                                        <th scope="col">Barang</th>
                                         <th scope="col">Status </th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        SAMPLE ?
-                                            getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
+                                        daftar ?
+                                            getItems(daftar, text, ['user'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} setShowMDBModal={setShowMDBModal}  />
+                                                    <TableRow 
+                                                    user={data.user} 
+                                                    acara={data.acara}
+                                                    tanggal_mulai={data.tanggal_mulai}
+                                                    tanggal_selesai={data.tanggal_selesai}
+                                                    status={data.status}
+                                                    setShowMDBModal={() => openDetailsModal(data)}  />
                                                 );
                                             }) : null
                                     }
@@ -190,7 +208,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(SAMPLE, text, ['name']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['name']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 
@@ -222,6 +240,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             <MDBModal
                 isOpen={showMDBModal}
                 toggle={() => setShowMDBModal(!showMDBModal)}
+                data={detailsData}
             />
         </div>
 

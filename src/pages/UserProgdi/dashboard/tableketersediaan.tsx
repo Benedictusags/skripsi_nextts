@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -37,12 +37,12 @@ import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 
-const TableRow = ({ name }) => {
+const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf }) => {
 
     return (
         <tr>
-            <td>{name}</td>
-            <td> 21/03/2020 - 23/03/2020
+            <td>{judul_acara}</td>
+            <td> {tanggal_mulai} - {tanggal_selesai}
             </td>
             <td>
             <Badge color="" className="badge-dot mr-4">

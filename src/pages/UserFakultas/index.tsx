@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 
@@ -24,21 +24,22 @@ import Router from 'next/router';
 
 import { firebaseApp } from '~/src/utils/Firebase';
 import AuthLayout from '~/src/layouts/AuthLayout';
+import { AuthContext } from '~/src/store/context';
 
 const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
 
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+    const {changeEmail, changeAuth} = useContext(AuthContext);
 
     function signIn() {
-        firebaseApp.auth().signInWithEmailAndPassword(email, pass)
-            .then(() => {
-                console.log("IN")
-                Router.push('/UserFakultas/dashboard')
-            })
-            .catch((e) => {
-                console.log(e)
-            })
+
+        if (email === 'userfakultas' && pass ==='12345678'){
+            changeEmail(email)
+            changeAuth(true);
+            Router.push('/userfakultas/dashboard')
+
+        }
     }
 
     function check() {

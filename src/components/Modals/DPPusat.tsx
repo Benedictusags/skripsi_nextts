@@ -18,14 +18,35 @@ import {
   Col
 } from "reactstrap";
 
-import MAPusat from '~/src/components/Modals/MAPusat';
-import MRPusat from '~/src/components/Modals/MRPusat';
+function approveData() {
+    fetch('http://localhost:3001/feedbackFakultas', {
+      method: 'POST', // GET / POST DARI POSTMAN 
+      body: JSON.stringify({
+          id: 3, 
+          aprf:  "Approved",
+          komenf: "",
+      }),
+       headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+          console.log(data);
+      })
+      .catch((e) => {
+          window.alert(e);
+      });
+  }
 
 
-const MDUModal = ({isOpen, toggle}) => {
+import MRFakultas from '~/src/components/Modals/MRFakultas';
 
-  const [showMAPusat, setShowMAPusat] = useState(false);
-  const [showMRPusat, setShowMRPusat] = useState(false);
+
+const MDUModal = ({isOpen, toggle, data}) => {
+
+  const [showMRFakultas, setShowMRFakultas] = useState(false);
 
 
     return (
@@ -54,42 +75,47 @@ const MDUModal = ({isOpen, toggle}) => {
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.judul_acara}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Mulai - Selesai</td>
+                                <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.tanggal_mulai}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Selesai</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.tanggal_selesai}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Tempat</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.tempat}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.anggaran}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Status Fak/Progdi</td>
+                                <td scope="col">Status Fakultas</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.aprf}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Status Pusat</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.aprp}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran yang disetujui/Komentar</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.komenp}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Dokumen Proposal</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.file}</td>
                             </tr>
                         </tbody>
                 </Table>
@@ -98,17 +124,12 @@ const MDUModal = ({isOpen, toggle}) => {
                 <Button color="link" type="button">
                   Print
                 </Button>
-              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMAPusat(true)} >Approve</button>
-              <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRPusat(true)} >Reject</button>
+              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Approve</button>
+              <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRFakultas(true)} >Reject</button>
 
-              <MAPusat
-                isOpen={showMAPusat}
-                toggle={() => setShowMAPusat(!showMAPusat)}
-              />
-
-              <MRPusat
-                isOpen={showMRPusat}
-                toggle={() => setShowMRPusat(!showMRPusat)}
+              <MRFakultas
+                isOpen={showMRFakultas}
+                toggle={() => setShowMRFakultas(!showMRFakultas)}
               />
               </div>
             </Modal>

@@ -40,27 +40,20 @@ import { useRouter } from 'next/router';
       path: "/dashboard",
       name: "Home",
       icon: "ni ni-tv-2 text-primary",
-      layout: "/PROGDI"
+      layout: "/adminprogdi"
     },
     {
       path: "/dashboard/table_permohonanproposalP",
       name: "Daftar Permohonan",
       icon: "fa fa-envelope-square text-red",
-      layout: "/PROGDI"
+      layout: "/adminprogdi"
     },
     {
       path: "/dashboard/archive_adminprogdi",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
-      layout: "/PROGDI"
+      layout: "/adminprogdi"
     },
-    {
-      path: "/dashboard/modal_progdi",
-        name: "Modals",
-        icon: "ni ni-bullet-list-67 text-blue",
-        layout: "/PROGDI"
-      },
-
   ];
 
 const Sidebar = () => {

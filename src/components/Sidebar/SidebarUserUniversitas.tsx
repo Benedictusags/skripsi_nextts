@@ -39,43 +39,37 @@ var routes = [
       path: "/dashboard",
       name: "Home",
       icon: "ni ni-tv-2 text-primary",
-      layout: "/UserUniversitas"
+      layout: "/useruniversitas"
     },
     {
       path: "/dashboard/table",
       name: "Proposal",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserUniversitas"
+      layout: "/useruniversitas"
     },
     {
       path: "/dashboard/tableketersediaan",
       name: "Cek Ketersediaan",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserUniversitas"
+      layout: "/useruniversitas"
     },
     {
       path: "/dashboard/tablepeminjamanBarang",
       name: "Peminjaman Barang",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserUniversitas"
+      layout: "/useruniversitas"
     },
     {
       path: "/dashboard/tablepeminjamanTempat",
       name: "Peminjaman Tempat",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserUniversitas"
+      layout: "/useruniversitas"
     },
     {
       path: "/dashboard/archiveuser",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserUniversitas"
-    },
-    {
-      path: "/dashboard/modal",
-      name: "Modal",
-      icon: "ni ni-bullet-list-67 text-blue",
-      layout: "/UserUniversitas"
+      layout: "/useruniversitas"
     },
   ];
 

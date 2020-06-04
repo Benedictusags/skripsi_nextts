@@ -40,27 +40,20 @@ import { useRouter } from 'next/router';
       path: "/dashboard",
       name: "Home",
       icon: "ni ni-tv-2 text-primary",
-      layout: "/Pusat"
+      layout: "/adminuniversitas"
     },
     {
       path: "/dashboard/table_permohonanproposal",
       name: "Daftar Permohonan",
       icon: "fa fa-envelope-square text-red",
-      layout: "/Pusat"
+      layout: "/adminuniversitas"
     },
     {
       path: "/dashboard/archive_adminpusat",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
-      layout: "/Pusat"
+      layout: "/adminuniversitas"
     },
-    {
-      path: "/dashboard/modal_pusat",
-      name: "Modals",
-      icon: "fa fa-envelope-square text-red",
-      layout: "/Pusat"
-    },
-
   ];
 
 

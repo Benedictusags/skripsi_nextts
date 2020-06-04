@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -38,18 +38,50 @@ import _ from 'lodash';
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 import TTModal from '~/src/components/Modals/TTModal';
 
-const TableRow = ({ name }) => {
+const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
+
+    const [showTTModal, setShowTTModal] = useState(false);
+    const [text, setText] = useState('');
+    const [currPage, setCurrPage] = useState(0);
+
+    const [sortPath, setSortPath] = useState('');
+    const [flag, setFlag] = useState(true);
+
+    const [daftar, setDaftar] = useState([{nama_tempat: '', deskripsi: '', status: ''}]);
+
+    useEffect(() => {
+        fetch('http://localhost:3001/getTempat', {
+            method: 'GET', // GET / POST DARI POSTMAN 
+             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                const values = data.values;
+                let newDatas = [];
+                values.forEach(value => {
+                    newDatas.push({
+                        nama_tempat: value.nama_tempat,
+                        deskripsi: value.deskripsi,
+                        status: value.status,
+                    });
+                });
+                setDaftar(newDatas);
+            })
+            .catch((e) => {
+                window.alert(e);
+            });
+    },[]);
+
+const TableRow = ({nama_tempat, deskripsi, status }) => {
 
     return (
         <tr>
-            <td>{name}</td>
-            <td> Mantap-mantap
-            </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Tersedia
-                </Badge>
-            </td>
+            <td>{nama_tempat}</td>
+            <td>{deskripsi}</td>
+            <td>{status}</td>
             <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
@@ -81,32 +113,6 @@ const TableRow = ({ name }) => {
         </tr>
     );
 }
-
-
-const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
-
-    const SAMPLE = [
-        {
-            name: 'Lapangan Albertus'
-        },
-        {
-            name: 'Sporthall'
-        },
-        {
-            name: 'Teather'
-        },
-    ];
-    const [showTTModal, setShowTTModal] = useState(false);
-    const [text, setText] = useState('');
-    const [currPage, setCurrPage] = useState(0);
-
-    const [sortPath, setSortPath] = useState('');
-    const [flag, setFlag] = useState(true);
-
-    function setSortData(path) {
-        setSortPath(path);
-        setFlag(!flag);
-    }
 
     return (
         <div>
@@ -183,10 +189,14 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        SAMPLE ?
-                                            getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
+                                        daftar ?
+                                            getItems(daftar, text, ['nama_tempat'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} />
+                                                    <TableRow 
+                                                    nama_tempat={data.nama_tempat}
+                                                    deskripsi={data.deskripsi}
+                                                    status={data.status} 
+                                                    />
                                                 );
                                             }) : null
                                     }
@@ -200,7 +210,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(SAMPLE, text, ['name']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['nama_tempat']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 
@@ -230,8 +240,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             </Container>
             <TTModal
                 isOpen={showTTModal}
-                toggle={() => setShowTTModal(!showTTModal)}
-                
+                toggle={() => setShowTTModal(!showTTModal)}   
             />                              
         </div>
 

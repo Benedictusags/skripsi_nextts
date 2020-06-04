@@ -44,7 +44,7 @@ function approveData() {
 import MRFakultas from '~/src/components/Modals/MRFakultas';
 
 
-const MDUModal = ({isOpen, toggle}) => {
+const MDUModal = ({isOpen, toggle, data}) => {
 
   const [showMRFakultas, setShowMRFakultas] = useState(false);
 
@@ -75,42 +75,47 @@ const MDUModal = ({isOpen, toggle}) => {
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.judul_acara}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Mulai - Selesai</td>
+                                <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.tanggal_mulai}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Selesai</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.tanggal_selesai}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Tempat</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.tempat}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.anggaran}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Status Fak/Progdi</td>
+                                <td scope="col">Status Fakultas</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.aprf}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Status Pusat</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.aprp}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran yang disetujui/Komentar</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.komenp}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Dokumen Proposal</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.file}</td>
                             </tr>
                         </tbody>
                 </Table>

@@ -40,31 +40,31 @@ import { useRouter } from 'next/router';
       path: "/dashboard",
       name: "Home",
       icon: "ni ni-tv-2 text-primary",
-      layout: "/UPT"
+      layout: "/upt"
     },
     {
       path: "/dashboard/table_peminjamantempat",
       name: "Daftar Permohonan",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UPT"
+      layout: "/upt"
     },
     {
       path: "/dashboard/tempat",
       name: "Daftar Tempat",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UPT"
+      layout: "/upt"
     },
     {
       path: "/dashboard/archive_admintempat",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UPT"
+      layout: "/upt"
     },
     {
       path: "/dashboard/modal_tempat",
       name: "Modals",
       icon: "ni ni-bullet-list-67 text-blue",
-      layout: "/UPT"
+      layout: "/upt"
     },
 
   ];

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // reactstrap components
 import {
   Button,
@@ -16,13 +16,19 @@ import {
   Col
 } from "reactstrap";
 
+const TBModal = ({isOpen, toggle}) => {
+
+const [NamaBarang, setNamaBarang] = useState('');
+const [QTY, setQTY] = useState('');
+const [status, setStatus] = useState('');
+
 function insertData() {
   fetch('http://localhost:3001/addBarang', {
     method: 'POST', // GET / POST DARI POSTMAN 
     body: JSON.stringify({ 
-        nama_tempat:"Meja",
-        QTY:20,
-        status: "Tersedia",
+        nama_barang:NamaBarang,
+        QTY:QTY,
+        status: status,
     }),
      headers: {
         'Accept': 'application/json',
@@ -37,8 +43,6 @@ function insertData() {
         window.alert(e);
     });
 }
-
-const TBModal = ({isOpen, toggle}) => {
     return (
         <Modal
               className="modal-dialog-centered"
@@ -71,6 +75,7 @@ const TBModal = ({isOpen, toggle}) => {
                   id="tanggal_mulai"
                   placeholder="Nama Barang" 
                   type="text" 
+                  onChange={(e) => setNamaBarang(e.target.value)}
               />
               </div>
               <div className="form-group">
@@ -79,21 +84,25 @@ const TBModal = ({isOpen, toggle}) => {
                   className="form-control form-control-sm form-control-alternative" 
                   id="tanggal_mulai"
                   placeholder="QTY" 
-                  type="text" 
+                  type="text"
+                  onChange={(e) => setQTY(e.target.value)} 
               />
               <br></br>
               <div className="form-group">
-                <label className="form-control-label">Status</label>
-                <select id="inputState" className="form-control form-control-alternative">
-                  <option selected>Status</option>
-                  <option>Tersedia</option>
-                </select>
+              <label className="form-control-label">Status</label>
+              <Input  
+                  className="form-control form-control-sm form-control-alternative" 
+                  id="tanggal_mulai"
+                  placeholder="Status" 
+                  type="text"
+                  onChange={(e) => setStatus(e.target.value)} 
+              />
               </div>
               </div>
               <br></br>
+              </form>
               <button type="submit" className="btn btn-primary btn-sm float-right" onClick={insertData} >Submit</button>
               <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
-              </form>
               </div>
             </Modal>
           

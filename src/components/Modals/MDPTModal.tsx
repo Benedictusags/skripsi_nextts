@@ -17,7 +17,7 @@ import {
   Col
 } from "reactstrap";
 
-const MDPTModal = ({isOpen, toggle}) => {
+const MDPTModal = ({isOpen, toggle, data}) => {
     return (
         <Modal
               className="modal-dialog-centered"
@@ -44,22 +44,32 @@ const MDPTModal = ({isOpen, toggle}) => {
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.acara}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Mulai - Selesai</td>
+                                <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.tanggal_mulai}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Selasi</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.tanggal_selesai}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Nama Tempat</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.nama_tempat}</td>
                             </tr>
                              <tr>
                                 <td scope="col">Status</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.status}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Komen</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.komen}</td>
                             </tr>
                         </tbody>
                 </Table>

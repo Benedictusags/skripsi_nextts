@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -36,89 +36,117 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import DPPusat from '~/src/components/Modals/DPPusat';
-
-const TableRow = ({ name, setShowDPPusat}) => {
-
-    return (
-        <tr>
-            <td>{name}</td>
-            <td>Acara Apa</td>
-            <td> 21/03/2020 - 23/03/2020
-            </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Approved
-                </Badge>
-            </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-red" />Pending
-                </Badge>
-            </td>
-            <td className="text-right">
-                <UncontrolledDropdown>
-                    <DropdownToggle
-                        className="btn-icon-only text-light"
-                        href="#pablo"
-                        role="button"
-                        size="sm"
-                        color=""
-                        onClick={e => e.preventDefault()}
-                    >
-                        <i className="fas fa-ellipsis-v" />
-                    </DropdownToggle>
-                    <DropdownMenu className="dropdown-menu-arrow" right>
-                    <DropdownItem
-                            href="#pablo"
-                            onClick={() => setShowDPPusat(true)}
-                        >
-                            Details
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Print
-                                                            </DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledDropdown>
-            </td>
-        </tr>
-    );
-}
+import DPProgdi from '~/src/components/Modal_AProgdi/DPProgdi';
 
 
 const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
-    const SAMPLE = [
-        {
-            name: 'BEM IKOM'
-        },
-        {
-            name: 'SENAT IKOM'
-        },
-        {
-            name: 'BEM FHK'
-        },
-    ];
-    const [showDPPusat, setShowDPPusat] = useState(false);
+    const [showDPProgdi, setShowDPProgdi] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
 
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    function setSortData(path) {
-        setSortPath(path);
-        setFlag(!flag);
+    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', anggaran: 0, file: '', user: '', aprf: '', komenf: '' }]);
+    const [detailsData, setDetailsData] = useState({});
+
+    useEffect(() => {
+        fetch('http://localhost:3001/getProposal', {
+            method: 'GET', // GET / POST DARI POSTMAN 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                const values = data.values;
+                let newDatas = [];
+                values.forEach(value => {
+                    console.log(value)
+                    newDatas.push({
+                        id: value.ID,
+                        judul_acara: value.judul_acara,
+                        tanggal_mulai: value.tanggal_mulai,
+                        tanggal_selesai: value.tanggal_selesai,
+                        tempat: value.tempat,
+                        anggaran: value.anggaran,
+                        file: value.file,
+                        user: value.user,
+                        aprf: value.aprf,
+                        komenf: value.komenf,
+                    });
+                });
+                setDaftar(newDatas);
+            })
+            .catch((e) => {
+                window.alert(e);
+            });
+    }, []);
+
+    function openDetailsModal(data) {
+        setShowDPProgdi(true);
+        setDetailsData(data);
     }
+
+    const TableRow = ({ user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, setShowDPProgdi }) => {
+
+        return (
+            <tr>
+                <td>{user}</td>
+                <td>{judul_acara}</td>
+                <td>{tanggal_mulai} - {tanggal_selesai}</td>
+                <td>{aprf}</td>
+                <td className="text-right">
+                    <UncontrolledDropdown>
+                        <DropdownToggle
+                            className="btn-icon-only text-light"
+                            href="#pablo"
+                            role="button"
+                            size="sm"
+                            color=""
+                            onClick={e => e.preventDefault()}
+                        >
+                            <i className="fas fa-ellipsis-v" />
+                        </DropdownToggle>
+                        <DropdownMenu className="dropdown-menu-arrow" right>
+                                        <DropdownItem
+                                href="#pablo"
+                                onClick={() => setShowDPProgdi(true)}
+                            >
+                                Details
+                                        </DropdownItem>
+                            {
+                                aprf !== 'Approved' ?
+                                    (
+                                        <DropdownItem
+                                            href="#pablo"
+                                            onClick={e => e.preventDefault()}
+                                    >
+                                            Delete
+                                        </DropdownItem>
+                                    ) : null
+                            }
+                            {
+                                aprf === 'Approved' ?
+                                    (
+                                        <DropdownItem
+                                            href="#pablo"
+                                            onClick={e => e.preventDefault()}
+                                        >
+                                            Print
+                                        </DropdownItem>
+                                    ) : null
+                            }
+
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                </td>
+            </tr>
+        );
+    }
+
 
     return (
         <div>
@@ -173,17 +201,24 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         <th scope="col">Nama Organisasi</th>
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Status Fakultas</th>
-                                        <th scope="col">Status Pusat</th>
+                                        <th scope="col">Status Progdi</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        SAMPLE ?
-                                            getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
+                                        daftar ?
+                                            getItems(daftar, text, ['user'], currPage, sortPath, flag).map((data) => {
+                                                
+                                                if(data.aprf === 'Approved'){return null;}
                                                 return (
-                                                    <TableRow name={data.name} setShowDPPusat={setShowDPPusat} />
+                                                    <TableRow
+                                                        user={data.user}
+                                                        judul_acara={data.judul_acara}
+                                                        tanggal_mulai={data.tanggal_mulai}
+                                                        tanggal_selesai={data.tanggal_selesai}
+                                                        aprf={data.aprf}
+                                                        setShowDPProgdi={() => openDetailsModal(data)} />
                                                 );
                                             }) : null
                                     }
@@ -197,7 +232,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(SAMPLE, text, ['name']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['name']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 
@@ -217,7 +252,6 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                             forcePage={currPage}
                                         />
                                     </nav>
-
                                 </nav>
 
                             </CardFooter>
@@ -225,10 +259,11 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-            <DPPusat
-                isOpen={showDPPusat}
-                toggle={() => setShowDPPusat(!showDPPusat)}
-            />                              
+            <DPProgdi
+                isOpen={showDPProgdi}
+                toggle={() => setShowDPProgdi(!showDPProgdi)}
+                data={detailsData}
+            />
         </div>
 
     );

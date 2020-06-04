@@ -40,25 +40,25 @@ import { useRouter } from 'next/router';
       path: "/dashboard",
       name: "Home",
       icon: "ni ni-tv-2 text-primary",
-      layout: "/BAU"
+      layout: "/bau"
     },
     {
       path: "/dashboard/table_peminjamanbarang",
       name: "Daftar Permohonan",
       icon: "fa fa-envelope-square text-red",
-      layout: "/BAU"
+      layout: "/bau"
     },
     {
       path: "/dashboard/barang",
       name: "Daftar Barang",
       icon: "fa fa-envelope-square text-red",
-      layout: "/BAU"
+      layout: "/bau"
     },
     {
       path: "/dashboard/archive_adminbarang",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
-      layout: "/BAU"
+      layout: "/bau"
     },
   ];
 

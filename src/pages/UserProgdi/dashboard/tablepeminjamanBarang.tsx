@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -37,24 +37,72 @@ import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 
-import FPBModal from '~/src/components/Modals/FPBModal';
+import FBProgdi from '~/src/components/Modal_UProgdi/FBProgdi';
 import MDPBModal from '~/src/components/Modals/MDPBModal';
+import { AuthContext } from '~/src/store/context';
+
+const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
+
+    const {userEmail} = useContext(AuthContext);
+    const [showFPB, setShowFPB] = useState(false);
+    const [showMDPB, setShowMDPB] = useState(false);
+    const [text, setText] = useState('');
+    const [currPage, setCurrPage] = useState(0);
+
+    const [sortPath, setSortPath] = useState('');
+    const [flag, setFlag] = useState(true);
+
+    const [daftar, setDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', QTY: '', status: '', komen: ''}]);
+    const [detailsData, setDetailsData] = useState({});
+
+    useEffect(() => {
+        fetch('http://localhost:3001/getPeminjamanBarang', {
+            method: 'GET', // GET / POST DARI POSTMAN 
+             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                const values = data.values;
+                let newDatas = [];
+                values.forEach(value => {
+                    newDatas.push({
+                        acara: value.acara,
+                        tanggal_mulai: value.tanggal_mulai,
+                        tanggal_selesai: value.tanggal_selesai,
+                        nama_barang: value.nama_barang,
+                        QTY: value.QTY,
+                        status: value.status,
+                        komen: value.komen,
+                    });
+                });
+                setDaftar(newDatas);
+            })
+            .catch((e) => {
+                window.alert(e);
+            });
+    },[]);
+
+    function setSortData(path) {
+        setSortPath(path);
+        setFlag(!flag);
+    }
+
+    function openDetailsModal(data) {
+        setShowMDPB(true);
+        setDetailsData(data);
+    }
 
 
-const TableRow = ({ name, setShowFPB, setShowMDPB }) => {
+const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, setShowMDPB }) => {
 
     return (
         <tr>
-            <td>{name}</td>
-            <td> 21/03/2020 - 23/03/2020
-            </td>
-            <td>Korsi</td>
-            <td>50</td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Approved
-                </Badge>
-            </td>
+            <td>{acara}</td>
+            <td>{tanggal_mulai} - {tanggal_selesai}</td>
+            <td>{status}</td>
             <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
@@ -92,33 +140,6 @@ const TableRow = ({ name, setShowFPB, setShowMDPB }) => {
         </tr>
     );
 }
-
-
-const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
-
-    const SAMPLE = [
-        {
-            name: 'ikomers'
-        },
-        {
-            name: 'Tawuran'
-        },
-        {
-            name: 'Bambu Gila On the Road'
-        },
-    ];
-    const [showFPB, setShowFPB] = useState(false);
-    const [showMDPB, setShowMDPB] = useState(false);
-    const [text, setText] = useState('');
-    const [currPage, setCurrPage] = useState(0);
-
-    const [sortPath, setSortPath] = useState('');
-    const [flag, setFlag] = useState(true);
-
-    function setSortData(path) {
-        setSortPath(path);
-        setFlag(!flag);
-    }
 
     return (
         <div>
@@ -172,9 +193,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 <thead className="thead-light">
                                     <tr>
                                         <th scope="col">Judul Acara</th>
-                                        <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Jenis Barang</th>
-                                        <th scope="col">QTY</th>
+                                        <th scope="col">Tanggal Mulai - Selesai</th>
                                         <th scope="col">Status</th>
 
                                         <th scope="col" />
@@ -182,10 +201,17 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        SAMPLE ?
-                                            getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
+                                        daftar ?
+                                            getItems(daftar, text, ['acara'], currPage, sortPath, flag).map((data) => {
+                                                if(data.user !== userEmail){return null;}
                                                 return (
-                                                    <TableRow name={data.name} setShowFPB={setShowFPB} setShowMDPB={setShowMDPB} />
+                                                    <TableRow 
+                                                        acara={data.acara}
+                                                        tanggal_mulai={data.tanggal_mulai}
+                                                        tanggal_selesai={data.tanggal_selesai} 
+                                                        status={data.status} 
+                                                        setShowFPB={setShowFPB} 
+                                                        setShowMDPB={() => openDetailsModal(data)} />
                                                 );
                                             }) : null
                                     }
@@ -199,7 +225,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(SAMPLE, text, ['name']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['name']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 
@@ -227,14 +253,15 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-            <FPBModal
+            <FBProgdi
                 isOpen={showFPB}
                 toggle={() => setShowFPB(!showFPB)}
             /> 
 
             <MDPBModal
                 isOpen={showMDPB}
-                toggle={() => setShowMDPB(!showMDPB)}
+                toggle={() => setShowMDPB(!showMDPB)}   
+                data={detailsData}                    
             /> 
 
                                           

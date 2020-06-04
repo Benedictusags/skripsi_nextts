@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 // reactstrap components
 import {
@@ -33,50 +33,46 @@ import {
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { AuthContext } from '~/src/store/context';
 
 var routes = [
     {
       path: "/dashboard",
       name: "Home",
       icon: "ni ni-tv-2 text-primary",
-      layout: "/UserProgdi"
+      layout: "/userprogdi"
     },
     {
       path: "/dashboard/table",
       name: "Proposal",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserProgdi"
+      layout: "/userprogdi"
     },
     {
       path: "/dashboard/tableketersediaan",
       name: "Cek Ketersediaan",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserProgdi"
+      layout: "/userprogdi"
     },
     {
       path: "/dashboard/tablepeminjamanBarang",
       name: "Peminjaman Barang",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserProgdi"
+      layout: "/userprogdi"
     },
     {
       path: "/dashboard/tablepeminjamanTempat",
       name: "Peminjaman Tempat",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserProgdi"
+      layout: "/userprogdi"
     },
     {
       path: "/dashboard/archiveuser",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
-      layout: "/UserProgdi"
+      layout: "/userprogdi"
     },
-    {
-      path: "/dashboard/modal",
-      name: "Modal",
-      icon: "ni ni-bullet-list-67 text-blue",
-      layout: "/UserProgdi"
-    },
+  
   ];
 
 
@@ -88,8 +84,10 @@ const Sidebar = () => {
   function toggleCollapse() { setCollapse(!collapse); }
   function closeCollapse() { setCollapse(false); }
 
+
   const router = useRouter();
 
+  
   // creates the links that appear in the left menu / Sidebar
   function createLinks(routes) {
     const output = [];

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // reactstrap components
 import {
   Button,
@@ -16,29 +16,34 @@ import {
   Col
 } from "reactstrap";
 
-function insertData() {
-  fetch('http://localhost:3001/addTempat', {
-    method: 'POST', // GET / POST DARI POSTMAN 
-    body: JSON.stringify({ 
-        nama_tempat:"Lapangan Albertus",
-        deskripsi:"Lapangan futsal dan serbaguna",
-        status: "Tersedia",
-    }),
-     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    }
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((e) => {
-        window.alert(e);
-    });
-}
-
 const TTModal = ({isOpen, toggle}) => {
+
+  const [NamaTempat, setNamaTempat] = useState ('');
+  const [Deskripsi, setDeskripsi] = useState ('');
+  const [Status, setStatus] = useState ('');
+
+  function insertData() {
+    fetch('http://localhost:3001/addTempat', {
+      method: 'POST', // GET / POST DARI POSTMAN 
+      body: JSON.stringify({ 
+          nama_tempat:NamaTempat,
+          deskripsi:Deskripsi,
+          status: Status,
+      }),
+       headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+          console.log(data);
+      })
+      .catch((e) => {
+          window.alert(e);
+      });
+  }
+
     return (
         <Modal
               className="modal-dialog-centered"
@@ -71,6 +76,7 @@ const TTModal = ({isOpen, toggle}) => {
                   id="tanggal_mulai"
                   placeholder="Nama Tempat" 
                   type="text" 
+                  onChange={(e) => setNamaTempat(e.target.value)}
               />
               </div>
               <div className="form-group">
@@ -78,21 +84,25 @@ const TTModal = ({isOpen, toggle}) => {
               <Input  
                   className="form-control form-control-sm form-control-alternative" 
                   id="tanggal_mulai"
-                  placeholder="Nama Tempat" 
+                  placeholder="Deskripsi" 
                   type="text" 
+                  onChange={(e) => setDeskripsi(e.target.value)}
               />
               </div>
               <div className="form-group">
-                <label className="form-control-label">Status</label>
-                <select id="inputState" className="form-control form-control-alternative">
-                  <option selected>Status</option>
-                  <option>Tersedia</option>
-                </select>
+              <label className="form-control-label">Status</label>
+              <Input  
+                  className="form-control form-control-sm form-control-alternative" 
+                  id="tanggal_mulai"
+                  placeholder="Nama Tempat" 
+                  type="text" 
+                  onChange={(e) => setStatus(e.target.value)}
+              />
               </div>
               <br></br>
+              </form>
               <button type="submit" className="btn btn-primary btn-sm float-right"  onClick={insertData} >Submit</button>
               <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
-              </form>
               </div>
             </Modal>
           

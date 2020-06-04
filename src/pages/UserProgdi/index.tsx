@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 
@@ -24,27 +24,54 @@ import Router from 'next/router';
 
 import { firebaseApp } from '~/src/utils/Firebase';
 import AuthLayout from '~/src/layouts/AuthLayout';
+import { AuthContext } from '~/src/store/context';
 
 const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
 
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+    const {changeEmail, changeAuth} = useContext(AuthContext);
+    const [daftar, setDaftar] = useState([{ user: '', pass: ''}]);
+
 
     function signIn() {
-        firebaseApp.auth().signInWithEmailAndPassword(email, pass)
-            .then(() => {
-                console.log("IN")
-                Router.push('/UserProgdi/dashboard')
-            })
-            .catch((e) => {
-                console.log(e)
-            })
+
+        useEffect(() => {
+            fetch('http://localhost:3001/getUser', {
+                method: 'GET', // GET / POST DARI POSTMAN 
+                 headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    const values = data.values;
+                    let newDatas = [];
+                    values.forEach(value => {
+                        newDatas.push({
+                            user: value.user,
+                            password: value.pass,
+                        });
+                    });
+                    setDaftar(newDatas);
+                })
+                .catch((e) => {
+                    window.alert(e);
+                });
+        },[]);
+
+        if (email === value.user && pass === value.pass){
+            changeEmail(email)
+            changeAuth(true);
+            Router.push('/userprogdi/dashboard')
+
+        }
     }
 
     function check() {
         console.log(firebaseApp.auth().currentUser.email)
     }
-
 
     return (
         <>

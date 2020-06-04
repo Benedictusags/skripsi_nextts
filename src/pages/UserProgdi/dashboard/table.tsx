@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -36,81 +36,14 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import FormModal from '~/src/components/Modals/FormModal';
-import MDUModal from '~/src/components/Modals/MDUModal';
+import FPProgdi from '~/src/components/Modal_UProgdi/FPProgdi';
+import DPUProgdi from '~/src/components/Modal_UProgdi/DPUProgdi';
 import MULModal from '~/src/components/Modals/MULModal';
-
-const TableRow = ({ name, setShowFM, setShowMDU, setShowMUL }) => {
-
-    return (
-        <tr>
-            <td>{name}</td>
-            <td> 21/03/2020 - 23/03/2020
-            </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Approved
-                </Badge>
-            </td>
-            <td className="text-right">
-                <UncontrolledDropdown>
-                    <DropdownToggle
-                        className="btn-icon-only text-light"
-                        href="#pablo"
-                        role="button"
-                        size="sm"
-                        color=""
-                        onClick={e => e.preventDefault()}
-                    >
-                        <i className="fas fa-ellipsis-v" />
-                    </DropdownToggle>
-                    <DropdownMenu className="dropdown-menu-arrow" right>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={() => setShowMDU(true)}
-                        >
-                            Detail
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Print
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={() => setShowMUL(true)}
-                        >
-                            Upload LPJ
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
-                                                            </DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledDropdown>
-            </td>
-        </tr>
-    );
-}
-
+import { AuthContext } from '~/src/store/context';
 
 const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
-    const SAMPLE = [
-        {
-            name: 'ikomers'
-        },
-        {
-            name: 'DIES NATALIES'
-        },
-        {
-            name: 'ASAL MUTER'
-        },
-    ];
-
+    const {userEmail} = useContext(AuthContext);
     const [showFM, setShowFM] = useState(false);
     const [showMDU, setShowMDU] = useState(false);
     const [showMUL, setShowMUL] = useState(false);
@@ -120,9 +53,113 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
+    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', user: '', aprf: '', komenf: '', anggaran: '', file: ''}]);
+    const [detailsData, setDetailsData] = useState({});
+
+    useEffect(() => {
+        fetch('http://localhost:3001/getProposal', {
+            method: 'GET', // GET / POST DARI POSTMAN 
+             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                const values = data.values;
+                let newDatas = [];
+                values.forEach(value => {
+                    console.log(value)
+                    newDatas.push({
+                        judul_acara: value.judul_acara,
+                        tanggal_mulai: value.tanggal_mulai,
+                        tanggal_selesai: value.tanggal_selesai,
+                        tempat: value.tempat,
+                        aprf: value.aprf,
+                        user: value.user,
+                        komenf: value.komenf,
+                        anggaran: value.anggaran,
+                        file: value.file,
+                    });
+                });
+                setDaftar(newDatas);
+            })
+            .catch((e) => {
+                window.alert(e);
+            });
+    },[]);
+
     function setSortData(path) {
         setSortPath(path);
         setFlag(!flag);
+    }
+
+    function openDetailsModal(data) {
+        setShowMDU(true);
+        setDetailsData(data);
+    }
+
+
+    const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, setShowFM, setShowMDU, setShowMUL }) => {
+
+        return (
+            <tr>
+                <td>{judul_acara}</td>
+                <td> {tanggal_mulai} - {tanggal_selesai}</td>
+                <td>{aprf}</td>
+                <td className="text-right">
+                    <UncontrolledDropdown>
+                        <DropdownToggle
+                            className="btn-icon-only text-light"
+                            href="#pablo"
+                            role="button"
+                            size="sm"
+                            color=""
+                            onClick={e => e.preventDefault()}
+                        >
+                            <i className="fas fa-ellipsis-v" />
+                        </DropdownToggle>
+                        <DropdownMenu className="dropdown-menu-arrow" right>
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={() => setShowMDU(true)}
+                            >
+                                Detail
+                                </DropdownItem>
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Print
+                                </DropdownItem>
+                            {
+                                aprf === 'Approved' ?
+                                (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={() => setShowMUL(true)}
+                            >
+                                Upload LPJ
+                                </DropdownItem>
+                                ):null
+                            }
+                            {
+                                aprf !== 'Approved' ?
+                                (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Delete
+                                </DropdownItem>
+                                ):null
+                            }
+                                
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                </td>
+            </tr>
+        );
     }
 
     return (
@@ -192,10 +229,18 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        SAMPLE ?
-                                            getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
+                                        daftar ?
+                                            getItems(daftar, text, ['judul_acara'], currPage, sortPath, flag).map((data) => {
+                                                if(data.user !== userEmail){return null;}
                                                 return (
-                                                    <TableRow name={data.name} setShowFM={setShowFM} setShowMDU={setShowMDU} setShowMUL={setShowMUL} />
+                                                    <TableRow 
+                                                    judul_acara={data.judul_acara}
+                                                    tanggal_mulai={data.tanggal_mulai}
+                                                    tanggal_selesai={data.tanggal_selesai}
+                                                    aprf={data.aprf}                    
+                                                    setShowFM={setShowFM} 
+                                                    setShowMDU={() => openDetailsModal(data)}
+                                                    setShowMUL={setShowMUL} />
                                                 );
                                             }) : null
                                     }
@@ -209,7 +254,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(SAMPLE, text, ['name']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['name']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 
@@ -237,15 +282,15 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-
-            <FormModal
+            <FPProgdi
                 isOpen={showFM}
                 toggle={() => setShowFM(!showFM)}
             />
 
-            <MDUModal
+            <DPUProgdi
                 isOpen={showMDU}
                 toggle={() => setShowMDU(!showMDU)}
+                data={detailsData}
             />   
 
             <MULModal

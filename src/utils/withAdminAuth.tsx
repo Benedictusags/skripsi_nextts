@@ -64,7 +64,7 @@ export const HOCUserFakultas: NextComponentType = ({ children }) => {
     const { loggedIn, admin } = useContext(AuthContext);
 
     useEffect(() => {
-        if (loggedIn && Router.pathname.includes('UserFakultas/dashboard')) {
+        if (loggedIn && Router.pathname.includes('userfakultas/dashboard')) {
             // if (admin) {
                 setIsLoading(false);
             // } else {
@@ -96,7 +96,7 @@ export const HOCUserProgdi: NextComponentType = ({ children }) => {
     const { loggedIn, admin } = useContext(AuthContext);
 
     useEffect(() => {
-        if (loggedIn && Router.pathname.includes('UserProgdi/dashboard')) {
+        if (loggedIn && Router.pathname.includes('userprogdi/dashboard')) {
             // if (admin) {
                 setIsLoading(false);
             // } else {
@@ -128,7 +128,7 @@ export const HOCUserUniversitas: NextComponentType = ({ children }) => {
     const { loggedIn, admin } = useContext(AuthContext);
 
     useEffect(() => {
-        if (loggedIn && Router.pathname.includes('UserUniversitas/dashboard')) {
+        if (loggedIn && Router.pathname.includes('useruniversitas/dashboard')) {
             // if (admin) {
                 setIsLoading(false);
             // } else {
@@ -160,7 +160,7 @@ export const HOCUPT: NextComponentType = ({ children }) => {
     const { loggedIn, admin } = useContext(AuthContext);
 
     useEffect(() => {
-        if (loggedIn && Router.pathname.includes('UPT/dashboard')) {
+        if (loggedIn && Router.pathname.includes('upt/dashboard')) {
             // if (admin) {
                 setIsLoading(false);
             // } else {
@@ -192,7 +192,7 @@ export const HOCBAU: NextComponentType = ({ children }) => {
     const { loggedIn, admin } = useContext(AuthContext);
 
     useEffect(() => {
-        if (loggedIn && Router.pathname.includes('BAU/dashboard')) {
+        if (loggedIn && Router.pathname.includes('bau/dashboard')) {
             // if (admin) {
                 setIsLoading(false);
             // } else {
@@ -224,7 +224,7 @@ export const HOCPROGDI: NextComponentType = ({ children }) => {
     const { loggedIn, admin } = useContext(AuthContext);
 
     useEffect(() => {
-        if (loggedIn && Router.pathname.includes('PROGDI/dashboard')) {
+        if (loggedIn && Router.pathname.includes('adminprogdi/dashboard')) {
             // if (admin) {
                 setIsLoading(false);
             // } else {
@@ -256,7 +256,7 @@ export const HOCFakultas: NextComponentType = ({ children }) => {
     const { loggedIn, admin } = useContext(AuthContext);
 
     useEffect(() => {
-        if (loggedIn && Router.pathname.includes('Fakultas/dashboard')) {
+        if (loggedIn && Router.pathname.includes('adminfakultas/dashboard')) {
             // if (admin) {
                 setIsLoading(false);
             // } else {
@@ -288,7 +288,7 @@ export const HOCPusat: NextComponentType = ({ children }) => {
     const { loggedIn, admin } = useContext(AuthContext);
 
     useEffect(() => {
-        if (loggedIn && Router.pathname.includes('Pusat/dashboard')) {
+        if (loggedIn && Router.pathname.includes('adminuniversitas/dashboard')) {
             // if (admin) {
                 setIsLoading(false);
             // } else {

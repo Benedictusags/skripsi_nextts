@@ -1,5 +1,4 @@
-import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React from "react";
 // reactstrap components
 import {
   Button,
@@ -18,16 +17,7 @@ import {
   Col
 } from "reactstrap";
 
-import MAProgdi from '~/src/components/Modals/MAProgdi';
-import MRProgdi from '~/src/components/Modals/MRProgdi';
-
-
-const MDUModal = ({isOpen, toggle}) => {
-
-  const [showMAProgdi, setShowMAProgdi] = useState(false);
-  const [showMRProgdi, setShowMRProgdi] = useState(false);
-
-
+const MDUModal = ({isOpen, toggle, data}) => {
     return (
         <Modal
               className="modal-dialog-centered"
@@ -54,42 +44,42 @@ const MDUModal = ({isOpen, toggle}) => {
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.judul_acara}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Mulai - Selesai</td>
+                                <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.tanggal_mulai}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Selesai</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.tanggal_selesai}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Tempat</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.tempat}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.anggaran}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Status Fak/Progdi</td>
+                                <td scope="col">Status Progdi</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">Status Pusat</td>
-                                <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.aprf}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran yang disetujui/Komentar</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.komenf}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Dokumen Proposal</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.file}</td>
                             </tr>
                         </tbody>
                 </Table>
@@ -98,18 +88,15 @@ const MDUModal = ({isOpen, toggle}) => {
                 <Button color="link" type="button">
                   Print
                 </Button>
-              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMAProgdi(true)} >Approve</button>
-              <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRProgdi(true)} >Reject</button>
-
-              <MAProgdi
-                isOpen={showMAProgdi}
-                toggle={() => setShowMAProgdi(!showMAProgdi)}
-              />
-
-              <MRProgdi
-                isOpen={showMRProgdi}
-                toggle={() => setShowMRProgdi(!showMRProgdi)}
-              />
+                <Button
+                  className="close"
+                  color="primary"
+                  data-dismiss="modal"
+                  type="button"
+                  onClick={toggle}
+                >
+                  Close
+                </Button>
               </div>
             </Modal>
           

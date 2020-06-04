@@ -42,7 +42,7 @@ function approveData() {
 
 import MRBau from '~/src/components/Modals/MRBau';
 
-const MDBModal = ({isOpen, toggle}) => {
+const MDBModal = ({isOpen, toggle, data}) => {
 
   const [showMRBau, setShowMRBau] = useState(false);
     return (
@@ -68,22 +68,41 @@ const MDBModal = ({isOpen, toggle}) => {
               <div className="modal-body">
                 <Table className="align-items-center table-flush">
                         <tbody>
+                          <tr>
+                                <td scope="col">Nama Organisasi</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.user}</td>
+                            </tr>
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.acara}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Mulai - Selesai</td>
+                                <td scope="col">Tanggal Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.tanggal_mulai}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Tanggal Selesai</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.tanggal_selesai}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Nama Barang </td>
-                                <td scope="col">QTY </td>
                                 <td scope="col">:</td>
-                                <td scope="col">KORSI</td>
-                                <td scope="col">50</td>
+                                <td scope="col">{data.nama_barang}</td>
+                                <td scope="col">{data.QTY}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Status</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.status}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Komentar</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{data.komen}</td>
                             </tr>
                         </tbody>
                 </Table>

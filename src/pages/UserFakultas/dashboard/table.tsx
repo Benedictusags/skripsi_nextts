@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -36,27 +36,69 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import FormModal from '~/src/components/Modals/FormModal';
+import FPFakultas from '~/src/components/Modals/FPFakultas';
 import MDUModal from '~/src/components/Modals/MDUModal';
 import MULModal from '~/src/components/Modals/MULModal';
 
-const TableRow = ({ name, setShowFM, setShowMDU, setShowMUL }) => {
+const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
+
+
+    const [showFM, setShowFM] = useState(false);
+    const [showMDU, setShowMDU] = useState(false);
+    const [showMUL, setShowMUL] = useState(false);
+    const [text, setText] = useState('');
+    const [currPage, setCurrPage] = useState(0);
+
+    const [sortPath, setSortPath] = useState('');
+    const [flag, setFlag] = useState(true);
+
+    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', aprf: '', aprp: '', anggaran: '', file: ''}]);
+    const [detailsData, setDetailsData] = useState({});
+
+    useEffect(() => {
+        fetch('http://localhost:3001/getProposal', {
+            method: 'GET', // GET / POST DARI POSTMAN 
+             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                const values = data.values;
+                let newDatas = [];
+                values.forEach(value => {
+                    newDatas.push({
+                        judul_acara: value.judul_acara,
+                        tanggal_mulai: value.tanggal_mulai,
+                        tanggal_selesai: value.tanggal_selesai,
+                        tempat: value.tempat,
+                        aprf: value.aprf,
+                        aprp: value.aprp,
+                        anggaran: value.anggaran,
+                        file: value.file,
+                    });
+                });
+                setDaftar(newDatas);
+            })
+            .catch((e) => {
+                window.alert(e);
+            });
+    },[]);
+
+    function openDetailsModal(data) {
+        setShowMDU(true);
+        setDetailsData(data);
+    }
+
+const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, aprp, setShowFM, setShowMDU, setShowMUL }) => {
 
     return (
         <tr>
-            <td>{name}</td>
-            <td> 21/03/2020 - 23/03/2020
-            </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Approved
-                </Badge>
-            </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-warning" />pending
-                </Badge>
-            </td>
+            <td>{judul_acara}</td>
+            <td>{tanggal_mulai} - {tanggal_selesai}</td>
+            <td>{aprf}</td>
+            <td>{aprp}</td>
             <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
@@ -100,35 +142,6 @@ const TableRow = ({ name, setShowFM, setShowMDU, setShowMUL }) => {
         </tr>
     );
 }
-
-
-const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
-
-    const SAMPLE = [
-        {
-            name: 'ikomers'
-        },
-        {
-            name: 'DIES NATALIES'
-        },
-        {
-            name: 'ASAL MUTER'
-        },
-    ];
-
-    const [showFM, setShowFM] = useState(false);
-    const [showMDU, setShowMDU] = useState(false);
-    const [showMUL, setShowMUL] = useState(false);
-    const [text, setText] = useState('');
-    const [currPage, setCurrPage] = useState(0);
-
-    const [sortPath, setSortPath] = useState('');
-    const [flag, setFlag] = useState(true);
-
-    function setSortData(path) {
-        setSortPath(path);
-        setFlag(!flag);
-    }
 
     return (
         <div>
@@ -198,10 +211,18 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        SAMPLE ?
-                                            getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
+                                        daftar ?
+                                            getItems(daftar, text, ['judul_acara'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} setShowFM={setShowFM} setShowMDU={setShowMDU} setShowMUL={setShowMUL} />
+                                                    <TableRow 
+                                                    judul_acara={data.judul_acara}
+                                                    tanggal_mulai={data.tanggal_mulai}
+                                                    tanggal_selesai={data.tanggal_selesai}
+                                                    aprf={data.aprf}
+                                                    aprp={data.aprp} 
+                                                    setShowFM={setShowFM} 
+                                                    setShowMDU={() => openDetailsModal(data)} 
+                                                    setShowMUL={setShowMUL} />
                                                 );
                                             }) : null
                                     }
@@ -215,7 +236,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(SAMPLE, text, ['name']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['judul_acara']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 
@@ -244,7 +265,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 </Row>
             </Container>
 
-            <FormModal
+            <FPFakultas
                 isOpen={showFM}
                 toggle={() => setShowFM(!showFM)}
             />
@@ -252,6 +273,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             <MDUModal
                 isOpen={showMDU}
                 toggle={() => setShowMDU(!showMDU)}
+                data={detailsData}
             />
 
             <MULModal

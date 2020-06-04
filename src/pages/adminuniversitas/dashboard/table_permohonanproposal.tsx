@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -36,21 +36,68 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import DPProgdi from '~/src/components/Modals/DPProgdi';
+import DPPusat from '~/src/components/Modals/DPPusat';
 
+const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
-const TableRow = ({ name, setShowDPProgdi}) => {
+    const [showDPPusat, setShowDPPusat] = useState(false);
+    const [text, setText] = useState('');
+    const [currPage, setCurrPage] = useState(0);
+
+    const [sortPath, setSortPath] = useState('');
+    const [flag, setFlag] = useState(true);
+
+    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', anggaran: 0, file: '', user: '', aprf: '', aprp: '', komenf: ''}]);
+    const [detailsData, setDetailsData] = useState({});
+
+    useEffect(() => {
+        fetch('http://localhost:3001/getProposal', {
+            method: 'GET', // GET / POST DARI POSTMAN 
+             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                const values = data.values;
+                let newDatas = [];
+                values.forEach(value => {
+                    console.log("A", value)
+                    newDatas.push({
+                        judul_acara: value.judul_acara,
+                        tanggal_mulai: value.tanggal_mulai,
+                        tanggal_selesai: value.tanggal_selesai,
+                        tempat: value.tempat,
+                        anggaran: value.anggaran,
+                        file: value.file,
+                        user: value.user,
+                        aprf: value.aprf,
+                        aprp: value.aprp,
+                        komenf: value.komenf,
+                    });
+                });
+                setDaftar(newDatas);
+            })
+            .catch((e) => {
+                window.alert(e);
+            });
+    },[]);
+
+    function openDetailsModal(data) {
+        setShowDPPusat(true);
+        setDetailsData(data);
+    }
+
+const TableRow = ({ user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, aprp, setShowDPPusat}) => {
 
     return (
         <tr>
-            <td>{name}</td>
-            <td>Acara Apa</td>
-            <td> 21/03/2020 - 23/03/2020 </td>
-            <td>
-            <Badge color="" className="badge-dot mr-4">
-                    <i className="bg-green" />Approved
-                </Badge>
-            </td>
+            <td>{user}</td>
+            <td>{judul_acara}</td>
+            <td>{tanggal_mulai} - {tanggal_selesai}</td>
+            <td>{aprf}</td>
+            <td>{aprp}</td>
             <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
@@ -64,9 +111,9 @@ const TableRow = ({ name, setShowDPProgdi}) => {
                         <i className="fas fa-ellipsis-v" />
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-arrow" right>
-                        <DropdownItem
+                    <DropdownItem
                             href="#pablo"
-                            onClick={() => setShowDPProgdi(true)}
+                            onClick={() => setShowDPPusat(true)}
                         >
                             Details
                                                             </DropdownItem>
@@ -89,32 +136,6 @@ const TableRow = ({ name, setShowDPProgdi}) => {
     );
 }
 
-
-const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
-
-    const SAMPLE = [
-        {
-            name: 'BEM IKOM'
-        },
-        {
-            name: 'SENAT IKOM'
-        },
-        {
-            name: 'BEM FHK'
-        },
-    ];
-
-    const [showDPProgdi, setShowDPProgdi] = useState(false);
-    const [text, setText] = useState('');
-    const [currPage, setCurrPage] = useState(0);
-
-    const [sortPath, setSortPath] = useState('');
-    const [flag, setFlag] = useState(true);
-
-    function setSortData(path) {
-        setSortPath(path);
-        setFlag(!flag);
-    }
 
     return (
         <div>
@@ -169,16 +190,24 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         <th scope="col">Nama Organisasi</th>
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
-                                        <th scope="col">Status Progdi</th>
+                                        <th scope="col">Status Fakultas</th>
+                                        <th scope="col">Status Pusat</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        SAMPLE ?
-                                            getItems(SAMPLE, text, ['name'], currPage, sortPath, flag).map((data) => {
+                                        daftar ?
+                                            getItems(daftar, text, ['user'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow name={data.name} setShowDPProgdi={setShowDPProgdi} />
+                                                    <TableRow 
+                                                    user={data.user}
+                                                    judul_acara={data.judul_acara}
+                                                    tanggal_mulai={data.tanggal_mulai}
+                                                    tanggal_selesai={data.tanggal_selesai}
+                                                    aprf={data.aprf} 
+                                                    aprp={data.aprp}
+                                                    setShowDPPusat={() => openDetailsModal(data)} />
                                                 );
                                             }) : null
                                     }
@@ -192,7 +221,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(SAMPLE, text, ['name']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['user']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 
@@ -220,10 +249,11 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     </div>
                 </Row>
             </Container>
-            <DPProgdi
-                isOpen={showDPProgdi}
-                toggle={() => setShowDPProgdi(!showDPProgdi)}
-            />                            
+            <DPPusat
+                isOpen={showDPPusat}
+                toggle={() => setShowDPPusat(!showDPPusat)}
+                data={detailsData}
+            />                              
         </div>
 
     );

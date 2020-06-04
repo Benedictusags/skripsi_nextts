@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 // reactstrap components
 import {
   DropdownMenu,
@@ -19,7 +19,7 @@ import {
 
 import Router from 'next/router';
 import { firebaseApp } from '~/src/utils/Firebase';
-
+import { AuthContext } from '~/src/store/context';
 
 const AdminNavbar = () => {
 
@@ -27,15 +27,16 @@ const AdminNavbar = () => {
 
   function toggleDropdown() { setDropdownOpen(!dropdownOpen) }
 
+  const {userEmail, changeEmail, changeAuth} = useContext(AuthContext);
+
+
   function signOut() {
-    firebaseApp.auth().signOut()
-    .then(() => {
-      console.log("OUT")
-    })
-    .catch((e) => {
-      console.log(e)
-    })
+    changeEmail('');
+    changeAuth(false);
+    Router.reload()                               
   }
+
+ 
 
   return (
     <>
@@ -54,7 +55,7 @@ const AdminNavbar = () => {
                       />  */}
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
-                    <span className="mb-0 text-sm font-weight-bold" style={{color: 'black'}}>{firebaseApp.auth().currentUser ? firebaseApp.auth().currentUser.email : ''}</span>
+                    <span className="mb-0 text-sm font-weight-bold" style={{color: 'black'}}>{userEmail}</span>
                   </Media>
                 </Media>
               </DropdownToggle>

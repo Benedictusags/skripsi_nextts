@@ -24,7 +24,7 @@ const FPTModal = ({isOpen, toggle}) => {
   const {userEmail} = useContext(AuthContext);
   const [tanggalMulai, setTanggalMulai] = useState(new Date());
   const [tanggalSelesai, setTanggalSelesai] = useState(new Date());
-  const [daftar, setDaftar] = useState([{ judul_acara: '', aprf: ''}]);
+  const [daftar, setDaftar] = useState([{ judul_acara: '', aprf: '', user: ''}]);
   const [tempat, setTempat] = useState([{nama_tempat: ''}]);
   const [namaacara, setNamaAcara] = useState('');
   const [namatempat, setNamaTempat] = useState('');
@@ -92,9 +92,11 @@ const FPTModal = ({isOpen, toggle}) => {
             const values = data.values;
             let newDatas = [];
             values.forEach(value => {
+                console.log(value)
                 newDatas.push({
                     judul_acara: value.judul_acara,
                     aprf: value.aprf,
+                    user: value.user,
                 });
             });
             setDaftar(newDatas);
@@ -137,7 +139,7 @@ const FPTModal = ({isOpen, toggle}) => {
                  {
                    daftar?
                    daftar.map((value,i)=> {
-                     if (value.aprf !== 'Approved') {
+                     if ( value.user !== userEmail  && value.aprf !== 'Approved') {
                        return null;
                      }
                      return <option key={i}  onClick={() => {setNamaAcara(value.judul_acara)}}>{value.judul_acara}</option>
@@ -148,7 +150,7 @@ const FPTModal = ({isOpen, toggle}) => {
               <label htmlFor="inputState" className="form-control-label">Nama Tempat</label>
                 <select id="namatempat" className="form-control form-control-alternative">
               <option selected>Pilih tempat yang terdaftar</option>
-              {
+                {
                    tempat?
                    tempat.map((value,a)=> {
                      return <option key={a}  onClick={() => {setNamaTempat(value.nama_tempat)}}>{value.nama_tempat}</option>

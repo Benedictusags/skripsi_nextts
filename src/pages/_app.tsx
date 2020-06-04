@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Router from 'next/router';
 
 // Firebase
@@ -16,51 +16,55 @@ import { HOC, HOCUserFakultas, HOCUserProgdi, HOCUserUniversitas, HOCUPT, HOCBAU
 import NormalLayout from '~/src/layouts/NormalLayout';
 import AuthLayout from '~/src/layouts/AuthLayout';
 
+import "react-datepicker/dist/react-datepicker.css";
+
 
 // Store
 import Store from '~/src/store/index';
 
+import { AuthContext } from '~/src/store/context';
+
 export default function MyApp({ Component, pageProps, router }) {
 
+	const { loggedIn } = useContext(AuthContext);
+
 	useEffect(() => {
-		firebaseApp.auth().onAuthStateChanged((auth) => {
-			if (!auth) {
+			if (!loggedIn) {
 				const path = Router.pathname;
 				if (path.includes('admin/dashboard')) {
 					Router.push('/admin');
 				}
 
-				if (path.includes('UserFakultas/dashboard')) {
-					Router.push('/UserFakultas');
+				if (path.includes('userfakultas/dashboard')) {
+					Router.push('/usefakultas');
 				}
-				if (path.includes('UserProgdi/dashboard')) {
-					Router.push('/UserProgdi');
+				if (path.includes('userprogdi/dashboard')) {
+					Router.push('/userprogdi');
 				}
-				if (path.includes('UserUniversitas/dashboard')) {
-					Router.push('/UserUniversitas');
+				if (path.includes('useruniversitas/dashboard')) {
+					Router.push('/useruniversitas');
 				}
-				if (path.includes('UPT/dashboard')) {
-					Router.push('/UPT');
+				if (path.includes('upt/dashboard')) {
+					Router.push('/upt');
 				}
-				if (path.includes('BAU/dashboard')) {
-					Router.push('/BAU');
+				if (path.includes('bau/dashboard')) {
+					Router.push('/bau');
 				}
-				if (path.includes('PROGDI/dashboard')) {
-					Router.push('/PROGDI');
+				if (path.includes('adminprogdi/dashboard')) {
+					Router.push('/adminprogdi');
 				}
-				if (path.includes('Fakultas/dashboard')) {
-					Router.push('/Fakultas');	
+				if (path.includes('adminfakultas/dashboard')) {
+					Router.push('/adminfakultas');	
 				}
-				if (path.includes('Pusat/dashboard')) {
-					Router.push('/Pusat');
+				if (path.includes('adminpusat/dashboard')) {
+					Router.push('/adminpusat');
 				}
 				
 			}
-		});
-	}, []);
+	}, [loggedIn]);
 
 	
-	if (router.pathname.includes('UserFakultas/dashboard')) {
+	if (router.pathname.includes('userfakultas/dashboard')) {
 		return (
 			<Store>
 				<HOCUserFakultas>
@@ -70,7 +74,7 @@ export default function MyApp({ Component, pageProps, router }) {
 		);
 	}
 
-	if (router.pathname.includes('UserProgdi/dashboard')) {
+	if (router.pathname.includes('userprogdi/dashboard')) {
 		return (
 			<Store>
 				<HOCUserProgdi>
@@ -80,7 +84,7 @@ export default function MyApp({ Component, pageProps, router }) {
 		);
 	}
 
-	if (router.pathname.includes('UserUniversitas/dashboard')) {
+	if (router.pathname.includes('useruniversitas/dashboard')) {
 		return (
 			<Store>
 				<HOCUserUniversitas>
@@ -90,7 +94,7 @@ export default function MyApp({ Component, pageProps, router }) {
 		);
 	}
 
-	if (router.pathname.includes('UPT/dashboard')) {
+	if (router.pathname.includes('upt/dashboard')) {
 		return (
 			<Store>
 				<HOCUPT>
@@ -100,7 +104,7 @@ export default function MyApp({ Component, pageProps, router }) {
 		);
 	}
 
-	if (router.pathname.includes('BAU/dashboard')) {
+	if (router.pathname.includes('bau/dashboard')) {
 		return (
 			<Store>
 				<HOCBAU>
@@ -110,7 +114,7 @@ export default function MyApp({ Component, pageProps, router }) {
 		);
 	}
 
-	if (router.pathname.includes('PROGDI/dashboard')) {
+	if (router.pathname.includes('adminprogdi/dashboard')) {
 		return (
 			<Store>
 				<HOCPROGDI>
@@ -120,7 +124,7 @@ export default function MyApp({ Component, pageProps, router }) {
 		);
 	}
 
-	if (router.pathname.includes('Fakultas/dashboard')) {
+	if (router.pathname.includes('adminfakultas/dashboard')) {
 		return (
 			<Store>
 				<HOCFakultas>
@@ -130,7 +134,7 @@ export default function MyApp({ Component, pageProps, router }) {
 		);
 	}
 
-	if (router.pathname.includes('Pusat/dashboard')) {
+	if (router.pathname.includes('adminpusat/dashboard')) {
 		return (
 			<Store>
 				<HOCPusat>
@@ -152,7 +156,7 @@ export default function MyApp({ Component, pageProps, router }) {
 	}
 
 
-	if (router.pathname.includes('admin') || router.pathname.includes('UserFakultas') || router.pathname.includes('UserProgdi') || router.pathname.includes('UPT') || router.pathname.includes('BAU') || router.pathname.includes('Fakultas') || router.pathname.includes('PROGDI') || router.pathname.includes('Pusat')) {
+	if (router.pathname.includes('admin') ||  router.pathname.includes('useruniversitas') || router.pathname.includes('userfakultas') || router.pathname.includes('userprogdi') || router.pathname.includes('upt') || router.pathname.includes('bau') || router.pathname.includes('adminfakultas') || router.pathname.includes('adminprogdi') || router.pathname.includes('adminuniversitas')) {
 		return (
 			<Store>
 				<AuthLayout>

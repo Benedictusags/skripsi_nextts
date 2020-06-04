@@ -40,19 +40,19 @@ import { useRouter } from 'next/router';
       path: "/dashboard",
       name: "Home",
       icon: "ni ni-tv-2 text-primary",
-      layout: "/Fakultas"
+      layout: "/adminfakultas"
     },
     {
       path: "/dashboard/table_permohonanproposalF",
       name: "Daftar Permohonan",
       icon: "fa fa-envelope-square text-red",
-      layout: "/Fakultas"
+      layout: "/adminfakultas"
     },
     {
       path: "/dashboard/modal_fakultas",
       name: "modals",
       icon: "fa fa-envelope-square text-red",
-      layout: "/Fakultas"
+      layout: "/adminfakultas"
     },
 
   ];
