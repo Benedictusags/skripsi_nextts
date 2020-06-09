@@ -53,8 +53,9 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', user: '', aprf: '', komenf: '', anggaran: '', file: ''}]);
+    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', user: '', aprf: '', komenf: '', anggaran: '', file: '',submit_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
+    
 
     useEffect(() => {
         fetch('http://localhost:3001/getProposal', {
@@ -70,6 +71,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 let newDatas = [];
                 values.forEach(value => {
                     console.log(value)
+                    if (value.user === userEmail) {
                     newDatas.push({
                         judul_acara: value.judul_acara,
                         tanggal_mulai: value.tanggal_mulai,
@@ -80,7 +82,9 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                         komenf: value.komenf,
                         anggaran: value.anggaran,
                         file: value.file,
+                        submit_date: value.submit_date,
                     });
+                }
                 });
                 setDaftar(newDatas);
             })
@@ -89,24 +93,21 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             });
     },[]);
 
-    function setSortData(path) {
-        setSortPath(path);
-        setFlag(!flag);
-    }
-
     function openDetailsModal(data) {
         setShowMDU(true);
         setDetailsData(data);
     }
 
 
-    const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, setShowFM, setShowMDU, setShowMUL }) => {
+    const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, submit_date, setShowFM, setShowMDU, setShowMUL }) => {
 
         return (
             <tr>
                 <td>{judul_acara}</td>
-                <td> {tanggal_mulai} - {tanggal_selesai}</td>
+                <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} 
+                - {new Date(tanggal_selesai).toLocaleDateString()+ ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
                 <td>{aprf}</td>
+                <td>{new Date(submit_date).toLocaleDateString()+ ' '+ new Date(submit_date).toLocaleTimeString()}</td>
                 <td className="text-right">
                     <UncontrolledDropdown>
                         <DropdownToggle
@@ -224,6 +225,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
                                         <th scope="col">Status Progdi</th>
+                                        <th scope="col">Tanggal Pengajuan</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
@@ -231,13 +233,14 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                     {
                                         daftar ?
                                             getItems(daftar, text, ['judul_acara'], currPage, sortPath, flag).map((data) => {
-                                                if(data.user !== userEmail){return null;}
+                                
                                                 return (
                                                     <TableRow 
                                                     judul_acara={data.judul_acara}
                                                     tanggal_mulai={data.tanggal_mulai}
                                                     tanggal_selesai={data.tanggal_selesai}
-                                                    aprf={data.aprf}                    
+                                                    aprf={data.aprf} 
+                                                    submit_date={data.submit_date}                   
                                                     setShowFM={setShowFM} 
                                                     setShowMDU={() => openDetailsModal(data)}
                                                     setShowMUL={setShowMUL} />

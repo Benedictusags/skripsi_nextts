@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from 'react';
 // reactstrap components
 import {
   Button,
@@ -17,7 +17,13 @@ import {
   Col
 } from "reactstrap";
 
+
+import ReactToPrint from 'react-to-print';
+
 const MDUModal = ({isOpen, toggle, data}) => {
+
+    const componentRef = useRef();
+    
     return (
         <Modal
               className="modal-dialog-centered"
@@ -39,6 +45,7 @@ const MDUModal = ({isOpen, toggle, data}) => {
                 </button>
               </div>
               <div className="modal-body">
+                <div  ref={componentRef}>
                 <Table className="align-items-center table-flush">
                         <tbody>
                             <tr>
@@ -49,12 +56,12 @@ const MDUModal = ({isOpen, toggle, data}) => {
                             <tr>
                                 <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_mulai}</td>
+                                <td scope="col">{new Date(data.tanggal_mulai).toLocaleDateString() + ' ' + new Date(data.tanggal_mulai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Selesai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_selesai}</td>
+                                <td scope="col">{new Date(data.tanggal_selesai).toLocaleDateString() + ' ' + new Date(data.tanggal_selesai).toLocaleTimeString() }</td>
                             </tr>
                             <tr>
                                 <td scope="col">Tempat</td>
@@ -83,11 +90,11 @@ const MDUModal = ({isOpen, toggle, data}) => {
                             </tr>
                         </tbody>
                 </Table>
+                </div>
               </div>
               <div className="modal-footer">
-                <Button color="link" type="button">
-                  Print
-                </Button>
+              <ReactToPrint trigger={() => <Button color="link" type="button"> Print </Button>} 
+               content={() => componentRef.current} />
                 <Button
                   className="close"
                   color="primary"

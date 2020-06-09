@@ -48,6 +48,9 @@ const FormModal = ({ isOpen, toggle }) => {
         komenf: "",
         komenp: "",
         Lpj: "",
+        submit_date: new Date(),
+        aprf_date: "",
+        lpj_date: "",
       }),
       headers: {
         'Accept': 'application/json',
@@ -57,9 +60,15 @@ const FormModal = ({ isOpen, toggle }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        if(!judulAcara) {window.alert("Judul acara wajib diisi"); return;}
+        if(!tempat) {window.alert("Tempat wajib diisi"); return;}
+        if(!anggaran) {window.alert("Anggaran wajib diisi"); return;}
+        if(!file) {window.alert("File wajib diisi"); return;}
+        window.alert("Berhasil input proposal");
+        toggle();
       })
       .catch((e) => {
-        window.alert(e);
+        window.alert("Gagal input proposal");;
       });
   }
 
@@ -159,7 +168,7 @@ const FormModal = ({ isOpen, toggle }) => {
           />
           <br></br>
         </form>
-        <button type="submit" className="btn btn-primary btn-sm float-right" onClick={insertData}  >Submit</button>
+        <button type="submit" className="btn btn-primary btn-sm float-right" onClick={insertData}>Submit</button>
         <button type="submit" className="btn btn-secondary btn-sm float-right" aria-hidden={true}>Cancel</button>
       </div>
     </Modal>

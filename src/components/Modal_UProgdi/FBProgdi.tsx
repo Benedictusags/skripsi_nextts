@@ -70,12 +70,13 @@ const FPBModal = ({isOpen, toggle}) => {
             const values = data.values;
             let newDatas = [];
             values.forEach(value => {
-                console.log(value)
+              if (value.user === userEmail && value.aprf === 'Approved') {
                 newDatas.push({
                     judul_acara: value.judul_acara,
                     aprf: value.aprf,
                     user: value.user,
                 });
+              }
             });
             setDaftar(newDatas);
         })
@@ -141,9 +142,6 @@ useEffect(() => {
               {
                    daftar?
                    daftar.map((value,i)=> {
-                     if (value.aprf !== 'Approved' && value.user !== userEmail) {
-                       return null;
-                     }
                      return <option key={i}  onClick={() => {setNamaAcara(value.judul_acara)}}>{value.judul_acara}</option>
                    }):null
                  }

@@ -29,45 +29,37 @@ import { AuthContext } from '~/src/store/context';
 const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
 
     const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+    const [password, setPassword] = useState('');
     const {changeEmail, changeAuth} = useContext(AuthContext);
-    const [daftar, setDaftar] = useState([{ user: '', pass: ''}]);
 
 
     function signIn() {
-
-        useEffect(() => {
-            fetch('http://localhost:3001/getUser', {
-                method: 'GET', // GET / POST DARI POSTMAN 
-                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+          fetch('http://localhost:3001/login', {
+            method: 'POST', // GET / POST DARI POSTMAN 
+            body: JSON.stringify({ 
+                user: email,
+                pass: password,
+            }),
+             headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                if  (data.values.length){
+                    changeEmail(email)
+                    changeAuth(true);
+                    Router.push('/userprogdi/dashboard')
                 }
-                })
-                .then((res) => res.json())
-                .then((data) => {
-                    const values = data.values;
-                    let newDatas = [];
-                    values.forEach(value => {
-                        newDatas.push({
-                            user: value.user,
-                            password: value.pass,
-                        });
-                    });
-                    setDaftar(newDatas);
-                })
-                .catch((e) => {
-                    window.alert(e);
-                });
-        },[]);
+            })
+            .catch((e) => {
+                window.alert(e);
+            });
 
-        if (email === value.user && pass === value.pass){
-            changeEmail(email)
-            changeAuth(true);
-            Router.push('/userprogdi/dashboard')
-
-        }
     }
+
 
     function check() {
         console.log(firebaseApp.auth().currentUser.email)
@@ -105,7 +97,7 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
                                             <i className="ni ni-lock-circle-open" />
                                         </InputGroupText>
                                     </InputGroupAddon>
-                                    <Input placeholder="Password" type="password" onChange={(e) => setPass(e.target.value)} />
+                                    <Input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
                                 </InputGroup>
                             </FormGroup>
                             <div className="text-center">
