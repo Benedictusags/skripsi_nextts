@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -37,11 +37,13 @@ import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 
-import FPTModal from '~/src/components/Modals/FPTModal';
+import FTFakultas from '~/src/components/Modal_UFakultas/FTFakultas';
 import MDPTModal from '~/src/components/Modals/MDPTModal';
+import { AuthContext } from '~/src/store/context';
 
 const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
+    const {userEmail} = useContext(AuthContext);
     const [showFPT, setShowFPT] = useState(false);
     const [showMDPT, setShowMDPT] = useState(false);
     const [text, setText] = useState('');
@@ -50,7 +52,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_tempat: '', status: '', komen: ''}]);
+    const [daftar, setDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_tempat: '', status: '', komen: '', submit_date: '', status_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
 
     useEffect(() => {
@@ -66,6 +68,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 const values = data.values;
                 let newDatas = [];
                 values.forEach(value => {
+                    if (value.user === userEmail) {
                     newDatas.push({
                         acara: value.acara,
                         tanggal_mulai: value.tanggal_mulai,
@@ -73,7 +76,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                         nama_tempat: value.nama_tempat,
                         status: value.status,
                         komen: value.komen,
+                        submit_date: value.submit_date,
+                        status_date: value.status_date,
                     });
+                }
                 });
                 setDaftar(newDatas);
             })
@@ -87,51 +93,53 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setDetailsData(data);
     }
 
-const TableRow = ({ acara, tanggal_mulai, tanggal_selesai,nama_tempat, status, setShowFPT, setShowMDPT }) => {
+    const TableRow = ({ acara, tanggal_mulai, tanggal_selesai,nama_tempat, status, submit_date, status_date, setShowFPT, setShowMDPT }) => {
 
-    return (
-        <tr>
-            <td>{acara}</td>
-            <td>{tanggal_mulai} - {tanggal_selesai}</td>
-            <td>{nama_tempat}</td>
-            <td>{status}</td>
-            <td className="text-right">
-                <UncontrolledDropdown>
-                    <DropdownToggle
-                        className="btn-icon-only text-light"
-                        href="#pablo"
-                        role="button"
-                        size="sm"
-                        color=""
-                        onClick={e => e.preventDefault()}
-                    >
-                        <i className="fas fa-ellipsis-v" />
-                    </DropdownToggle>
-                    <DropdownMenu className="dropdown-menu-arrow" right>
-                        <DropdownItem
+        return (
+            <tr>
+                <td>{acara}</td>
+                <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
+                {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
+                <td>{nama_tempat}</td>
+                <td>{status}, {new Date(status_date).toLocaleDateString() + ' ' + new Date(status_date).toLocaleTimeString()}</td>
+                <td>{new Date(submit_date).toLocaleDateString() + ' ' + new Date(submit_date).toLocaleTimeString()}</td>
+                <td className="text-right">
+                    <UncontrolledDropdown>
+                        <DropdownToggle
+                            className="btn-icon-only text-light"
                             href="#pablo"
-                            onClick={() => setShowMDPT(true)}
-                        >
-                            Detail
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
+                            role="button"
+                            size="sm"
+                            color=""
                             onClick={e => e.preventDefault()}
                         >
-                            Print
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
-                                                            </DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledDropdown>
-            </td>
-        </tr>
-    );
-}
+                            <i className="fas fa-ellipsis-v" />
+                        </DropdownToggle>
+                        <DropdownMenu className="dropdown-menu-arrow" right>
+                            <DropdownItem
+                                href="#pablo"
+                                onClick={() => setShowMDPT(true)}
+                            >
+                                Detail
+                                                                </DropdownItem>
+                            <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Print
+                                                                </DropdownItem>
+                            <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Delete
+                                                                </DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                </td>
+            </tr>
+        );
+    }
 
     return (
         <div>
@@ -188,14 +196,14 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai,nama_tempat, status, s
                                         <th scope="col">Tangal Acara</th>
                                         <th scope="col">Nama Tempat</th>
                                         <th scope="col">Status</th>
-
+                                        <th scope="col">Tanggal Pengajuan</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
                                         daftar ?
-                                            getItems(daftar, text, ['acara'], currPage, sortPath, flag).map((data) => {
+                                            getItems(daftar, text, ['name'], currPage, sortPath, flag).map((data) => {
                                                 return (
                                                     <TableRow 
                                                     acara={data.acara}
@@ -203,6 +211,8 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai,nama_tempat, status, s
                                                     tanggal_selesai={data.tanggal_selesai}
                                                     nama_tempat={data.nama_tempat}
                                                     status={data.status} 
+                                                    submit_date={data.submit_date}
+                                                    status_date={data.status_date}
                                                     setShowFPT={setShowFPT} 
                                                     setShowMDPT={() => openDetailsModal(data)} />
                                                 );
@@ -218,7 +228,7 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai,nama_tempat, status, s
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(daftar, text, ['acara']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['name']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 
@@ -246,7 +256,7 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai,nama_tempat, status, s
                     </div>
                 </Row>
             </Container>
-            <FPTModal
+            <FTFakultas
                 isOpen={showFPT}
                 toggle={() => setShowFPT(!showFPT)}
             />

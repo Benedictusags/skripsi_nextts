@@ -18,36 +18,15 @@ import {
   Col
 } from "reactstrap";
 
-function approveData() {
-    fetch('http://localhost:3001/feedbackFakultas', {
-      method: 'POST', // GET / POST DARI POSTMAN 
-      body: JSON.stringify({
-          id: 3, 
-          aprf:  "Approved",
-          komenf: "",
-      }),
-       headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-      }
-      })
-      .then((res) => res.json())
-      .then((data) => {
-          console.log(data);
-      })
-      .catch((e) => {
-          window.alert(e);
-      });
-  }
 
-
-import MRFakultas from '~/src/components/Modals/MRFakultas';
+import MRFakultas from '~/src/components/Modal_AFakultas/MRFakultas';
+import MAFakultas from '~/src/components/Modal_AFakultas/MAFakultas'; 
 
 
 const MDUModal = ({isOpen, toggle, data}) => {
 
   const [showMRFakultas, setShowMRFakultas] = useState(false);
-
+  const [showMAFakultas, setShowMAFakultas] = useState(false);
 
     return (
         <Modal
@@ -72,6 +51,11 @@ const MDUModal = ({isOpen, toggle, data}) => {
               <div className="modal-body">
                 <Table className="align-items-center table-flush">
                         <tbody>
+                        <tr>
+                                <td scope="col">Tanggal Pengajuan</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.submit_date).toLocaleDateString() + ' ' + new Date(data.submit_date).toLocaleTimeString()}</td>
+                            </tr>
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
@@ -80,12 +64,12 @@ const MDUModal = ({isOpen, toggle, data}) => {
                             <tr>
                                 <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_mulai}</td>
+                                <td scope="col">{new Date(data.tanggal_mulai).toLocaleDateString() + ' ' + new Date(data.tanggal_mulai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Selesai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_selesai}</td>
+                                <td scope="col">{new Date(data.tanggal_selesai).toLocaleDateString() + ' ' + new Date(data.tanggal_selesai).toLocaleTimeString() }</td>
                             </tr>
                             <tr>
                                 <td scope="col">Tempat</td>
@@ -93,7 +77,7 @@ const MDUModal = ({isOpen, toggle, data}) => {
                                 <td scope="col">{data.tempat}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Anggaran</td>
+                                <td scope="col">Pengajuan Anggaran</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.anggaran}</td>
                             </tr>
@@ -103,14 +87,14 @@ const MDUModal = ({isOpen, toggle, data}) => {
                                 <td scope="col">{data.aprf}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Status Pusat</td>
+                                <td scope="col">Tanggal Approval</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.aprp}</td>
+                                <td scope="col">{new Date(data.aprf_date).toLocaleDateString() + ' ' + new Date(data.aprf_date).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran yang disetujui/Komentar</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.komenp}</td>
+                                <td scope="col">{data.komenf}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Dokumen Proposal</td>
@@ -124,12 +108,24 @@ const MDUModal = ({isOpen, toggle, data}) => {
                 <Button color="link" type="button">
                   Print
                 </Button>
-              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Approve</button>
-              <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRFakultas(true)} >Reject</button>
+                {
+                  data.aprf === 'Pending' ?
+                  (<> 
+                  <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMAFakultas(true)} >Approve</button> 
+                  <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRFakultas(true)} >Reject</button> 
+                  </>) : null
+                }
 
               <MRFakultas
                 isOpen={showMRFakultas}
                 toggle={() => setShowMRFakultas(!showMRFakultas)}
+                id={data.id}
+              />
+
+              <MAFakultas
+                isOpen={showMAFakultas}
+                toggle={() => setShowMAFakultas(!showMAFakultas)}
+                id={data.id}
               />
               </div>
             </Modal>

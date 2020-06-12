@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -39,10 +39,11 @@ import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper
 
 import FTProgdi from '~/src/components/Modal_UProgdi/FTProgdi';
 import MDPTModal from '~/src/components/Modals/MDPTModal';
-
+import { AuthContext } from '~/src/store/context';
 
 const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
+    const {userEmail} = useContext(AuthContext);
     const [showFPT, setShowFPT] = useState(false);
     const [showMDPT, setShowMDPT] = useState(false);
     const [text, setText] = useState('');
@@ -51,7 +52,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_tempat: '', status: '', komen: ''}]);
+    const [daftar, setDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_tempat: '', status: '', komen: '', submit_date: '', status_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
 
     useEffect(() => {
@@ -67,6 +68,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 const values = data.values;
                 let newDatas = [];
                 values.forEach(value => {
+                    if (value.user === userEmail) {
                     newDatas.push({
                         acara: value.acara,
                         tanggal_mulai: value.tanggal_mulai,
@@ -74,7 +76,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                         nama_tempat: value.nama_tempat,
                         status: value.status,
                         komen: value.komen,
+                        submit_date: value.submit_date,
+                        status_date: value.status_date,
                     });
+                }
                 });
                 setDaftar(newDatas);
             })
@@ -88,14 +93,16 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setDetailsData(data);
     }
 
-    const TableRow = ({ acara, tanggal_mulai, tanggal_selesai,nama_tempat, status, setShowFPT, setShowMDPT }) => {
+    const TableRow = ({ acara, tanggal_mulai, tanggal_selesai,nama_tempat, status, submit_date, status_date, setShowFPT, setShowMDPT }) => {
 
         return (
             <tr>
                 <td>{acara}</td>
-                <td>{tanggal_mulai} - {tanggal_selesai}</td>
+                <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
+                {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
                 <td>{nama_tempat}</td>
-                <td>{status}</td>
+                <td>{status}, {new Date(status_date).toLocaleDateString() + ' ' + new Date(status_date).toLocaleTimeString()}</td>
+                <td>{new Date(submit_date).toLocaleDateString() + ' ' + new Date(submit_date).toLocaleTimeString()}</td>
                 <td className="text-right">
                     <UncontrolledDropdown>
                         <DropdownToggle
@@ -189,7 +196,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         <th scope="col">Tangal Acara</th>
                                         <th scope="col">Nama Tempat</th>
                                         <th scope="col">Status</th>
-
+                                        <th scope="col">Tanggal Pengajuan</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
@@ -204,6 +211,8 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                                     tanggal_selesai={data.tanggal_selesai}
                                                     nama_tempat={data.nama_tempat}
                                                     status={data.status} 
+                                                    submit_date={data.submit_date}
+                                                    status_date={data.status_date}
                                                     setShowFPT={setShowFPT} 
                                                     setShowMDPT={() => openDetailsModal(data)} />
                                                 );

@@ -52,14 +52,14 @@ const FPTModal = ({isOpen, toggle}) => {
       .then((res) => res.json())
       .then((data) => {
           console.log(data);
-      if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
-      if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
-      if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
-      if(!namatempat) {window.alert("File wajib diisi"); return;}
-      window.alert("Berhasil input peminjaman tempat");
-      toggle();
-      })
-      .catch((e) => {
+          if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
+          if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
+          if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
+          if(!namatempat) {window.alert("File wajib diisi"); return;}
+          window.alert("Berhasil input peminjaman tempat");
+          toggle();
+          })
+          .catch((e) => {
           window.alert("Gagal input peminjaman tempat");
       });
   }

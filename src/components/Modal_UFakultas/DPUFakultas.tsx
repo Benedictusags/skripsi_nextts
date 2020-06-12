@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from 'react';
 // reactstrap components
 import {
   Button,
@@ -17,7 +17,13 @@ import {
   Col
 } from "reactstrap";
 
+
+import ReactToPrint from 'react-to-print';
+
 const MDUModal = ({isOpen, toggle, data}) => {
+
+    const componentRef = useRef();
+    
     return (
         <Modal
               className="modal-dialog-centered"
@@ -39,8 +45,14 @@ const MDUModal = ({isOpen, toggle, data}) => {
                 </button>
               </div>
               <div className="modal-body">
+                <div  ref={componentRef}>
                 <Table className="align-items-center table-flush">
                         <tbody>
+                        <tr>
+                                <td scope="col">Tanggal Pengajuan</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.submit_date).toLocaleDateString() + ' ' + new Date(data.submit_date).toLocaleTimeString()}</td>
+                            </tr>
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
@@ -49,12 +61,12 @@ const MDUModal = ({isOpen, toggle, data}) => {
                             <tr>
                                 <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_mulai}</td>
+                                <td scope="col">{new Date(data.tanggal_mulai).toLocaleDateString() + ' ' + new Date(data.tanggal_mulai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Selesai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_selesai}</td>
+                                <td scope="col">{new Date(data.tanggal_selesai).toLocaleDateString() + ' ' + new Date(data.tanggal_selesai).toLocaleTimeString() }</td>
                             </tr>
                             <tr>
                                 <td scope="col">Tempat</td>
@@ -62,19 +74,29 @@ const MDUModal = ({isOpen, toggle, data}) => {
                                 <td scope="col">{data.tempat}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Anggaran</td>
+                                <td scope="col">Pengajuan Anggaran</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.anggaran}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Status Fak/Progdi</td>
+                                <td scope="col">Status Fakultas</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.aprf}</td>
                             </tr>
                             <tr>
+                                <td scope="col">Tanggal Approval</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.aprf_date).toLocaleDateString() + ' ' + new Date(data.aprf_date).toLocaleTimeString()}</td>
+                            </tr>
+                            <tr>
                                 <td scope="col">Status Pusat</td>
                                 <td scope="col">:</td>
-                                <td scope="col">Loren Ipsum Dolor Jancok</td>
+                                <td scope="col">{data.aprp}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Tanggal Approval</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.aprp_date).toLocaleDateString() + ' ' + new Date(data.aprp_date).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran yang disetujui/Komentar</td>
@@ -88,11 +110,11 @@ const MDUModal = ({isOpen, toggle, data}) => {
                             </tr>
                         </tbody>
                 </Table>
+                </div>
               </div>
               <div className="modal-footer">
-                <Button color="link" type="button">
-                  Print
-                </Button>
+              <ReactToPrint trigger={() => <Button color="link" type="button"> Print </Button>} 
+               content={() => componentRef.current} />
                 <Button
                   className="close"
                   color="primary"

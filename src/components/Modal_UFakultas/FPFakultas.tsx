@@ -27,7 +27,7 @@ const FormModal = ({ isOpen, toggle }) => {
   const [tanggalMulai, setTanggalMulai] = useState(new Date());
   const [tanggalSelesai, setTanggalSelesai] = useState(new Date());
   const [tempat, setTempat] = useState('');
-  const [anggaran, setAnggaran] = useState(0);
+  const [anggaran, setAnggaran] = useState('');
   const [file, setFile] = useState('');
 
 
@@ -48,6 +48,10 @@ const FormModal = ({ isOpen, toggle }) => {
         komenf: "",
         komenp: "",
         Lpj: "",
+        submit_date: new Date(),
+        aprf_date: "",
+        aprp_date: "",
+        lpj_date: "",
       }),
       headers: {
         'Accept': 'application/json',
@@ -57,9 +61,16 @@ const FormModal = ({ isOpen, toggle }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        //masih bug kalo di ok masih masuk datanya
+        if(!judulAcara) {window.alert("Judul acara wajib diisi"); return;}
+        if(!tempat) {window.alert("Tempat wajib diisi"); return;}
+        if(!anggaran) {window.alert("Anggaran wajib diisi"); return;}
+        if(!file) {window.alert("File wajib diisi"); return;}
+        window.alert("Berhasil input proposal");
+        toggle();
       })
       .catch((e) => {
-        window.alert(e);
+        window.alert("Gagal input proposal");;
       });
   }
 
@@ -146,7 +157,7 @@ const FormModal = ({ isOpen, toggle }) => {
                 className="form-control form-control-alternative"
                 placeholder="Tempat"
                 type="text"
-                onChange={(e) => setAnggaran(e.target.valueAsNumber)}
+                onChange={(e) => setAnggaran(e.target.value)}
               />
           <br></br>
           <label htmlFor="input_anggaran" className="form-control-label">Dokumen Proposal</label>
@@ -159,7 +170,7 @@ const FormModal = ({ isOpen, toggle }) => {
           />
           <br></br>
         </form>
-        <button type="submit" className="btn btn-primary btn-sm float-right" onClick={insertData}  >Submit</button>
+        <button type="submit" className="btn btn-primary btn-sm float-right" onClick={insertData}>Submit</button>
         <button type="submit" className="btn btn-secondary btn-sm float-right" aria-hidden={true}>Cancel</button>
       </div>
     </Modal>

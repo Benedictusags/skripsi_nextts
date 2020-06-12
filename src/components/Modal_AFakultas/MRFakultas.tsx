@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // reactstrap components
 import {
   Button,
@@ -16,29 +16,38 @@ import {
   Col
 } from "reactstrap";
 
-function rejectData() {
-  fetch('http://localhost:3001/feedbackFakultas', {
-    method: 'POST', // GET / POST DARI POSTMAN 
-    body: JSON.stringify({
-        id: 3, 
-        aprf:  "Rejected",
-        komenf: "Proposalmu Rakmutu!",
-    }),
-     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    }
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((e) => {
-        window.alert(e);
-    });
-}
 
-const FormModal = ({isOpen, toggle}) => {
+
+const FormModal = ({isOpen, toggle, id}) => {
+
+  const [komenf, setKomenf] = useState('');
+
+  function rejectData() {
+    fetch('http://localhost:3001/feedbackFakultas', {
+      method: 'POST', // GET / POST DARI POSTMAN 
+      body: JSON.stringify({
+        id: id, 
+        aprf:  "Rejected",
+        komenf: komenf,
+        aprf_date: new Date(),
+      }),
+       headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+      console.log(data);
+      window.alert("Berhasil Reject Proposal");
+      toggle();
+      })
+      .catch((e) => {
+      window.alert("Gagal Reject Proposal");
+      toggle();
+      });
+  }
+
     return (
         <Modal
               className="modal-dialog-centered"
@@ -71,14 +80,15 @@ const FormModal = ({isOpen, toggle}) => {
                 id="nama_acara"
                 placeholder="Karena...." 
                 type="text" 
+                onChange={(e) => setKomenf(e.target.value)} 
               />
               </div>
               <br></br>
+              </form>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary btn-sm float-right" onClick={rejectData} >Submit</button>
                 <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
               </div>
-              </form>
               </div>
             </Modal>
           

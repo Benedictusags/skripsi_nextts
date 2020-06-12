@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 // reactstrap components
 import {
   Button,
@@ -17,25 +17,33 @@ import {
 } from "reactstrap";
 
 import DatePicker from 'react-datepicker';
+import { AuthContext } from '~/src/store/context';
 
 const FPBModal = ({isOpen, toggle}) => {
 
+  const {userEmail} = useContext(AuthContext);
   const [tanggalMulai, setTanggalMulai] = useState(new Date());
   const [tanggalSelesai, setTanggalSelesai] = useState(new Date());
   const [QTY, setQTY] = useState('');
+  const [daftar, setDaftar] = useState([{ judul_acara: '', aprf: '', user: ''}]);
+  const [namaacara, setNamaAcara] = useState('');
+  const [barang, setBarang] = useState([{nama_barang: ''}]);
+  const [namabarang, setNamaBarang] = useState('');
 
   function insertData() {
     fetch('http://localhost:3001/addPeminjamanBarang', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({ 
-          user:  "Senat",
-          acara: "Perang Sarung",
+          user:  userEmail,
+          acara: namaacara,
           tanggal_mulai: tanggalMulai,
           tanggal_selesai: tanggalSelesai,
-          nama_barang: "kursi",
+          nama_barang: namabarang,
           QTY: QTY,
-          status: "pending",
+          status: "Pending",
           komen: "",
+          submit_date: new Date(),
+          status_date : "",
       }),
        headers: {
           'Accept': 'application/json',
@@ -45,11 +53,71 @@ const FPBModal = ({isOpen, toggle}) => {
       .then((res) => res.json())
       .then((data) => {
           console.log(data);
+          if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
+          if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
+          if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
+          if(!namabarang) {window.alert("File wajib diisi"); return;}
+          if(!QTY) {window.alert("File wajib diisi"); return;}
+        window.alert("Berhasil input peminjaman barang");
+        toggle();
+        })
+        .catch((e) => {
+          window.alert("Gagal input peminjaman barang");
+      });
+  }
+
+  useEffect(() => {
+    fetch('http://localhost:3001/getProposal', {
+        method: 'GET', // GET / POST DARI POSTMAN 
+         headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            const values = data.values;
+            let newDatas = [];
+            values.forEach(value => {
+              if (value.user === userEmail && value.aprf === 'Approved') {
+                newDatas.push({
+                    judul_acara: value.judul_acara,
+                    aprf: value.aprf,
+                    user: value.user,
+                });
+              }
+            });
+            setDaftar(newDatas);
+        })
+        .catch((e) => {
+            window.alert(e);
+        });
+},[]);
+
+useEffect(() => {
+  fetch('http://localhost:3001/getBarang', {
+      method: 'GET', // GET / POST DARI POSTMAN 
+       headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+          const values = data.values;
+          let newDatas = [];
+          values.forEach(value => {
+              newDatas.push({
+                  nama_barang: value.nama_barang,
+              });
+          });
+          setBarang(newDatas);
       })
       .catch((e) => {
           window.alert(e);
       });
-  }
+},[]);
+
     return (
         <Modal
               className="modal-dialog-centered"
@@ -80,8 +148,13 @@ const FPBModal = ({isOpen, toggle}) => {
               <label htmlFor="inputAddress" className="form-control-label">Nama Acara</label>
                 <select id="inputState" className="form-control form-control-alternative">
               <option selected>Pilih Acara yang sudah di Setujui</option>
-              <option>...</option>
-              </select>
+              {
+                   daftar?
+                   daftar.map((value,i)=> {
+                     return <option key={i}  onClick={() => {setNamaAcara(value.judul_acara)}}>{value.judul_acara}</option>
+                   }):null
+                 }
+                </select>
               </div>
               <div className="form-row algin-center">
                  <div className="form-group col-md-6">
@@ -123,8 +196,13 @@ const FPBModal = ({isOpen, toggle}) => {
                  <div className="form-group col-md-6">
                  <label htmlFor="inputEmail4" className="form-control-label">Nama Barang</label>
                  <select id="inputState" className="form-control form-control-alternative">
-                 <option selected>Pilih Barang</option>
-                 <option>...</option>
+                 <option selected>Pilih tempat yang terdaftar</option>
+                  {
+                   barang?
+                   barang.map((value,a)=> {
+                     return <option key={a}  onClick={() => {setNamaBarang(value.nama_barang)}}>{value.nama_barang}</option>
+                   }):null
+                  }
                  </select>
                  </div>
               <div className="form-group col-md-6">
@@ -141,8 +219,8 @@ const FPBModal = ({isOpen, toggle}) => {
               </div>
               </form>
               <br></br>
-              <button type="submit" className="btn btn-primary btn-sm float-right" onClick={insertData} >Submit</button>
-              <button type="submit" className="btn btn-secondary btn-sm float-right" aria-hidden={true} >Cancel</button>
+                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={insertData} >Submit</button>
+                <button type="submit" className="btn btn-secondary btn-sm float-right" aria-hidden={true} >Cancel</button>
               </div>
             </Modal>
           

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -37,11 +37,13 @@ import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 
-import FPBModal from '~/src/components/Modals/FPBModal';
+import FBFakultas from '~/src/components/Modal_UFakultas/FBFakultas';
 import MDPBModal from '~/src/components/Modals/MDPBModal';
+import { AuthContext } from '~/src/store/context';
 
 const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
+    const {userEmail} = useContext(AuthContext);
     const [showFPB, setShowFPB] = useState(false);
     const [showMDPB, setShowMDPB] = useState(false);
     const [text, setText] = useState('');
@@ -50,7 +52,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', QTY: '', status: '', komen: ''}]);
+    const [daftar, setDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', QTY: '', status: '', komen: '', submit_date: '', status_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
 
     useEffect(() => {
@@ -66,6 +68,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 const values = data.values;
                 let newDatas = [];
                 values.forEach(value => {
+                    if (value.user === userEmail) {
                     newDatas.push({
                         acara: value.acara,
                         tanggal_mulai: value.tanggal_mulai,
@@ -74,7 +77,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                         QTY: value.QTY,
                         status: value.status,
                         komen: value.komen,
+                        submit_date: value.submit_date,
+                        status_date: value.status_date,
                     });
+                }
                 });
                 setDaftar(newDatas);
             })
@@ -83,6 +89,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             });
     },[]);
 
+    function setSortData(path) {
+        setSortPath(path);
+        setFlag(!flag);
+    }
 
     function openDetailsModal(data) {
         setShowMDPB(true);
@@ -90,14 +100,15 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     }
 
 
-const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, setShowMDPB }) => {
+const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, submit_date, status_date, setShowFPB, setShowMDPB }) => {
 
     return (
         <tr>
             <td>{acara}</td>
-            <td>{tanggal_mulai} - {tanggal_selesai}</td>
-            <td>{status}</td>
-            <td className="text-right">
+            <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
+                {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
+            <td>{status}, {new Date(status_date).toLocaleDateString() + ' ' + new Date(status_date).toLocaleTimeString()}</td>
+            <td>{new Date(submit_date).toLocaleDateString() + ' ' + new Date(submit_date).toLocaleTimeString()}</td>            <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
                         className="btn-icon-only text-light"
@@ -116,24 +127,35 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, s
                         >
                             Detail
                                                             </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Print
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
-                                                            </DropdownItem>
+                        {
+                            status === 'Approved' ?
+                            (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Print
+                                </DropdownItem>
+                            ):null
+                        }
+                        {
+                            status !== 'Approved' ?
+                            (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Delete
+                                </DropdownItem>
+                            ):null
+                        }
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </td>
         </tr>
     );
 }
+
     return (
         <div>
             <Head>
@@ -186,9 +208,9 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, s
                                 <thead className="thead-light">
                                     <tr>
                                         <th scope="col">Judul Acara</th>
-                                        <th scope="col">Tangal Acara</th>
+                                        <th scope="col">Tanggal Mulai - Selesai</th>
                                         <th scope="col">Status</th>
-
+                                        <th scope="col">Tanggal Pengajuan</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
@@ -198,12 +220,14 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, s
                                             getItems(daftar, text, ['acara'], currPage, sortPath, flag).map((data) => {
                                                 return (
                                                     <TableRow 
-                                                    acara={data.acara}
-                                                    tanggal_mulai={data.tanggal_mulai}
-                                                    tanggal_selesai={data.tanggal_selesai} 
-                                                    status={data.status}  
-                                                    setShowFPB={setShowFPB} 
-                                                    setShowMDPB={() => openDetailsModal(data)} />
+                                                        acara={data.acara}
+                                                        tanggal_mulai={data.tanggal_mulai}
+                                                        tanggal_selesai={data.tanggal_selesai} 
+                                                        status={data.status}
+                                                        status_date={data.status_date}
+                                                        submit_date={data.submit_date} 
+                                                        setShowFPB={setShowFPB} 
+                                                        setShowMDPB={() => openDetailsModal(data)} />
                                                 );
                                             }) : null
                                     }
@@ -217,7 +241,7 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, s
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(daftar, text, ['acara']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['name']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 
@@ -245,15 +269,15 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, s
                     </div>
                 </Row>
             </Container>
-            <FPBModal
+            <FBFakultas
                 isOpen={showFPB}
                 toggle={() => setShowFPB(!showFPB)}
             /> 
 
             <MDPBModal
                 isOpen={showMDPB}
-                toggle={() => setShowMDPB(!showMDPB)}
-                data={detailsData}
+                toggle={() => setShowMDPB(!showMDPB)}   
+                data={detailsData}                    
             /> 
 
                                           

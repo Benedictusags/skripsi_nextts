@@ -34,7 +34,7 @@ import {
 
 
 import _ from 'lodash';
-import DPFakultas from '~/src/components/Modals/DPFakultas';
+import DPFakultas from '~/src/components/Modal_AFakultas/DPFakultas';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 
@@ -47,8 +47,9 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', anggaran: 0, file: '', user: '', aprf: '', komenf: ''}]);
+    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', anggaran: 0, file: '', user: '', aprf: '', komenf: '',Lpj: '' , submit_date: '', aprf_date: '', lpj_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
+    const [data] = useState ({});
 
     useEffect(() => {
         fetch('http://localhost:3001/getProposal', {
@@ -63,17 +64,25 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 const values = data.values;
                 let newDatas = [];
                 values.forEach(value => {
-                    newDatas.push({
-                        judul_acara: value.judul_acara,
-                        tanggal_mulai: value.tanggal_mulai,
-                        tanggal_selesai: value.tanggal_selesai,
-                        tempat: value.tempat,
-                        anggaran: value.anggaran,
-                        file: value.file,
-                        user: value.user,
-                        aprf: value.aprf,
-                        komenf: value.komenf,
+                    console.log(value)
+                    if(value.aprf !== 'Approved'){
+                    newDatas.push({                   
+                      id: value.ID,
+                      judul_acara: value.judul_acara,
+                      tanggal_mulai: value.tanggal_mulai,
+                      tanggal_selesai: value.tanggal_selesai,
+                      tempat: value.tempat,
+                      anggaran: value.anggaran,
+                      file: value.file,
+                      user: value.user,
+                      aprf: value.aprf,
+                      komenf: value.komenf,
+                      Lpj: value.Lpj, 
+                      submit_date: value.submit_date,
+                      aprf_date: value.aprf_date,
+                      lpj_date: value.lpj_date,
                     });
+                }
                 });
                 setDaftar(newDatas);
             })
@@ -87,14 +96,16 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setDetailsData(data);
     }
 
-const TableRow = ({ user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, setShowDPFakultas }) => {
+const TableRow = ({  user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, submit_date, setShowDPFakultas }) => {
 
     return (
         <tr>
             <td>{user}</td>
             <td>{judul_acara}</td>
-            <td>{tanggal_mulai} - {tanggal_selesai}</td>
+            <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
+                {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
             <td>{aprf}</td>
+            <td>{new Date(submit_date).toLocaleDateString() + ' ' + new Date(submit_date).toLocaleTimeString()}</td>
             <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
@@ -108,24 +119,23 @@ const TableRow = ({ user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, set
                         <i className="fas fa-ellipsis-v" />
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-arrow" right>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={() => setShowDPFakultas(true)}
-                        >
-                            Details
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Print
-                                                            </DropdownItem>
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={() => setShowDPFakultas(true)}
+                                >
+                                Details
+                                </DropdownItem>
+                        {
+                            aprf !== 'Approved' ?
+                            (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                                >
+                                Delete
+                                </DropdownItem>
+                            ):null
+                        }    
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </td>
@@ -187,6 +197,7 @@ const TableRow = ({ user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, set
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
                                         <th scope="col">Status Fakultas</th>
+                                        <th scope="col">Tanggal Pengajuan</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
@@ -195,12 +206,13 @@ const TableRow = ({ user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, set
                                         daftar ?
                                             getItems(daftar, text, ['user'], currPage, sortPath, flag).map((data) => {
                                                 return (
-                                                    <TableRow 
-                                                    user={data.user} 
+                                                    <TableRow
+                                                    user={data.user}
                                                     judul_acara={data.judul_acara}
                                                     tanggal_mulai={data.tanggal_mulai}
                                                     tanggal_selesai={data.tanggal_selesai}
-                                                    aprf={data.aprf} 
+                                                    aprf={data.aprf}
+                                                    submit_date={data.submit_date}
                                                     setShowDPFakultas={() => openDetailsModal(data)} />
                                                 );
                                             }) : null
@@ -246,7 +258,7 @@ const TableRow = ({ user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, set
             <DPFakultas
                 isOpen={showDPFakultas}
                 toggle={() => setShowDPFakultas(!showDPFakultas)}
-                data={detailsData}
+                data={detailsData} 
             />                              
         </div>
 

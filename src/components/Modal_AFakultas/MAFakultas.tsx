@@ -20,15 +20,13 @@ import DatePicker from 'react-datepicker';
 
 const FormModal = ({ isOpen, toggle, id }) => {
 
-  const [anggaran, setAnggaran] = useState(0);
-
   function approveData() {
     fetch('http://localhost:3001/feedbackProgdi', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({
         id: id,
         aprf: "Approved",
-        komenf: anggaran,
+        komenf: "",
         aprf_date: new Date(),
       }),
       headers: {
@@ -39,7 +37,6 @@ const FormModal = ({ isOpen, toggle, id }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if(!anggaran) {window.alert("Persetujuan anggaran wajib diisi"); return;}
         window.alert("Berhasil Approve Proposal");
         toggle();
       })
@@ -75,14 +72,7 @@ const FormModal = ({ isOpen, toggle, id }) => {
             Persetujuan Proposal
               </h6>
           <div className="form-group">
-            <label htmlFor="inputAddress" className="form-control-label">Anggaran Yang Disetujui</label>
-            <Input
-              className="form-control form-control-alternative"
-              id="nama_acara"
-              placeholder="Rp. XXXXX"
-              type="number"
-              onChange={(e) => setAnggaran(e.target.valueAsNumber)}
-            />
+            <label htmlFor="inputAddress" className="form-control-label">Yakin untuk disetujui?</label>
           </div>
           <br></br>
         </form>

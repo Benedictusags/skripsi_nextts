@@ -48,13 +48,6 @@ import { useRouter } from 'next/router';
       icon: "fa fa-envelope-square text-red",
       layout: "/adminfakultas"
     },
-    {
-      path: "/dashboard/modal_fakultas",
-      name: "modals",
-      icon: "fa fa-envelope-square text-red",
-      layout: "/adminfakultas"
-    },
-
   ];
 
 const Sidebar = () => {

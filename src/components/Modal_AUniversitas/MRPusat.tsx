@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // reactstrap components
 import {
   Button,
@@ -16,29 +16,37 @@ import {
   Col
 } from "reactstrap";
 
-function approveData() {
-  fetch('http://localhost:3001/feedbackPusat', {
-    method: 'POST', // GET / POST DARI POSTMAN 
-    body: JSON.stringify({
-        id: 3, 
-        aprp:  "Approved",
-        komenp: 5000000,
-    }),
-     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    }
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((e) => {
-        window.alert(e);
-    });
-}
+const FormModal = ({isOpen, toggle, id}) => {
+  
+  const [komenp, setKomenp] = useState('');
+    
+  function rejectData() {
+    fetch('http://localhost:3001/feedbackPusat', {
+      method: 'POST', // GET / POST DARI POSTMAN 
+      body: JSON.stringify({
+          id: id, 
+          aprp:  "Approved",
+          komenp: komenp,
+          aprp_date: new Date(),
+      }),
+       headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+      console.log(data);
+      if(!komenp) {window.alert("Persetujuan anggaran wajib diisi"); return;}
+      window.alert("Berhasil Approve Proposal");
+      toggle();
+      })
+      .catch((e) => {
+      window.alert("Gagal Approve Proposal");
+      toggle();
+      });
+  }
 
-const FormModal = ({isOpen, toggle}) => {
     return (
         <Modal
               className="modal-dialog-centered"
@@ -62,23 +70,24 @@ const FormModal = ({isOpen, toggle}) => {
               <div className="modal-body">
               <form>
               <h6 className="heading-small text-muted mb-4">
-                    Persetujuan Proposal
+                    Penolakan Proposal
               </h6>
               <div className="form-group"> 
-              <label htmlFor="inputAddress" className="form-control-label">Anggaran Yang Disetujui</label>
+              <label htmlFor="inputAddress" className="form-control-label">Alasan Tidak Diestujui</label>
               <Input  
                 className="form-control form-control-alternative" 
                 id="nama_acara"
-                placeholder="Rp. XXXXX" 
+                placeholder="Karena...." 
                 type="text" 
+                onChange={(e) => setKomenp(e.target.value)}
               />
               </div>
               <br></br>
+              </form>
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Submit</button>
+                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={rejectData} >Submit</button>
                 <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
               </div>
-              </form>
               </div>
             </Modal>
           

@@ -53,7 +53,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', user: '', aprf: '', komenf: '', anggaran: '', file: '',submit_date: ''}]);
+    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', user: '', aprf: '', aprf_date: '', komenf: '', anggaran: '', file: '',submit_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
     
 
@@ -83,6 +83,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                         anggaran: value.anggaran,
                         file: value.file,
                         submit_date: value.submit_date,
+                        aprf_date: value.aprf_date,
                     });
                 }
                 });
@@ -99,14 +100,14 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     }
 
 
-    const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, submit_date, setShowFM, setShowMDU, setShowMUL }) => {
+    const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, submit_date, aprf_date, setShowFM, setShowMDU, setShowMUL }) => {
 
         return (
             <tr>
                 <td>{judul_acara}</td>
                 <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} 
                 - {new Date(tanggal_selesai).toLocaleDateString()+ ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
-                <td>{aprf}</td>
+                <td>{aprf},{new Date(aprf_date).toLocaleDateString()+ ' ' + new Date(aprf_date).toLocaleTimeString()}</td>
                 <td>{new Date(submit_date).toLocaleDateString()+ ' '+ new Date(submit_date).toLocaleTimeString()}</td>
                 <td className="text-right">
                     <UncontrolledDropdown>
@@ -121,18 +122,23 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                                <DropdownItem
+                        <DropdownItem
                                 href="#pablo"
                                 onClick={() => setShowMDU(true)}
                             >
                                 Detail
                                 </DropdownItem>
+                            {
+                                aprf === 'Approved' ?
+                                (
                                 <DropdownItem
                                 href="#pablo"
                                 onClick={e => e.preventDefault()}
                             >
                                 Print
                                 </DropdownItem>
+                                 ):null
+                            }
                             {
                                 aprf === 'Approved' ?
                                 (
@@ -143,19 +149,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 Upload LPJ
                                 </DropdownItem>
                                 ):null
-                            }
-                            {
-                                aprf !== 'Approved' ?
-                                (
-                                <DropdownItem
-                                href="#pablo"
-                                onClick={e => e.preventDefault()}
-                            >
-                                Delete
-                                </DropdownItem>
-                                ):null
-                            }
-                                
+                            }          
                         </DropdownMenu>
                     </UncontrolledDropdown>
                 </td>
@@ -240,7 +234,8 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                                     tanggal_mulai={data.tanggal_mulai}
                                                     tanggal_selesai={data.tanggal_selesai}
                                                     aprf={data.aprf} 
-                                                    submit_date={data.submit_date}                   
+                                                    submit_date={data.submit_date}  
+                                                    aprf_date={data.aprf_date}                 
                                                     setShowFM={setShowFM} 
                                                     setShowMDU={() => openDetailsModal(data)}
                                                     setShowMUL={setShowMUL} />
@@ -257,7 +252,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(daftar, text, ['name']).length / 10}
+                                            pageCount={filterItem(daftar, text, ['judul_acara']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 

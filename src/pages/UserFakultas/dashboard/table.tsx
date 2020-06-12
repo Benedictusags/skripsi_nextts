@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -36,13 +36,14 @@ import {
 import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
-import FPFakultas from '~/src/components/Modals/FPFakultas';
-import MDUModal from '~/src/components/Modals/MDUModal';
+import FPFakultas from '~/src/components/Modal_UFakultas/FPFakultas';
+import DPUFakultas from '~/src/components/Modal_UFakultas/DPUFakultas';
 import MULModal from '~/src/components/Modals/MULModal';
+import { AuthContext } from '~/src/store/context';
 
 const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
-
+    const {userEmail} = useContext(AuthContext);
     const [showFM, setShowFM] = useState(false);
     const [showMDU, setShowMDU] = useState(false);
     const [showMUL, setShowMUL] = useState(false);
@@ -52,7 +53,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', aprf: '', aprp: '', anggaran: '', file: ''}]);
+    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', user: '', aprf: '', aprf_date: '', aprp: '', aprp_date: '', komenf: '', anggaran: '', file: '',submit_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
 
     useEffect(() => {
@@ -68,16 +69,23 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 const values = data.values;
                 let newDatas = [];
                 values.forEach(value => {
-                    newDatas.push({
-                        judul_acara: value.judul_acara,
-                        tanggal_mulai: value.tanggal_mulai,
-                        tanggal_selesai: value.tanggal_selesai,
-                        tempat: value.tempat,
-                        aprf: value.aprf,
-                        aprp: value.aprp,
-                        anggaran: value.anggaran,
-                        file: value.file,
+                    if (value.user === userEmail) {
+                        newDatas.push({
+                            judul_acara: value.judul_acara,
+                            tanggal_mulai: value.tanggal_mulai,
+                            tanggal_selesai: value.tanggal_selesai,
+                            tempat: value.tempat,
+                            aprf: value.aprf,
+                            aprp: value.aprp,
+                            user: value.user,
+                            komenf: value.komenf,
+                            anggaran: value.anggaran,
+                            file: value.file,
+                            submit_date: value.submit_date,
+                            aprf_date: value.aprf_date,
+                            aprp_date: value.aprp_date,
                     });
+                }
                 });
                 setDaftar(newDatas);
             })
@@ -91,14 +99,16 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setDetailsData(data);
     }
 
-const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, aprp, setShowFM, setShowMDU, setShowMUL }) => {
+const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, aprp, submit_date, aprf_date, aprp_date, setShowFM, setShowMDU, setShowMUL }) => {
 
     return (
         <tr>
             <td>{judul_acara}</td>
-            <td>{tanggal_mulai} - {tanggal_selesai}</td>
-            <td>{aprf}</td>
-            <td>{aprp}</td>
+            <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
+            {new Date(tanggal_selesai).toLocaleDateString()+ ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
+            <td>{aprf},{new Date(aprf_date).toLocaleDateString()+ ' ' + new Date(aprf_date).toLocaleTimeString()}</td>
+            <td>{aprp},{new Date(aprp_date).toLocaleDateString()+ ' ' + new Date(aprp_date).toLocaleTimeString()}</td>
+            <td>{new Date(submit_date).toLocaleDateString()+ ' '+ new Date(submit_date).toLocaleTimeString()}</td>
             <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
@@ -112,30 +122,45 @@ const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, aprp, set
                         <i className="fas fa-ellipsis-v" />
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-arrow" right>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={() => setShowMDU(true)}
-                        >
-                            Detail
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Print
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={() => setShowMUL(true)}
-                        >
-                            Upload LPJ
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
-                                                            </DropdownItem>
+                    <DropdownItem
+                                href="#pablo"
+                                onClick={() => setShowMDU(true)}
+                            >
+                                Detail
+                                </DropdownItem>
+                            {
+                                aprp === 'Approved' ?
+                                (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Print
+                                </DropdownItem>
+                                 ):null
+                            }
+                            {
+                                aprp === 'Approved' ?
+                                (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={() => setShowMUL(true)}
+                            >
+                                Upload LPJ
+                                </DropdownItem>
+                                ):null
+                            }
+                            {
+                                aprf !== 'Approved' || aprp !== 'Approved' ?
+                                (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Delete
+                                </DropdownItem>
+                                ):null
+                            }
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </td>
@@ -206,6 +231,7 @@ const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, aprp, set
                                         <th scope="col">Tangal Acara</th>
                                         <th scope="col">Status Fakultas</th>
                                         <th scope="col">Status Pusat</th>
+                                        <th scope="col">Tanggal Pengajuan</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
@@ -219,7 +245,10 @@ const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, aprp, set
                                                     tanggal_mulai={data.tanggal_mulai}
                                                     tanggal_selesai={data.tanggal_selesai}
                                                     aprf={data.aprf}
-                                                    aprp={data.aprp} 
+                                                    aprp={data.aprp}
+                                                    aprf_date={data.aprf_date}
+                                                    aprp_date={data.aprp_date}
+                                                    submit_date={data.submit_date} 
                                                     setShowFM={setShowFM} 
                                                     setShowMDU={() => openDetailsModal(data)} 
                                                     setShowMUL={setShowMUL} />
@@ -270,7 +299,7 @@ const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, aprp, set
                 toggle={() => setShowFM(!showFM)}
             />
 
-            <MDUModal
+            <DPUFakultas
                 isOpen={showMDU}
                 toggle={() => setShowMDU(!showMDU)}
                 data={detailsData}

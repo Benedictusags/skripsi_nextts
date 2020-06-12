@@ -33,14 +33,32 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
     const {changeEmail, changeAuth} = useContext(AuthContext);
 
     function signIn() {
+        fetch('http://localhost:3001/login', {
+          method: 'POST', // GET / POST DARI POSTMAN 
+          body: JSON.stringify({ 
+              user: email,
+              pass: pass,
+          }),
+           headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+          }
+          })
+          .then((res) => res.json())
+          .then((data) => {
+              console.log(data);
+              if  (data.values.length){
+                  changeEmail(email)
+                  changeAuth(true);
+                  Router.push('/userfakultas/dashboard')
+              }
+          })
+          .catch((e) => {
+              window.alert(e);
+          });
 
-        if (email === 'userfakultas' && pass ==='12345678'){
-            changeEmail(email)
-            changeAuth(true);
-            Router.push('/userfakultas/dashboard')
+  }
 
-        }
-    }
 
     function check() {
         console.log(firebaseApp.auth().currentUser.email)

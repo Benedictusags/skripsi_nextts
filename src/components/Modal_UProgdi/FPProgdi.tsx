@@ -50,6 +50,7 @@ const FormModal = ({ isOpen, toggle }) => {
         Lpj: "",
         submit_date: new Date(),
         aprf_date: "",
+        aprp_date: "",
         lpj_date: "",
       }),
       headers: {
@@ -60,6 +61,7 @@ const FormModal = ({ isOpen, toggle }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        //masih bug kalo di ok masih masuk datanya
         if(!judulAcara) {window.alert("Judul acara wajib diisi"); return;}
         if(!tempat) {window.alert("Tempat wajib diisi"); return;}
         if(!anggaran) {window.alert("Anggaran wajib diisi"); return;}

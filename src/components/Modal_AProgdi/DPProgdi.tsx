@@ -51,6 +51,11 @@ const MDUModal = ({isOpen, toggle, data}) => {
               <div className="modal-body">
                 <Table className="align-items-center table-flush">
                         <tbody>
+                        <tr>
+                                <td scope="col">Tanggal Pengajuan</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.submit_date).toLocaleDateString() + ' ' + new Date(data.submit_date).toLocaleTimeString()}</td>
+                            </tr>
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
@@ -59,12 +64,12 @@ const MDUModal = ({isOpen, toggle, data}) => {
                             <tr>
                                 <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_mulai}</td>
+                                <td scope="col">{new Date(data.tanggal_mulai).toLocaleDateString() + ' ' + new Date(data.tanggal_mulai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Selesai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_selesai}</td>
+                                <td scope="col">{new Date(data.tanggal_selesai).toLocaleDateString() + ' ' + new Date(data.tanggal_selesai).toLocaleTimeString() }</td>
                             </tr>
                             <tr>
                                 <td scope="col">Tempat</td>
@@ -72,14 +77,19 @@ const MDUModal = ({isOpen, toggle, data}) => {
                                 <td scope="col">{data.tempat}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Anggaran</td>
+                                <td scope="col">Pengajuan Anggaran</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.anggaran}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Status Fak/Progdi</td>
+                                <td scope="col">Status Fakultas</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.aprf}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Tanggal Approval</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.aprf_date).toLocaleDateString() + ' ' + new Date(data.aprf_date).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran yang disetujui/Komentar</td>

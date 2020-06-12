@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -37,10 +37,11 @@ import _ from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 import DPProgdi from '~/src/components/Modal_AProgdi/DPProgdi';
-
+import { AuthContext } from '~/src/store/context';
 
 const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
+    const {userEmail} = useContext(AuthContext);
     const [showDPProgdi, setShowDPProgdi] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
@@ -48,7 +49,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', anggaran: 0, file: '', user: '', aprf: '', komenf: '' }]);
+    const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', anggaran: 0, file: '', user: '', aprf: '', komenf: '',Lpj: '' , submit_date: '', aprf_date: '', lpj_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
 
     useEffect(() => {
@@ -65,18 +66,24 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 let newDatas = [];
                 values.forEach(value => {
                     console.log(value)
+                    if(value.aprf === 'Pending'){
                     newDatas.push({
-                        id: value.ID,
-                        judul_acara: value.judul_acara,
-                        tanggal_mulai: value.tanggal_mulai,
-                        tanggal_selesai: value.tanggal_selesai,
-                        tempat: value.tempat,
-                        anggaran: value.anggaran,
-                        file: value.file,
-                        user: value.user,
-                        aprf: value.aprf,
-                        komenf: value.komenf,
+                      id: value.ID,
+                      judul_acara: value.judul_acara,
+                      tanggal_mulai: value.tanggal_mulai,
+                      tanggal_selesai: value.tanggal_selesai,
+                      tempat: value.tempat,
+                      anggaran: value.anggaran,
+                      file: value.file,
+                      user: value.user,
+                      aprf: value.aprf,
+                      komenf: value.komenf,
+                      Lpj: value.Lpj, 
+                      submit_date: value.submit_date,
+                      aprf_date: value.aprf_date,
+                      lpj_date: value.lpj_date,
                     });
+                    }
                 });
                 setDaftar(newDatas);
             })
@@ -90,14 +97,16 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setDetailsData(data);
     }
 
-    const TableRow = ({ user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, setShowDPProgdi }) => {
+    const TableRow = ({ user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, submit_date, setShowDPProgdi }) => {
 
         return (
             <tr>
                 <td>{user}</td>
                 <td>{judul_acara}</td>
-                <td>{tanggal_mulai} - {tanggal_selesai}</td>
+                <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
+                {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
                 <td>{aprf}</td>
+                <td>{new Date(submit_date).toLocaleDateString() + ' ' + new Date(submit_date).toLocaleTimeString()}</td>
                 <td className="text-right">
                     <UncontrolledDropdown>
                         <DropdownToggle
@@ -202,6 +211,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tangal Acara</th>
                                         <th scope="col">Status Progdi</th>
+                                        <th scope="col">Tanggal Pengajuan</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
@@ -209,8 +219,6 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                     {
                                         daftar ?
                                             getItems(daftar, text, ['user'], currPage, sortPath, flag).map((data) => {
-                                                
-                                                if(data.aprf === 'Approved'){return null;}
                                                 return (
                                                     <TableRow
                                                         user={data.user}
@@ -218,6 +226,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                                         tanggal_mulai={data.tanggal_mulai}
                                                         tanggal_selesai={data.tanggal_selesai}
                                                         aprf={data.aprf}
+                                                        submit_date={data.submit_date}
                                                         setShowDPProgdi={() => openDetailsModal(data)} />
                                                 );
                                             }) : null
@@ -253,7 +262,6 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                         />
                                     </nav>
                                 </nav>
-
                             </CardFooter>
                         </Card>
                     </div>

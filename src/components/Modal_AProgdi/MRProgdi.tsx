@@ -27,6 +27,7 @@ const FormModal = ({isOpen, toggle, id}) => {
           id: id, 
           aprf:  "Rejected",
           komenf: komenf,
+          aprf_date: new Date(),
       }),
        headers: {
           'Accept': 'application/json',
@@ -35,10 +36,14 @@ const FormModal = ({isOpen, toggle, id}) => {
       })
       .then((res) => res.json())
       .then((data) => {
-          console.log(data);
+      console.log(data);
+        if(!komenf) {window.alert("Komentar wajib diisi"); return;}
+        window.alert("Berhasil Reject Proposal");
+        toggle();
       })
       .catch((e) => {
-          window.alert(e);
+        window.alert("Gagal Approve Proposal");
+        toggle();
       });
   }
 

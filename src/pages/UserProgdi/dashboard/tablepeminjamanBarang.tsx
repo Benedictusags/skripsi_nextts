@@ -52,7 +52,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', QTY: '', status: '', komen: ''}]);
+    const [daftar, setDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', QTY: '', status: '', komen: '', submit_date: '', status_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
 
     useEffect(() => {
@@ -68,6 +68,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 const values = data.values;
                 let newDatas = [];
                 values.forEach(value => {
+                    if (value.user === userEmail) {
                     newDatas.push({
                         acara: value.acara,
                         tanggal_mulai: value.tanggal_mulai,
@@ -76,7 +77,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                         QTY: value.QTY,
                         status: value.status,
                         komen: value.komen,
+                        submit_date: value.submit_date,
+                        status_date: value.status_date,
                     });
+                }
                 });
                 setDaftar(newDatas);
             })
@@ -96,14 +100,15 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     }
 
 
-const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, setShowMDPB }) => {
+const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, submit_date, status_date, setShowFPB, setShowMDPB }) => {
 
     return (
         <tr>
             <td>{acara}</td>
-            <td>{tanggal_mulai} - {tanggal_selesai}</td>
-            <td>{status}</td>
-            <td className="text-right">
+            <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
+                {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
+            <td>{status}, {new Date(status_date).toLocaleDateString() + ' ' + new Date(status_date).toLocaleTimeString()}</td>
+            <td>{new Date(submit_date).toLocaleDateString() + ' ' + new Date(submit_date).toLocaleTimeString()}</td>            <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
                         className="btn-icon-only text-light"
@@ -195,7 +200,7 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, s
                                         <th scope="col">Judul Acara</th>
                                         <th scope="col">Tanggal Mulai - Selesai</th>
                                         <th scope="col">Status</th>
-
+                                        <th scope="col">Tanggal Pengajuan</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
@@ -203,13 +208,14 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, setShowFPB, s
                                     {
                                         daftar ?
                                             getItems(daftar, text, ['acara'], currPage, sortPath, flag).map((data) => {
-                                                if(data.user !== userEmail){return null;}
                                                 return (
                                                     <TableRow 
                                                         acara={data.acara}
                                                         tanggal_mulai={data.tanggal_mulai}
                                                         tanggal_selesai={data.tanggal_selesai} 
-                                                        status={data.status} 
+                                                        status={data.status}
+                                                        status_date={data.status_date}
+                                                        submit_date={data.submit_date} 
                                                         setShowFPB={setShowFPB} 
                                                         setShowMDPB={() => openDetailsModal(data)} />
                                                 );

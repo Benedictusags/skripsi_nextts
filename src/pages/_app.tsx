@@ -37,7 +37,7 @@ export default function MyApp({ Component, pageProps, router }) {
 				}
 
 				if (path.includes('userfakultas/dashboard')) {
-					Router.push('/usefakultas');
+					Router.push('/userfakultas');
 				}
 				if (path.includes('userprogdi/dashboard')) {
 					Router.push('/userprogdi');
@@ -57,8 +57,8 @@ export default function MyApp({ Component, pageProps, router }) {
 				if (path.includes('adminfakultas/dashboard')) {
 					Router.push('/adminfakultas');	
 				}
-				if (path.includes('adminpusat/dashboard')) {
-					Router.push('/adminpusat');
+				if (path.includes('adminuniversitas/dashboard')) {
+					Router.push('/adminuniversitas');
 				}
 				
 			}
@@ -135,7 +135,7 @@ export default function MyApp({ Component, pageProps, router }) {
 		);
 	}
 
-	if (router.pathname.includes('adminpusat/dashboard')) {
+	if (router.pathname.includes('adminuniversitas/dashboard')) {
 		return (
 			<Store>
 				<HOCPusat>

@@ -24,10 +24,11 @@ const FPTModal = ({isOpen, toggle}) => {
   const {userEmail} = useContext(AuthContext);
   const [tanggalMulai, setTanggalMulai] = useState(new Date());
   const [tanggalSelesai, setTanggalSelesai] = useState(new Date());
-  const [daftar, setDaftar] = useState([{ judul_acara: '', aprf: ''}]);
+  const [daftar, setDaftar] = useState([{ judul_acara: '', aprf: '', user: ''}]);
   const [tempat, setTempat] = useState([{nama_tempat: ''}]);
   const [namaacara, setNamaAcara] = useState('');
   const [namatempat, setNamaTempat] = useState('');
+
 
   function insertData() {
     fetch('http://localhost:3001/addPeminjamanTempat', {
@@ -40,6 +41,8 @@ const FPTModal = ({isOpen, toggle}) => {
           nama_tempat: namatempat,
           status: "Pending",
           komen: "",
+          submit_date: new Date(),
+          status_date : "",
       }),
        headers: {
           'Accept': 'application/json',
@@ -49,9 +52,15 @@ const FPTModal = ({isOpen, toggle}) => {
       .then((res) => res.json())
       .then((data) => {
           console.log(data);
-      })
-      .catch((e) => {
-          window.alert(e);
+          if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
+          if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
+          if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
+          if(!namatempat) {window.alert("File wajib diisi"); return;}
+          window.alert("Berhasil input peminjaman tempat");
+          toggle();
+          })
+          .catch((e) => {
+          window.alert("Gagal input peminjaman tempat");
       });
   }
 
@@ -92,10 +101,13 @@ const FPTModal = ({isOpen, toggle}) => {
             const values = data.values;
             let newDatas = [];
             values.forEach(value => {
+              if (value.user === userEmail && value.aprp === 'Approved') {
                 newDatas.push({
                     judul_acara: value.judul_acara,
                     aprf: value.aprf,
+                    user: value.user,
                 });
+              }
             });
             setDaftar(newDatas);
         })
@@ -132,26 +144,33 @@ const FPTModal = ({isOpen, toggle}) => {
               <div className="form-group"> 
               {/* Bagian Barang */}
               <label htmlFor="inputAddress" className="form-control-label">Nama Acara</label>
-                <select id="namaacara" className="form-control form-control-alternative">
+                <select 
+                  id="namaacara" 
+                  className="form-control form-control-alternative"
+                  value={namaacara}
+                  onChange={e => setNamaAcara(e.currentTarget.value)}
+                >
                  <option selected>Pilih Acara yang sudah di Setujui</option>
                  {
                    daftar?
                    daftar.map((value,i)=> {
-                     if (value.aprf !== 'Approved') {
-                       return null;
-                     }
-                     return <option key={i}  onClick={() => {setNamaAcara(value.judul_acara)}}>{value.judul_acara}</option>
+                     return <option key={i}  value={value.judul_acara}>{value.judul_acara}</option>
                    }):null
                  }
                 </select>
               <br></br>
               <label htmlFor="inputState" className="form-control-label">Nama Tempat</label>
-                <select id="namatempat" className="form-control form-control-alternative">
+              <select
+                 id="namatempat" 
+                 className="form-control form-control-alternative"
+                 value={namatempat}
+                 onChange={e => setNamaTempat(e.currentTarget.value)}
+              >
               <option selected>Pilih tempat yang terdaftar</option>
-              {
+                {
                    tempat?
                    tempat.map((value,a)=> {
-                     return <option key={a}  onClick={() => {setNamaTempat(value.nama_tempat)}}>{value.nama_tempat}</option>
+                     return <option key={a}  value={value.nama_tempat}>{value.nama_tempat}</option>
                    }):null
                  }
               </select>

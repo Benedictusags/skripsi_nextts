@@ -52,17 +52,17 @@ const FPBModal = ({isOpen, toggle}) => {
       })
       .then((res) => res.json())
       .then((data) => {
-      console.log(data);
-        if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
-        if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
-        if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
-        if(!namabarang) {window.alert("File wajib diisi"); return;}
-        if(!QTY) {window.alert("File wajib diisi"); return;}
-      window.alert("Berhasil input peminjaman barang");
-      toggle();
-      })
-      .catch((e) => {
-        window.alert("Gagal input peminjaman barang");
+          console.log(data);
+          if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
+          if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
+          if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
+          if(!namabarang) {window.alert("File wajib diisi"); return;}
+          if(!QTY) {window.alert("File wajib diisi"); return;}
+        window.alert("Berhasil input peminjaman barang");
+        toggle();
+        })
+        .catch((e) => {
+          window.alert("Gagal input peminjaman barang");
       });
   }
 
@@ -79,7 +79,7 @@ const FPBModal = ({isOpen, toggle}) => {
             const values = data.values;
             let newDatas = [];
             values.forEach(value => {
-              if (value.user === userEmail && value.aprf === 'Approved') {
+              if (value.user === userEmail && value.aprp === 'Approved') {
                 newDatas.push({
                     judul_acara: value.judul_acara,
                     aprf: value.aprf,
@@ -146,7 +146,7 @@ useEffect(() => {
               <div className="form-group"> 
               {/* Bagian Barang */}
               <label htmlFor="inputAddress" className="form-control-label">Nama Acara</label>
-                <select id="inputState" className="form-control form-control-alternative">
+              <select id="inputState" className="form-control form-control-alternative">
               <option selected>Pilih Acara yang sudah di Setujui</option>
               {
                    daftar?
