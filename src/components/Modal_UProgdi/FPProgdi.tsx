@@ -17,11 +17,14 @@ import {
 } from "reactstrap";
 
 import DatePicker from 'react-datepicker';
+import CurrencyFormat from 'react-currency-format';
 import { AuthContext } from '~/src/store/context';
 
 
 const FormModal = ({ isOpen, toggle }) => {
+  
 
+  const CurrencyFormat = require('react-currency-format');
   const {userEmail} = useContext(AuthContext);
   const [judulAcara, setJudulAcara] = useState('');
   const [tanggalMulai, setTanggalMulai] = useState(new Date());
@@ -30,8 +33,13 @@ const FormModal = ({ isOpen, toggle }) => {
   const [anggaran, setAnggaran] = useState('');
   const [file, setFile] = useState('');
 
-
   function insertData() {
+
+    if(!judulAcara) {window.alert("Judul acara wajib diisi"); return;}
+    if(!tempat) {window.alert("Tempat wajib diisi"); return;}
+    if(!anggaran) {window.alert("Anggaran wajib diisi"); return;}
+    if(!file) {window.alert("File wajib diisi"); return;}
+
     fetch('http://localhost:3001/addProposal', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({
@@ -49,7 +57,7 @@ const FormModal = ({ isOpen, toggle }) => {
         komenp: "",
         Lpj: "",
         submit_date: new Date(),
-        aprf_date: "",
+        aprf_date: new Date(),
         aprp_date: "",
         lpj_date: "",
       }),
@@ -60,12 +68,7 @@ const FormModal = ({ isOpen, toggle }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        //masih bug kalo di ok masih masuk datanya
-        if(!judulAcara) {window.alert("Judul acara wajib diisi"); return;}
-        if(!tempat) {window.alert("Tempat wajib diisi"); return;}
-        if(!anggaran) {window.alert("Anggaran wajib diisi"); return;}
-        if(!file) {window.alert("File wajib diisi"); return;}
+        console.log(data);    
         window.alert("Berhasil input proposal");
         toggle();
       })
@@ -153,11 +156,13 @@ const FormModal = ({ isOpen, toggle }) => {
               />
             <br></br>
             <label htmlFor="input_anggaran" className="form-control-label">Anggaran</label>
-              <Input
+              <CurrencyFormat
                 className="form-control form-control-alternative"
-                placeholder="Tempat"
+                placeholder="Anggaran"
                 type="text"
                 onChange={(e) => setAnggaran(e.target.value)}
+                thousandSeparator={true} 
+                prefix={'Rp. '}
               />
           <br></br>
           <label htmlFor="input_anggaran" className="form-control-label">Dokumen Proposal</label>
@@ -167,6 +172,7 @@ const FormModal = ({ isOpen, toggle }) => {
             placeholder="Tempat"
             type="file"
             onChange={(e) => setFile(e.target.value)}
+            
           />
           <br></br>
         </form>

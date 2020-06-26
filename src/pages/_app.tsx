@@ -17,6 +17,7 @@ import NormalLayout from '~/src/layouts/NormalLayout';
 import AuthLayout from '~/src/layouts/AuthLayout';
 
 import "react-datepicker/dist/react-datepicker.css";
+import * as CurrencyFormat from 'react-currency-format';
 
 
 
@@ -30,7 +31,7 @@ export default function MyApp({ Component, pageProps, router }) {
 	const { loggedIn } = useContext(AuthContext);
 
 	useEffect(() => {
-			if (!loggedIn) {
+			if (!loggedIn && !window.localStorage.getItem('email')) {
 				const path = Router.pathname;
 				if (path.includes('admin/dashboard')) {
 					Router.push('/admin');

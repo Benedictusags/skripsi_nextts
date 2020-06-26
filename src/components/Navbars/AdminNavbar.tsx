@@ -33,6 +33,7 @@ const AdminNavbar = () => {
   function signOut() {
     changeEmail('');
     changeAuth(false);
+    window.localStorage.removeItem('email')
     Router.reload()                               
   }
 

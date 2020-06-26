@@ -47,7 +47,13 @@ const MDUModal = ({isOpen, toggle, data}) => {
               <div className="modal-body">
                 <div  ref={componentRef}>
                 <Table className="align-items-center table-flush">
+                   <div className ="custom-width">
                         <tbody>
+                            <tr>
+                                <td scope="col">Tanggal Pengajuan</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.submit_date).toLocaleDateString() + ' ' + new Date(data.submit_date).toLocaleTimeString()}</td>
+                            </tr>
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
@@ -94,6 +100,7 @@ const MDUModal = ({isOpen, toggle, data}) => {
                                 <td scope="col">{data.file}</td>
                             </tr>
                         </tbody>
+                    </div>
                 </Table>
                 </div>
               </div>
@@ -101,8 +108,8 @@ const MDUModal = ({isOpen, toggle, data}) => {
               <ReactToPrint trigger={() => <Button color="link" type="button"> Print </Button>} 
                content={() => componentRef.current} />
                 <Button
-                  className="close"
-                  color="primary"
+                  className="danger"
+                  color="danger"
                   data-dismiss="modal"
                   type="button"
                   onClick={toggle}

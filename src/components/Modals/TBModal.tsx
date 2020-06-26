@@ -38,9 +38,12 @@ function insertData() {
     .then((res) => res.json())
     .then((data) => {
         console.log(data);
+        window.alert("Berhasil input barang");
+        toggle();
     })
     .catch((e) => {
-        window.alert(e);
+        window.alert("Gagal input barang");
+        toggle();
     });
 }
     return (

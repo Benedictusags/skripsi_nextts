@@ -16,12 +16,17 @@ import {
   Col
 } from "reactstrap";
 
+import CurrencyFormat from 'react-currency-format';
 
 const FormModal = ({isOpen, toggle, id}) => {
 
+  const CurrencyFormat = require('react-currency-format');
   const [komenp, setKomenp] = useState('');
     
   function approveData() {
+    
+    if(!komenp) {window.alert("Persetujuan anggaran wajib diisi"); return;}
+    
     fetch('http://localhost:3001/feedbackPusat', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({
@@ -38,7 +43,6 @@ const FormModal = ({isOpen, toggle, id}) => {
       .then((res) => res.json())
       .then((data) => {
       console.log(data);
-      if(!komenp) {window.alert("Persetujuan anggaran wajib diisi"); return;}
       window.alert("Berhasil Approve Proposal");
       toggle();
       })
@@ -75,12 +79,14 @@ const FormModal = ({isOpen, toggle, id}) => {
               </h6>
               <div className="form-group"> 
               <label htmlFor="inputAddress" className="form-control-label">Anggaran Yang Disetujui</label>
-              <Input  
+              <CurrencyFormat  
                 className="form-control form-control-alternative" 
                 id="nama_acara"
                 placeholder="Rp. XXXXX" 
                 type="text" 
                 onChange={(e) => setKomenp(e.target.value)}
+                thousandSeparator={true} 
+                prefix={'Rp. '}
               />
               </div>
               <br></br>

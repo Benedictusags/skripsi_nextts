@@ -23,6 +23,9 @@ const FormModal = ({isOpen, toggle, id}) => {
   const [komenf, setKomenf] = useState('');
 
   function rejectData() {
+    
+    if(!komenf) {window.alert("Persetujuan anggaran wajib diisi"); return;}
+    
     fetch('http://localhost:3001/feedbackFakultas', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({

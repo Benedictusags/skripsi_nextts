@@ -18,33 +18,14 @@ import {
   Col
 } from "reactstrap";
 
-function approveData() {
-  fetch('http://localhost:3001/feedbackPeminjamanBarang', {
-    method: 'POST', // GET / POST DARI POSTMAN 
-    body: JSON.stringify({
-        id: 2, 
-        status:  "Approved",
-        komen: "",
-    }),
-     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    }
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((e) => {
-        window.alert(e);
-    });
-}
-
 import MRBau from '~/src/components/Modals/MRBau';
+import MABau from '~/src/components/Modals/MABau';
 
 const MDBModal = ({isOpen, toggle, data}) => {
 
   const [showMRBau, setShowMRBau] = useState(false);
+  const [showMABau, setShowMABau] = useState(false);
+
     return (
         <Modal
               className="modal-dialog-centered"
@@ -68,10 +49,10 @@ const MDBModal = ({isOpen, toggle, data}) => {
               <div className="modal-body">
                 <Table className="align-items-center table-flush">
                         <tbody>
-                          <tr>
-                                <td scope="col">Nama Organisasi</td>
+                        <tr>
+                                <td scope="col">Tanggal Pengajuan</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.user}</td>
+                                <td scope="col">{new Date(data.submit_date).toLocaleDateString() + ' ' + new Date(data.submit_date).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Nama Acara</td>
@@ -79,28 +60,33 @@ const MDBModal = ({isOpen, toggle, data}) => {
                                 <td scope="col">{data.acara}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Tanggal Mulai</td>
+                                <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_mulai}</td>
+                                <td scope="col">{new Date(data.tanggal_mulai).toLocaleDateString() + ' ' + new Date(data.tanggal_mulai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Tanggal Selesai</td>
+                                <td scope="col">Selesai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_selesai}</td>
+                                <td scope="col">{new Date(data.tanggal_selesai).toLocaleDateString() + ' ' + new Date(data.tanggal_selesai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Nama Barang </td>
+                                <td scope="col">Nama Barang</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.nama_barang}</td>
                                 <td scope="col">{data.QTY}</td>
                             </tr>
-                            <tr>
+                             <tr>
                                 <td scope="col">Status</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.status}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Komentar</td>
+                                <td scope="col">Tanggal Status</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.status_date).toLocaleDateString() + ' ' + new Date(data.status_date).toLocaleTimeString()}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Komen</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.komen}</td>
                             </tr>
@@ -108,12 +94,25 @@ const MDBModal = ({isOpen, toggle, data}) => {
                 </Table>
               </div>
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData}>Approve</button>
-                <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRBau(true)} >Reject</button>
+              {
+                data.status === 'Pending' ?    
+                (<> 
+                    <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMABau(true)}>Approve</button>
+                    <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRBau(true)} >Reject</button>
+                </>) : null 
+
+              }
 
               <MRBau
                 isOpen={showMRBau}
                 toggle={() => setShowMRBau(!showMRBau)}
+                id={data.id}
+              />
+
+              <MABau
+                isOpen={showMABau}
+                toggle={() => setShowMABau(!showMABau)}
+                id={data.id}
               />
               </div>
             </Modal>

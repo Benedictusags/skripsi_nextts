@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // reactstrap components
 import {
   Button,
@@ -16,13 +16,18 @@ import {
   Col
 } from "reactstrap";
 
-function rejectData() {
+const FormModal = ({isOpen, toggle, id}) => {
+  
+  const [komenf, setKomenf] = useState('');
+  
+  function rejectData() {
     fetch('http://localhost:3001/feedbackPeminjamanBarang', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({
-          id: 2, 
+          id: id, 
           status: "Rejected",
-          komen: "Mau dipake univ",
+          komen: komenf,
+          status_date: new Date(),
       }),
        headers: {
           'Accept': 'application/json',
@@ -32,14 +37,16 @@ function rejectData() {
       .then((res) => res.json())
       .then((data) => {
           console.log(data);
+          window.alert("Berhasil Reject");
+          toggle();
       })
       .catch((e) => {
-          window.alert(e);
+          window.alert("Gagal Reject");
+          toggle();
       });
   }
-
-const FormModal = ({isOpen, toggle}) => {
-    return (
+  
+  return (
         <Modal
               className="modal-dialog-centered"
               isOpen={isOpen}
@@ -70,15 +77,16 @@ const FormModal = ({isOpen, toggle}) => {
                 className="form-control form-control-alternative" 
                 id="nama_acara"
                 placeholder="Karena...." 
-                type="text" 
+                type="text"
+                onChange={(e) => setKomenf(e.target.value)}  
               />
               </div>
               <br></br>
+              </form>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary btn-sm float-right" onClick={rejectData} >Submit</button>
-                <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
+                <button type="submit" className="btn btn-secondary btn-sm float-right" onClick={toggle} >Cancel</button>
               </div>
-              </form>
               </div>
             </Modal>
           

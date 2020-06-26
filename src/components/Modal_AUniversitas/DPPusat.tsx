@@ -20,7 +20,7 @@ import {
 
 
 import MRPusat from '~/src/components/Modal_AUniversitas/MRPusat';
-import MAPusat from '~/src/components/Modal_Auniversitas/MAPusat'; 
+import MAPusat from '~/src/components/Modal_AUniversitas/MAPusat'; 
 
 
 const MDUModal = ({isOpen, toggle, data}) => {

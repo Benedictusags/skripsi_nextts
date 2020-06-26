@@ -55,6 +55,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', user: '', aprf: '', aprf_date: '', komenf: '', anggaran: '', file: '',submit_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
+    const [getid, setGetID] = useState({});
     
 
     useEffect(() => {
@@ -73,6 +74,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     console.log(value)
                     if (value.user === userEmail) {
                     newDatas.push({
+                        id: value.id,
                         judul_acara: value.judul_acara,
                         tanggal_mulai: value.tanggal_mulai,
                         tanggal_selesai: value.tanggal_selesai,
@@ -99,6 +101,11 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setDetailsData(data);
     }
 
+    function togetid(data) {
+        setShowMUL(true);
+        setGetID(data);
+    }
+
 
     const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, submit_date, aprf_date, setShowFM, setShowMDU, setShowMUL }) => {
 
@@ -107,13 +114,12 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 <td>{judul_acara}</td>
                 <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} 
                 - {new Date(tanggal_selesai).toLocaleDateString()+ ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
-                <td>{aprf},{new Date(aprf_date).toLocaleDateString()+ ' ' + new Date(aprf_date).toLocaleTimeString()}</td>
-                <td>{new Date(submit_date).toLocaleDateString()+ ' '+ new Date(submit_date).toLocaleTimeString()}</td>
+                <td>{aprf},{new Date(aprf_date).toLocaleDateString() + ' ' + new Date(aprf_date).toLocaleTimeString()}</td>
+                <td>{new Date(submit_date).toLocaleDateString()+ ' ' + new Date(submit_date).toLocaleTimeString()}</td>
                 <td className="text-right">
                     <UncontrolledDropdown>
                         <DropdownToggle
                             className="btn-icon-only text-light"
-                            href="#pablo"
                             role="button"
                             size="sm"
                             color=""
@@ -226,7 +232,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 <tbody>
                                     {
                                         daftar ?
-                                            getItems(daftar, text, ['judul_acara'], currPage, sortPath, flag).map((data) => {
+                                            getItems(daftar, text, ['judul_acara', 'aprf'], currPage, sortPath, flag).map((data) => {
                                 
                                                 return (
                                                     <TableRow 
@@ -238,7 +244,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                                     aprf_date={data.aprf_date}                 
                                                     setShowFM={setShowFM} 
                                                     setShowMDU={() => openDetailsModal(data)}
-                                                    setShowMUL={setShowMUL} />
+                                                    setShowMUL={() => togetid(data)} />
                                                 );
                                             }) : null
                                     }
@@ -294,6 +300,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             <MULModal
                 isOpen={showMUL}
                 toggle={() => setShowMUL(!showMUL)}
+                data={getid}
             />                                
         </div>
 

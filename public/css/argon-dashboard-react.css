@@ -87,6 +87,10 @@ hr {
   box-sizing: content-box;
   height: 0;
   overflow: visible; }
+  
+.custom-width {
+      Max-width : 500px;
+}
 
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
@@ -8864,7 +8868,7 @@ button.bg-lighter:focus {
   background: linear-gradient(87deg, #2dce89 0, #2dcecc 100%) !important; }
 
 .bg-gradient-info {
-  background: linear-gradient(87deg, #fcf4f2 0, #f7e5e1 100%) !important; }
+  background: linear-gradient(87deg, #8965e0 0, #bc65e0 100%) !important; }
 
 .bg-gradient-warning {
   background: linear-gradient(87deg, #fb6340 0, #fbb140 100%) !important; }
@@ -12216,7 +12220,7 @@ textarea[resize="horizontal"] {
 .table th {
   font-weight: 600; }
 
-.table td .progress {
+.table td .progress {	
   height: 3px;
   width: 120px;
   margin: 0; }
@@ -12224,6 +12228,7 @@ textarea[resize="horizontal"] {
 .table td,
 .table th {
   font-size: 0.8125rem;
+  Max-width : 500px;
   white-space: nowrap; }
 
 .table.align-items-center td,

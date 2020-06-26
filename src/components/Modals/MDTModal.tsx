@@ -18,33 +18,15 @@ import {
   Col
 } from "reactstrap";
 
-function approveData() {
-  fetch('http://localhost:3001/feedbackPeminjamanTempat', {
-    method: 'POST', // GET / POST DARI POSTMAN 
-    body: JSON.stringify({
-        id: 2, 
-        status:  "Approved",
-        komen: "",
-    }),
-     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    }
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((e) => {
-        window.alert(e);
-    });
-}
 
 import MRUpt from '~/src/components/Modals/MRUpt';
+import MAUpt from '~/src/components/Modals/MAUpt';
 
 const MDTModal = ({isOpen, toggle, data}) => {
 
   const [showMRUpt, setShowMRUpt] = useState(false);
+  const [showMAUpt, setShowMAUpt] = useState(false);
+
     return (
         <Modal
               className="modal-dialog-centered"
@@ -68,6 +50,11 @@ const MDTModal = ({isOpen, toggle, data}) => {
               <div className="modal-body">
                 <Table className="align-items-center table-flush">
                         <tbody>
+                        <tr>
+                                <td scope="col">Tanggal Pengajuan</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.submit_date).toLocaleDateString() + ' ' + new Date(data.submit_date).toLocaleTimeString()}</td>
+                            </tr>
                             <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
@@ -76,25 +63,30 @@ const MDTModal = ({isOpen, toggle, data}) => {
                             <tr>
                                 <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_mulai}</td>
+                                <td scope="col">{new Date(data.tanggal_mulai).toLocaleDateString() + ' ' + new Date(data.tanggal_mulai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Selesai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_selesai}</td>
+                                <td scope="col">{new Date(data.tanggal_selesai).toLocaleDateString() + ' ' + new Date(data.tanggal_selesai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Tempat</td>
+                                <td scope="col">Nama Tempat</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.nama_tempat}</td>
                             </tr>
-                            <tr>
+                             <tr>
                                 <td scope="col">Status</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.status}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Komentar</td>
+                                <td scope="col">Tanggal Status</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.status_date).toLocaleDateString() + ' ' + new Date(data.status_date).toLocaleTimeString()}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Komen</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.komen}</td>
                             </tr>
@@ -102,12 +94,23 @@ const MDTModal = ({isOpen, toggle, data}) => {
                 </Table>
               </div>
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Approve</button>
+              {
+                data.status === 'Pending' ?    
+                (<> 
+                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMAUpt(true)} >Approve</button>
                 <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRUpt(true)} >Reject</button>
-
+                </>) : null
+              }    
               <MRUpt
                 isOpen={showMRUpt}
                 toggle={() => setShowMRUpt(!showMRUpt)}
+                id={data.id}
+              />
+
+              <MAUpt
+                isOpen={showMAUpt}
+                toggle={() => setShowMAUpt(!showMRUpt)}
+                id={data.id}
               />
               </div>
             </Modal>

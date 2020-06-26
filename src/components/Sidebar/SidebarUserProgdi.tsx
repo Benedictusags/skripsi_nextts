@@ -45,7 +45,7 @@ var routes = [
     {
       path: "/dashboard/table",
       name: "Proposal",
-      icon: "fa fa-envelope-square text-red",
+      icon: "fa fa-file-text text-red",
       layout: "/userprogdi"
     },
     {

@@ -31,6 +31,11 @@ const FPBModal = ({isOpen, toggle}) => {
   const [namabarang, setNamaBarang] = useState('');
 
   function insertData() {
+    
+    if(!tanggalMulai) {window.alert("Tanggal mulai wajib diisi"); return;}
+    if(!tanggalSelesai) {window.alert("Tanggal selesai wajib diisi"); return;}
+    if(!QTY) {window.alert("Qty wajib diisi"); return;}
+    
     fetch('http://localhost:3001/addPeminjamanBarang', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({ 
@@ -43,7 +48,7 @@ const FPBModal = ({isOpen, toggle}) => {
           status: "Pending",
           komen: "",
           submit_date: new Date(),
-          status_date : "",
+          status_date : new Date(),
       }),
        headers: {
           'Accept': 'application/json',
@@ -53,11 +58,6 @@ const FPBModal = ({isOpen, toggle}) => {
       .then((res) => res.json())
       .then((data) => {
       console.log(data);
-        if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
-        if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
-        if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
-        if(!namabarang) {window.alert("File wajib diisi"); return;}
-        if(!QTY) {window.alert("File wajib diisi"); return;}
       window.alert("Berhasil input peminjaman barang");
       toggle();
       })

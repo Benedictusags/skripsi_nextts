@@ -60,12 +60,6 @@ import { useRouter } from 'next/router';
       icon: "fa fa-envelope-square text-red",
       layout: "/upt"
     },
-    {
-      path: "/dashboard/modal_tempat",
-      name: "Modals",
-      icon: "ni ni-bullet-list-67 text-blue",
-      layout: "/upt"
-    },
 
   ];
 

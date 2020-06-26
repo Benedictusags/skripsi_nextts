@@ -31,6 +31,12 @@ const FPTModal = ({isOpen, toggle}) => {
 
 
   function insertData() {
+    
+    if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
+    if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
+    if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
+    if(!namatempat) {window.alert("File wajib diisi"); return;}
+    
     fetch('http://localhost:3001/addPeminjamanTempat', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({ 
@@ -42,7 +48,7 @@ const FPTModal = ({isOpen, toggle}) => {
           status: "Pending",
           komen: "",
           submit_date: new Date(),
-          status_date : "",
+          status_date : new Date(),
       }),
        headers: {
           'Accept': 'application/json',
@@ -52,10 +58,6 @@ const FPTModal = ({isOpen, toggle}) => {
       .then((res) => res.json())
       .then((data) => {
           console.log(data);
-          if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
-          if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
-          if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
-          if(!namatempat) {window.alert("File wajib diisi"); return;}
           window.alert("Berhasil input peminjaman tempat");
           toggle();
           })

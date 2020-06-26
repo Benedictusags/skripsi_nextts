@@ -48,16 +48,18 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
           .then((data) => {
               console.log(data);
               if  (data.values.length){
+                  window.localStorage.setItem('email', email);
                   changeEmail(email)
                   changeAuth(true);
                   Router.push('/useruniversitas/dashboard')
-              }
+              }else window.alert("User atau password salah");
           })
           .catch((e) => {
               window.alert(e);
           });
 
   }
+
 
 
     function check() {

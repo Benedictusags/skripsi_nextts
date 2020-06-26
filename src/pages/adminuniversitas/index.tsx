@@ -33,6 +33,9 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
     const {changeEmail, changeAuth} = useContext(AuthContext);
 
     function signIn() {
+
+        if (email === 'admin_universitas') {
+
         fetch('http://localhost:3001/login', {
           method: 'POST', // GET / POST DARI POSTMAN 
           body: JSON.stringify({ 
@@ -48,15 +51,16 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
           .then((data) => {
               console.log(data);
               if  (data.values.length){
+                  window.localStorage.setItem('email', email);
                   changeEmail(email)
                   changeAuth(true);
                   Router.push('/adminuniversitas/dashboard')
-              }
+              }else window.alert("User atau password salah");
           })
           .catch((e) => {
               window.alert(e);
           });
-
+        } else window.alert("User tidak terdaftar");
   }
 
     function check() {

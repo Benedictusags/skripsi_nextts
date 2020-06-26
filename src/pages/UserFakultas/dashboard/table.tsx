@@ -238,7 +238,7 @@ const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, aprp, sub
                                 <tbody>
                                     {
                                         daftar ?
-                                            getItems(daftar, text, ['judul_acara'], currPage, sortPath, flag).map((data) => {
+                                            getItems(daftar, text, ['judul_acara', 'aprp'], currPage, sortPath, flag).map((data) => {
                                                 return (
                                                     <TableRow 
                                                     judul_acara={data.judul_acara}

@@ -67,22 +67,28 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 values.forEach(value => {
                     console.log(value)
                     if(value.aprf === 'Pending'){
-                    newDatas.push({
-                      id: value.ID,
-                      judul_acara: value.judul_acara,
-                      tanggal_mulai: value.tanggal_mulai,
-                      tanggal_selesai: value.tanggal_selesai,
-                      tempat: value.tempat,
-                      anggaran: value.anggaran,
-                      file: value.file,
-                      user: value.user,
-                      aprf: value.aprf,
-                      komenf: value.komenf,
-                      Lpj: value.Lpj, 
-                      submit_date: value.submit_date,
-                      aprf_date: value.aprf_date,
-                      lpj_date: value.lpj_date,
-                    });
+                        if (
+                            (userEmail === 'admin_progdi.ti' && value.user === "hmti") ||
+                            (userEmail === 'admin_progdi.si' && value.user === "hmpssi")
+                            ) {
+                            newDatas.push({
+                                id: value.ID,
+                                judul_acara: value.judul_acara,
+                                tanggal_mulai: value.tanggal_mulai,
+                                tanggal_selesai: value.tanggal_selesai,
+                                tempat: value.tempat,
+                                anggaran: value.anggaran,
+                                file: value.file,
+                                user: value.user,
+                                aprf: value.aprf,
+                                komenf: value.komenf,
+                                Lpj: value.Lpj, 
+                                submit_date: value.submit_date,
+                                aprf_date: value.aprf_date,
+                                lpj_date: value.lpj_date,
+                              });
+                        }
+                        
                     }
                 });
                 setDaftar(newDatas);
@@ -103,8 +109,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             <tr>
                 <td>{user}</td>
                 <td>{judul_acara}</td>
-                <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
-                {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
+                <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
                 <td>{aprf}</td>
                 <td>{new Date(submit_date).toLocaleDateString() + ' ' + new Date(submit_date).toLocaleTimeString()}</td>
                 <td className="text-right">
@@ -218,7 +223,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 <tbody>
                                     {
                                         daftar ?
-                                            getItems(daftar, text, ['user'], currPage, sortPath, flag).map((data) => {
+                                            getItems(daftar, text, ['user', 'judul_acara'], currPage, sortPath, flag).map((data) => {
                                                 return (
                                                     <TableRow
                                                         user={data.user}

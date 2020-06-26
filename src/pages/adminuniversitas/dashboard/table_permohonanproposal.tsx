@@ -65,7 +65,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 let newDatas = [];
                 values.forEach(value => {
                     console.log(value)
-                    if(value.aprf !== 'Approved'){
+                    if(
+                        (value.user === 'bem_ikom' && value.aprf === 'Approved') ||
+                        (value.user === 'bem_universitas') || (value.user === 'senat_universitas'))
+                        {
                     newDatas.push({                   
                       id: value.ID,
                       judul_acara: value.judul_acara,
@@ -205,7 +208,7 @@ const TableRow = ({  user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, su
                                 <tbody>
                                     {
                                         daftar ?
-                                            getItems(daftar, text, ['user'], currPage, sortPath, flag).map((data) => {
+                                            getItems(daftar, text, ['user', 'judul_acara'], currPage, sortPath, flag).map((data) => {
                                                 return (
                                                     <TableRow
                                                     user={data.user}

@@ -116,24 +116,33 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                                href="#pablo"
-                                onClick={() => setShowMDPT(true)}
-                            >
-                                Detail
-                                                                </DropdownItem>
-                            <DropdownItem
+                        <DropdownItem
+                            onClick={() => setShowMDPT(true)}
+                        >
+                            Detail
+                                </DropdownItem>
+                        {
+                            status === 'Approved' ?
+                            (
+                                <DropdownItem
                                 href="#pablo"
                                 onClick={e => e.preventDefault()}
                             >
                                 Print
-                                                                </DropdownItem>
-                            <DropdownItem
+                                </DropdownItem>
+                            ):null
+                        }
+                        {
+                            status !== 'Approved' ?
+                            (
+                                <DropdownItem
                                 href="#pablo"
                                 onClick={e => e.preventDefault()}
                             >
                                 Delete
-                                                                </DropdownItem>
+                                </DropdownItem>
+                            ):null
+                        }
                         </DropdownMenu>
                     </UncontrolledDropdown>
                 </td>

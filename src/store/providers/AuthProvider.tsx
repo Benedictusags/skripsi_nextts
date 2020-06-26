@@ -26,6 +26,14 @@ export default ({ children }: Props) => {
         setAdmin(newAdmin);
     }
 
+    useEffect(() => {
+        const localEmail = window.localStorage.getItem('email');
+        setEmail(localEmail);
+        setAuth(true);
+
+        
+    }, []);
+
     // useEffect(() => {
     //     const unsubscribeAuthListener = firebaseApp.auth().onAuthStateChanged((user) => {
     //         if (user) {

@@ -89,7 +89,7 @@ const MDUModal = ({isOpen, toggle, data}) => {
                             <tr>
                                 <td scope="col">Tanggal Approval</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{new Date(data.aprf_date).toLocaleDateString() + ' ' + new Date(data.aprf_date).toLocaleTimeString()}</td>
+                                <td scope="col">{isNaN(new Date(data.aprf_date).getDate()) ? new Date(data.aprf_date).toLocaleDateString() : '' + ' ' + new Date(data.aprf_date).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Anggaran yang disetujui/Komentar</td>

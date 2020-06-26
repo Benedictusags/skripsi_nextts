@@ -31,6 +31,10 @@ const FPTModal = ({isOpen, toggle}) => {
 
 
   function insertData() {
+    
+    if(!tanggalMulai) {window.alert("Tanggal mulai wajib diisi"); return;}
+    if(!tanggalSelesai) {window.alert("Tanggal selesai wajib diisi"); return;}
+    
     fetch('http://localhost:3001/addPeminjamanTempat', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({ 
@@ -42,7 +46,7 @@ const FPTModal = ({isOpen, toggle}) => {
           status: "Pending",
           komen: "",
           submit_date: new Date(),
-          status_date : "",
+          status_date : new Date(),
       }),
        headers: {
           'Accept': 'application/json',
@@ -51,16 +55,13 @@ const FPTModal = ({isOpen, toggle}) => {
       })
       .then((res) => res.json())
       .then((data) => {
-          console.log(data);
-      if(!namaacara) {window.alert("Judul acara wajib diisi"); return;}
-      if(!tanggalMulai) {window.alert("Tempat wajib diisi"); return;}
-      if(!tanggalSelesai) {window.alert("Anggaran wajib diisi"); return;}
-      if(!namatempat) {window.alert("File wajib diisi"); return;}
+      console.log(data);
       window.alert("Berhasil input peminjaman tempat");
       toggle();
       })
       .catch((e) => {
-          window.alert("Gagal input peminjaman tempat");
+      window.alert("Gagal input peminjaman tempat");
+      toggle();    
       });
   }
 
@@ -216,7 +217,7 @@ const FPTModal = ({isOpen, toggle}) => {
               </form>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary btn-sm float-right"  onClick={insertData} >Submit</button>
-                <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
+                <button type="submit" className="btn btn-secondary btn-sm float-right" aria-hidden={true}>Cancel</button>
               </div>
               </div>
             </Modal>

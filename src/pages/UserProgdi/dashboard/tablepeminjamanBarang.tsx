@@ -121,24 +121,33 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, submit_date, 
                         <i className="fas fa-ellipsis-v" />
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-arrow" right>
-                        <DropdownItem
-                            href="#pablo"
+                    <DropdownItem
                             onClick={() => setShowMDPB(true)}
                         >
                             Detail
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Print
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
-                                                            </DropdownItem>
+                                </DropdownItem>
+                        {
+                            status === 'Approved' ?
+                            (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Print
+                                </DropdownItem>
+                            ):null
+                        }
+                        {
+                            status !== 'Approved' ?
+                            (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Delete
+                                </DropdownItem>
+                            ):null
+                        }
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </td>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 import ReactPaginate from 'react-paginate';
@@ -35,11 +35,13 @@ import {
 
 import _ from 'lodash';
 import DPFakultas from '~/src/components/Modal_AFakultas/DPFakultas';
+import { AuthContext } from '~/src/store/context';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 
 const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
+    const {userEmail} = useContext(AuthContext);
     const [showDPFakultas, setShowDPFakultas] = useState(false);
     const [text, setText] = useState('');
     const [currPage, setCurrPage] = useState(0);
@@ -66,6 +68,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 values.forEach(value => {
                     console.log(value)
                     if(value.aprf !== 'Approved'){
+                        if (
+                            (userEmail === 'admin_ikom' && value.user === "bem_ikom" || value.user === "senat_ikom") ||
+                            (userEmail === 'admin_fad' && value.user === "bem_fad")
+                            ) {
                     newDatas.push({                   
                       id: value.ID,
                       judul_acara: value.judul_acara,
@@ -81,7 +87,8 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                       submit_date: value.submit_date,
                       aprf_date: value.aprf_date,
                       lpj_date: value.lpj_date,
-                    });
+                        });
+                    }
                 }
                 });
                 setDaftar(newDatas);
@@ -204,7 +211,7 @@ const TableRow = ({  user, judul_acara, tanggal_mulai, tanggal_selesai, aprf, su
                                 <tbody>
                                     {
                                         daftar ?
-                                            getItems(daftar, text, ['user'], currPage, sortPath, flag).map((data) => {
+                                            getItems(daftar, text, ['user', 'judul_acara'], currPage, sortPath, flag).map((data) => {
                                                 return (
                                                     <TableRow
                                                     user={data.user}

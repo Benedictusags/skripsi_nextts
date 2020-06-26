@@ -18,19 +18,16 @@ import {
 
 const FormModal = ({isOpen, toggle, id}) => {
   
-  const [komenp, setKomenp] = useState('');
-    
+  const [komenf, setKomenf] = useState('');
+  
   function rejectData() {
-    
-    if(!komenp) {window.alert("Persetujuan anggaran wajib diisi"); return;}
-
-    fetch('http://localhost:3001/feedbackPusat', {
+    fetch('http://localhost:3001/feedbackPeminjamanBarang', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({
           id: id, 
-          aprp:  "Approved",
-          komenp: komenp,
-          aprp_date: new Date(),
+          status: "Approved",
+          komen: "",
+          status_date: new Date(),
       }),
        headers: {
           'Accept': 'application/json',
@@ -39,17 +36,17 @@ const FormModal = ({isOpen, toggle, id}) => {
       })
       .then((res) => res.json())
       .then((data) => {
-      console.log(data);
-      window.alert("Berhasil Approve Proposal");
-      toggle();
+          console.log(data);
+          window.alert("Berhasil Approve");
+          toggle();
       })
       .catch((e) => {
-      window.alert("Gagal Approve Proposal");
-      toggle();
+          window.alert("Gagal Approve");
+          toggle();
       });
   }
-
-    return (
+  
+  return (
         <Modal
               className="modal-dialog-centered"
               isOpen={isOpen}
@@ -75,20 +72,13 @@ const FormModal = ({isOpen, toggle, id}) => {
                     Penolakan Proposal
               </h6>
               <div className="form-group"> 
-              <label htmlFor="inputAddress" className="form-control-label">Alasan Tidak Diestujui</label>
-              <Input  
-                className="form-control form-control-alternative" 
-                id="nama_acara"
-                placeholder="Karena...." 
-                type="text" 
-                onChange={(e) => setKomenp(e.target.value)}
-              />
+              <label htmlFor="inputAddress" className="form-control-label">Yakin untuk disetujui?</label>
               </div>
               <br></br>
               </form>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary btn-sm float-right" onClick={rejectData} >Submit</button>
-                <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
+                <button type="submit" className="btn btn-secondary btn-sm float-right" onClick={toggle} >Cancel</button>
               </div>
               </div>
             </Modal>

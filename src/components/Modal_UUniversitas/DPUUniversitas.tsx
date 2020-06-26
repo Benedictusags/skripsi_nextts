@@ -116,8 +116,8 @@ const MDUModal = ({isOpen, toggle, data}) => {
               <ReactToPrint trigger={() => <Button color="link" type="button"> Print </Button>} 
                content={() => componentRef.current} />
                 <Button
-                  className="close"
-                  color="primary"
+                  className="danger"
+                  color="danger"
                   data-dismiss="modal"
                   type="button"
                   onClick={toggle}

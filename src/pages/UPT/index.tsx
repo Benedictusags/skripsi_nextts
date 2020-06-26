@@ -34,17 +34,36 @@ const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
 
     function signIn() {
 
-        if (email === 'upt' && pass ==='12345678'){
-            changeEmail(email)
-            changeAuth(true);
-            Router.push('/upt/dashboard')
+        if (email === 'unit_peminjaman_tempat') {
 
-        }
-    }
+            fetch('http://localhost:3001/login', {
+                method: 'POST', // GET / POST DARI POSTMAN 
+                body: JSON.stringify({ 
+                    user: email,
+                    pass: pass,
+                }),
+                 headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    if  (data.values.length){
+                        window.localStorage.setItem('email', email);
+                        changeEmail(email)
+                        changeAuth(true);
+                        Router.push('/upt/dashboard')
+                    }else window.alert("User atau password salah");
+                })
+                .catch((e) => {
+                    window.alert(e);
+                });
 
-    function check() {
-        console.log(firebaseApp.auth().currentUser.email)
-    }
+        }else window.alert("User tidak terdaftar");
+  }
+
 
 
     return (

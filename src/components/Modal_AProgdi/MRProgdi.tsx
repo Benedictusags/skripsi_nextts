@@ -21,6 +21,9 @@ const FormModal = ({isOpen, toggle, id}) => {
   const [komenf, setKomenf] = useState('');
 
   function rejectData() {
+    
+    if(!komenf) {window.alert("Komentar wajib diisi"); return;}
+    
     fetch('http://localhost:3001/feedbackProgdi', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({
@@ -37,7 +40,6 @@ const FormModal = ({isOpen, toggle, id}) => {
       .then((res) => res.json())
       .then((data) => {
       console.log(data);
-        if(!komenf) {window.alert("Komentar wajib diisi"); return;}
         window.alert("Berhasil Reject Proposal");
         toggle();
       })

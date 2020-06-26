@@ -29,36 +29,43 @@ import { AuthContext } from '~/src/store/context';
 const AdminLoginPage: NextPage<{ userAgent: string }> = () => {
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [pass, setPassword] = useState('');
     const {changeEmail, changeAuth} = useContext(AuthContext);
 
 
     function signIn() {
-          fetch('http://localhost:3001/login', {
-            method: 'POST', // GET / POST DARI POSTMAN 
-            body: JSON.stringify({ 
-                user: email,
-                pass: password,
-            }),
-             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }
-            })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                if  (data.values.length){
-                    changeEmail(email)
-                    changeAuth(true);
-                    Router.push('/userprogdi/dashboard')
-                }
-            })
-            .catch((e) => {
-                window.alert(e);
-            });
+        
+        if (
+            (email === 'hmpssi') || (email === 'hmti') 
+            ) {
+        
+        fetch('http://localhost:3001/login', {
+          method: 'POST', // GET / POST DARI POSTMAN 
+          body: JSON.stringify({ 
+              user: email,
+              pass: pass,
+          }),
+           headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+          }
+          })
+          .then((res) => res.json())
+          .then((data) => {
+              console.log(data);
+              if  (data.values.length){
+                  window.localStorage.setItem('email', email);
+                  changeEmail(email)
+                  changeAuth(true);
+                  Router.push('/userprogdi/dashboard')
+              }else window.alert("User atau password salah");
+          })
+          .catch((e) => {
+              window.alert(e);
+          });
+        }else window.alert("User tidak terdaftar");      
+  }
 
-    }
 
 
     function check() {

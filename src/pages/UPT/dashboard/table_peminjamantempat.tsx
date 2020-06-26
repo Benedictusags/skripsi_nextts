@@ -47,7 +47,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ user: '', acara:'', tanggal_mulai: '', tanggal_selesai: '', nama_tempat: '', status: '', komen: '' }]);
+    const [daftar, setDaftar] = useState([{user:'',  acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_tempat: '', status: '', komen: '', submit_date: '', status_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
 
 
@@ -65,6 +65,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 let newDatas = [];
                 values.forEach(value => {
                     newDatas.push({
+                        id: value.id,
                         user: value.user,
                         acara: value.acara,
                         tanggal_mulai: value.tanggal_mulai,
@@ -72,6 +73,8 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                         nama_tempat: value.nama_tempat,
                         status: value.status,
                         komen: value.komen,
+                        submit_date: value.submit_date,
+                        status_date: value.status_date,
                     });
                 });
                 setDaftar(newDatas);
@@ -91,15 +94,16 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setDetailsData(data);
     }
 
-const TableRow = ({ user, acara, tanggal_mulai, tanggal_selesai, nama_tempat, status , setShowMDTModal }) => {
+const TableRow = ({ user, acara, tanggal_mulai, tanggal_selesai, nama_tempat, status, status_date, submit_date, setShowMDTModal }) => {
 
     return (
         <tr>
             <td>{user}</td>
             <td>{acara}</td>
-            <td>{tanggal_mulai} - {tanggal_selesai}</td>
+            <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()}</td>
             <td>{nama_tempat}</td>
-            <td>{status}</td>
+            <td>{status},{new Date(status_date).toLocaleDateString() + ' ' + new Date(status_date).toLocaleTimeString()}</td>
+            <td>{new Date(submit_date).toLocaleDateString() + ' ' + new Date(submit_date).toLocaleTimeString()}</td>
             <td className="text-right">
                 <UncontrolledDropdown>
                     <DropdownToggle
@@ -113,24 +117,33 @@ const TableRow = ({ user, acara, tanggal_mulai, tanggal_selesai, nama_tempat, st
                         <i className="fas fa-ellipsis-v" />
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-arrow" right>
-                        <DropdownItem
-                            href="#pablo"
+                    <DropdownItem
                             onClick={() => setShowMDTModal(true)}
                         >
-                            Details
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Delete
-                                                            </DropdownItem>
-                        <DropdownItem
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                        >
-                            Print
-                                                            </DropdownItem>
+                            Detail
+                                </DropdownItem>
+                        {
+                            status === 'Approved' ?
+                            (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Print
+                                </DropdownItem>
+                            ):null
+                        }
+                        {
+                            status !== 'Approved' ?
+                            (
+                                <DropdownItem
+                                href="#pablo"
+                                onClick={e => e.preventDefault()}
+                            >
+                                Delete
+                                </DropdownItem>
+                            ):null
+                        }
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </td>
@@ -187,13 +200,14 @@ const TableRow = ({ user, acara, tanggal_mulai, tanggal_selesai, nama_tempat, st
                                         <th scope="col">Tanggal Acara</th>
                                         <th scope="col">Tempat</th>
                                         <th scope="col">Status </th>
+                                        <th scope="col">Tanggal Pengajuan </th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
                                         daftar ?
-                                            getItems(daftar, text, ['user'], currPage, sortPath, flag).map((data) => {
+                                            getItems(daftar, text, ['user', 'acara'], currPage, sortPath, flag).map((data) => {
                                                 return (
                                                     <TableRow 
                                                     user={data.user}
@@ -201,7 +215,9 @@ const TableRow = ({ user, acara, tanggal_mulai, tanggal_selesai, nama_tempat, st
                                                     tanggal_mulai={data.tanggal_mulai}
                                                     tanggal_selesai={data.tanggal_selesai}
                                                     nama_tempat={data.nama_tempat}
-                                                    status={data.status} 
+                                                    status={data.status}
+                                                    status_date={data.status_date}
+                                                    submit_date={data.submit_date} 
                                                     setShowMDTModal={() => openDetailsModal(data)}  />
                                                 );
                                             }) : null

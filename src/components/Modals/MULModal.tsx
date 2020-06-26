@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // reactstrap components
 import {
   Button,
@@ -16,33 +16,46 @@ import {
   Col
 } from "reactstrap";
 
-function updateData() {
-  fetch('http://localhost:3001/updateLPJ', {
-    method: 'POST', // GET / POST DARI POSTMAN 
-    body: JSON.stringify({
-        id: 1, 
-        Lpj: "MANTAP.CO",
-    }),
-     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    }
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((e) => {
-        window.alert(e);
-    });
-}
 
-const FormModal = ({isOpen, toggle}) => {
+
+const FormModal = ({isOpen, toggle, data}) => {
+
+  const [lpj, setLpj] = useState('');
+  
+  function updateData() {
+
+    if(!lpj) {window.alert("Dokumen LPJ kosong"); return;}
+
+    fetch('http://localhost:3001/updateLPJ', {
+      method: 'POST', // GET / POST DARI POSTMAN 
+      body: JSON.stringify({
+          id: data.id, 
+          Lpj: lpj,
+          lpj_date: new Date(),
+      }),
+       headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+          console.log(data);
+          window.alert("Berhasil upload LPJ");
+          toggle();
+      })
+      .catch((e) => {
+          window.alert("Gagal upload LPJ");
+          toggle();
+      });
+  }
+
     return (
         <Modal
               className="modal-dialog-centered"
               isOpen={isOpen}
               toggle={toggle}
+              id={data.id}
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-default">
@@ -68,8 +81,9 @@ const FormModal = ({isOpen, toggle}) => {
               <Input  
                 className="form-control form-control-alternative" 
                 id="nama_acara"
-                placeholder="Rp. XXXXX" 
-                type="file" 
+                placeholder="Upload LPJ"
+                type="file"
+                onChange={(e) => setLpj(e.target.value)} 
               />
               </div>
               <br></br>

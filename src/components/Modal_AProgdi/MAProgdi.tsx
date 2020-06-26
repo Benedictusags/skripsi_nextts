@@ -17,12 +17,17 @@ import {
 } from "reactstrap";
 
 import DatePicker from 'react-datepicker';
+import CurrencyFormat from 'react-currency-format';
 
 const FormModal = ({ isOpen, toggle, id }) => {
 
-  const [anggaran, setAnggaran] = useState(0);
+  const [anggaran, setAnggaran] = useState('');
+  const CurrencyFormat = require('react-currency-format');
 
   function approveData() {
+    
+    if(!anggaran) {window.alert("Persetujuan anggaran wajib diisi"); return;}
+    
     fetch('http://localhost:3001/feedbackProgdi', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({
@@ -39,7 +44,6 @@ const FormModal = ({ isOpen, toggle, id }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if(!anggaran) {window.alert("Persetujuan anggaran wajib diisi"); return;}
         window.alert("Berhasil Approve Proposal");
         toggle();
       })
@@ -81,7 +85,9 @@ const FormModal = ({ isOpen, toggle, id }) => {
               id="nama_acara"
               placeholder="Rp. XXXXX"
               type="number"
-              onChange={(e) => setAnggaran(e.target.valueAsNumber)}
+              onChange={(e) => setAnggaran(e.target.value)}
+              thousandSeparator={true} 
+              prefix={'Rp. '}
             />
           </div>
           <br></br>

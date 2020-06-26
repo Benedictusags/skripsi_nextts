@@ -42,6 +42,11 @@ const MDPTModal = ({isOpen, toggle, data}) => {
                 <Table className="align-items-center table-flush">
                         <tbody>
                             <tr>
+                                <td scope="col">Tanggal Pengajuan</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.submit_date).toLocaleDateString() + ' ' + new Date(data.submit_date).toLocaleTimeString()}</td>
+                            </tr>
+                            <tr>
                                 <td scope="col">Nama Acara</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.acara}</td>
@@ -49,12 +54,12 @@ const MDPTModal = ({isOpen, toggle, data}) => {
                             <tr>
                                 <td scope="col">Mulai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_mulai}</td>
+                                <td scope="col">{new Date(data.tanggal_mulai).toLocaleDateString() + ' ' + new Date(data.tanggal_mulai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
-                                <td scope="col">Selasi</td>
+                                <td scope="col">Selesai</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.tanggal_selesai}</td>
+                                <td scope="col">{new Date(data.tanggal_selesai).toLocaleDateString() + ' ' + new Date(data.tanggal_selesai).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Nama Tempat</td>
@@ -65,6 +70,11 @@ const MDPTModal = ({isOpen, toggle, data}) => {
                                 <td scope="col">Status</td>
                                 <td scope="col">:</td>
                                 <td scope="col">{data.status}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Tanggal Status</td>
+                                <td scope="col">:</td>
+                                <td scope="col">{new Date(data.status_date).toLocaleDateString() + ' ' + new Date(data.status_date).toLocaleTimeString()}</td>
                             </tr>
                             <tr>
                                 <td scope="col">Komen</td>
