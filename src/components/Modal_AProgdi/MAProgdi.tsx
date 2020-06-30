@@ -80,7 +80,7 @@ const FormModal = ({ isOpen, toggle, id }) => {
               </h6>
           <div className="form-group">
             <label htmlFor="inputAddress" className="form-control-label">Anggaran Yang Disetujui</label>
-            <Input
+            <CurrencyFormat
               className="form-control form-control-alternative"
               id="nama_acara"
               placeholder="Rp. XXXXX"
@@ -94,7 +94,7 @@ const FormModal = ({ isOpen, toggle, id }) => {
         </form>
         <div className="modal-footer">
           <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Submit</button>
-          <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
+          <button type="submit" className="btn btn-secondary btn-sm float-right" onClick={toggle} >Cancel</button>
         </div>
       </div>
     </Modal>

@@ -55,7 +55,6 @@ const FormModal = ({isOpen, toggle, data}) => {
               className="modal-dialog-centered"
               isOpen={isOpen}
               toggle={toggle}
-              id={data.id}
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-default">

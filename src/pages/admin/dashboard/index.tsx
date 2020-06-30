@@ -32,7 +32,7 @@ const DashboardPage: NextPage<{ userAgent: string }> = ({ userAgent }) => {
                 <title>Admin</title>
             </Head>
             <>
-                <div className="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
+                <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
                 {/* Page content */}
                 <Container className="mt--7" fluid>
                     <Row>

@@ -4179,7 +4179,7 @@ button.close {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: auto;
   pointer-events: auto;
   background-color: #fff;
   background-clip: padding-box;
@@ -9084,8 +9084,8 @@ button.section-darker:focus {
 .bg-gradient-success {
   background: linear-gradient(87deg, #2dce89 0, #2dcecc 100%) !important; }
 
-.bg-gradient-info {
-  background: linear-gradient(87deg, #fcf4f2 0, #f7e5e1 100%) !important; }
+/* .bg-gradient-info {
+  background: linear-gradient(87deg, #fcf4f2 0, #f7e5e1 100%) !important; } */
 
 .bg-gradient-warning {
   background: linear-gradient(87deg, #fb6340 0, #fbb140 100%) !important; }

@@ -109,7 +109,7 @@ const MDUModal = ({isOpen, toggle, data}) => {
                   Print
                 </Button>
                 {
-                  data.aprf === 'Pending' ?
+                  data.aprp === 'Pending' ?
                   (<> 
                   <button type="submit" className="btn btn-primary btn-sm float-right" onClick={() => setShowMAPusat(true)} >Approve</button> 
                   <button type="submit" className="btn btn-danger btn-sm float-right" onClick={() => setShowMRPusat(true)} >Reject</button> 

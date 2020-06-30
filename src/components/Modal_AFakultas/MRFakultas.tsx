@@ -90,7 +90,7 @@ const FormModal = ({isOpen, toggle, id}) => {
               </form>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary btn-sm float-right" onClick={rejectData} >Submit</button>
-                <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
+                <button type="submit" className="btn btn-secondary btn-sm float-right" onClick={toggle} >Cancel</button>
               </div>
               </div>
             </Modal>
