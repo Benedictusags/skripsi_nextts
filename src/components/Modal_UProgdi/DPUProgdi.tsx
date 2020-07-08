@@ -47,7 +47,6 @@ const MDUModal = ({isOpen, toggle, data}) => {
               <div className="modal-body">
                 <div  ref={componentRef}>
                 <Table className="align-items-center table-flush">
-                   <div className ="custom-width">
                         <tbody>
                             <tr>
                                 <td scope="col">Tanggal Pengajuan</td>
@@ -100,7 +99,6 @@ const MDUModal = ({isOpen, toggle, data}) => {
                                 <td scope="col">{data.file}</td>
                             </tr>
                         </tbody>
-                    </div>
                 </Table>
                 </div>
               </div>

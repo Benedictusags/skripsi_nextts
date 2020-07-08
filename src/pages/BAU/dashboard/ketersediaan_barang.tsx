@@ -48,12 +48,14 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{ nama_barang: '', QTY: '' }]);
     const [tanggalMulai, setTanggalMulai] = useState(new Date());
     const [tanggalSelesai, setTanggalSelesai] = useState(new Date());
 
+
+    const [cekdaftar, setcekDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', user: '', QTY: '', status: '', komen: '', submit_date: '', status_date: '' }]);
+
     useEffect(() => {
-        fetch('http://localhost:3001/getBarang', {
+        fetch('http://localhost:3001/getPeminjamanBarang', {
             method: 'GET', // GET / POST DARI POSTMAN 
             headers: {
                 'Accept': 'application/json',
@@ -65,12 +67,19 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 const values = data.values;
                 let newDatas = [];
                 values.forEach(value => {
+
                     newDatas.push({
-                        barang: value.nama_barang,
+                        id: value.id,
+                        acara: value.acara,
+                        user: value.user,
+                        tanggal_mulai: value.tanggal_mulai,
+                        tanggal_selesai: value.tanggal_selesai,
+                        nama_barang: value.nama_barang,
                         QTY: value.QTY,
+                        status: value.status,
                     });
                 });
-                setDaftar(newDatas);
+                setcekDaftar(newDatas);
             })
             .catch((e) => {
                 window.alert(e);
@@ -82,13 +91,35 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setFlag(!flag);
     }
 
+    function checkAvailability(inDate, outDate) {
+        let isAvailable = true;
+        cekdaftar.forEach((dat) => {
+            console.log(dat)
+            const nIn = new Date(dat.tanggal_mulai).getTime();
+            const nOut = new Date(dat.tanggal_selesai).getTime();
 
-    const TableRow = ({ barang, QTY, status, setShowTBModal }) => {
+            const newInDate = new Date(inDate).getTime();
+            const newOutDate = new Date(outDate).getTime();
+            console.log(nIn, nOut, newInDate, newOutDate);
+            console.log('a')
+
+            if (!((newInDate >= nOut && newOutDate >= nOut) || (newInDate <= nIn && newOutDate <= nIn))) {
+                console.log('b')
+                isAvailable = false;
+            }
+
+        });
+        return isAvailable;
+    }
+
+    const TableRow = ({ nama_barang, QTY, status, user, setShowTBModal }) => {
 
         return (
             <tr>
-                <td>{barang}</td>
+                <td>{nama_barang}</td>
                 <td>{QTY}</td>
+                <td>{user}</td>
+                <td>{!checkAvailability(tanggalMulai, tanggalSelesai) && status === 'Approved' ? "Tidak Tersedia" : " Tersedia"}</td>
                 <td className="text-right">
                     <UncontrolledDropdown>
                         <DropdownToggle
@@ -139,7 +170,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Daftar Barang</h3>
+                                        <h3 className="mb-0">Ketersediaan Barang</h3>
                                     </div>
                                     <div className="col text-right">
                                         <Button
@@ -157,16 +188,38 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 <Row>
                                     <Col lg="3">
                                         <FormGroup>
-                                        <Input
-                                                className="form-control-alternative form-control-sm"
-                                                placeholder="Search"
-                                                type="text"
-                                                value={text}
-                                                onChange={(e) => {
-                                                    setText(e.target.value);
-                                                    setCurrPage(0);
-                                                }}
-                                            />
+                                            <div className="input-group input-group-alternative input-group-sm">
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text"><i className="ni ni-calendar-grid-58"></i></span>
+                                                </div>
+                                                <DatePicker
+                                                    className="flatpickr datetimepicker form-control form-control-sm"
+                                                    selected={tanggalMulai}
+                                                    onChange={date => setTanggalMulai(date)}
+                                                    timeInputLabel="Time:"
+                                                    dateFormat="MM/dd/yyyy h:mm aa"
+                                                    showTimeInput
+                                                    isClearable
+                                                />
+                                            </div>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col lg="3">
+                                        <FormGroup>
+                                            <div className="input-group input-group-alternative input-group-sm">
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text"><i className="ni ni-calendar-grid-58"></i></span>
+                                                </div>
+                                                <DatePicker
+                                                    className="flatpickr datetimepicker form-control form-control-sm"
+                                                    selected={tanggalSelesai}
+                                                    onChange={date => setTanggalSelesai(date)}
+                                                    timeInputLabel="Time:"
+                                                    dateFormat="MM/dd/yyyy h:mm aa"
+                                                    showTimeInput
+                                                    isClearable
+                                                />
+                                            </div>
                                         </FormGroup>
                                     </Col>
                                 </Row>
@@ -176,19 +229,21 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                     <tr>
                                         <th scope="col">Nama Barang</th>
                                         <th scope="col">Jumlah</th>
+                                        <th scope="col">Peminjam</th>
                                         <th scope="col" />
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        daftar ?
-                                            getItems(daftar, text, ['barang', 'QTY'], currPage, sortPath, flag).map((data) => {
+                                        cekdaftar ?
+                                            getItems(cekdaftar, text, ['tanggal_mulai', 'tanggal_selesai'], currPage, sortPath, flag).map((data) => {
 
                                                 return (
                                                     <TableRow
-                                                        barang={data.barang}
+                                                        nama_barang={data.nama_barang}
                                                         QTY={data.QTY}
                                                         status={data.status}
+                                                        user={data.user}
                                                         setShowTBModal={setShowTBModal} />
                                                 );
                                             }) : null
@@ -203,7 +258,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                             breakLabel={'...'}
                                             breakClassName={'break-me'}
-                                            pageCount={filterItem(daftar, text, ['name']).length / 10}
+                                            pageCount={filterItem(cekdaftar, text, ['name']).length / 10}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={3}
 

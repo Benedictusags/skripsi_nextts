@@ -59,44 +59,44 @@ const FormModal = ({ isOpen, toggle, id }) => {
       isOpen={isOpen}
       toggle={toggle}
     >
-      <div className="modal-header">
-        <h6 className="modal-title" id="modal-title-default">
-          Type your modal title
+     <div className="modal-header">
+                <h6 className="modal-title" id="modal-title-default">
+                  Type your modal title
                 </h6>
-        <button
-          aria-label="Close"
-          className="close"
-          data-dismiss="modal"
-          type="button"
-          onClick={toggle}
-        >
-          <span aria-hidden={true}>×</span>
-        </button>
-      </div>
-      <div className="modal-body">
-        <form>
-          <h6 className="heading-small text-muted mb-4">
-            Persetujuan Proposal
+                <button
+                  aria-label="Close"
+                  className="close"
+                  data-dismiss="modal"
+                  type="button"
+                  onClick={toggle}
+                >
+                  <span aria-hidden={true}>×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+              <form>
+              <h6 className="heading-small text-muted mb-4">
+                    Persetujuan Proposal
               </h6>
-          <div className="form-group">
-            <label htmlFor="inputAddress" className="form-control-label">Anggaran Yang Disetujui</label>
-            <CurrencyFormat
-              className="form-control form-control-alternative"
-              id="nama_acara"
-              placeholder="Rp. XXXXX"
-              type="number"
-              onChange={(e) => setAnggaran(e.target.value)}
-              thousandSeparator={true} 
-              prefix={'Rp. '}
-            />
-          </div>
-          <br></br>
-        </form>
-        <div className="modal-footer">
-          <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Submit</button>
-          <button type="submit" className="btn btn-secondary btn-sm float-right" onClick={toggle} >Cancel</button>
-        </div>
-      </div>
+              <div className="form-group"> 
+              <label htmlFor="inputAddress" className="form-control-label">Anggaran Yang Disetujui</label>
+              <CurrencyFormat  
+                className="form-control form-control-alternative" 
+                id="nama_acara"
+                placeholder="Rp. XXXXX" 
+                type="text" 
+                onChange={(e) => setAnggaran(e.target.value)}
+                thousandSeparator={true} 
+                prefix={'Rp. '}
+              />
+              </div>
+              <br></br>
+              </form>
+              <div className="modal-footer">
+                <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Submit</button>
+                <button type="submit" className="btn btn-secondary btn-sm float-right" onClick={toggle} >Cancel</button>
+              </div>
+              </div>
     </Modal>
 
   );

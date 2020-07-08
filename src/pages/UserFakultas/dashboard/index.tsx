@@ -29,12 +29,20 @@ const DashboardPage: NextPage<{ userAgent: string }> = ({ userAgent }) => {
     return (
         <>
             <Head>
-                <title>Admin</title>
+                <title>Organisasi Fakultas</title>
             </Head>
-            <>
-            <i className="ni ni-spaceship" />
-             Selamat Datang di Sisforma                                      
-            </>
+            <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-12 text-center">
+                            <h1 className="text-white pl-3">
+                                <i className="ni ni-spaceship mr-3" />
+                                Selamat Datang di Sisforma  
+                            </h1>  
+                        </div>
+                    </div>
+                </div>
+             </div>
         </>
 
     );

@@ -55,6 +55,12 @@ import { useRouter } from 'next/router';
       layout: "/bau"
     },
     {
+      path: "/dashboard/ketersediaan_barang",
+      name: "Ketersediaan Barang",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/bau"
+    },
+    {
       path: "/dashboard/archive_adminbarang",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",

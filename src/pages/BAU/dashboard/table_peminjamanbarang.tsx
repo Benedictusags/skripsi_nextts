@@ -45,7 +45,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [sortPath, setSortPath] = useState('');
     const [flag, setFlag] = useState(true);
 
-    const [daftar, setDaftar] = useState([{acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', QTY: '', status: '', komen: '', submit_date: '', status_date: ''}]);
+    const [daftar, setDaftar] = useState([{acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', QTY: '', user: '', status: '', komen: '', submit_date: '', status_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
 
     useEffect(() => {
@@ -68,6 +68,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                         tanggal_selesai: value.tanggal_selesai,
                         nama_barang: value.nama_barang,
                         QTY: value.QTY,
+                        user: value.user,
                         status: value.status,
                         komen: value.komen,
                         submit_date: value.submit_date,
@@ -90,6 +91,9 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setShowMDBModal(true);
         setDetailsData(data);
     }
+
+    
+      
 
 const TableRow =  ({ user, acara, tanggal_mulai, tanggal_selesai, status, submit_date, status_date, setShowMDBModal }) => {
 

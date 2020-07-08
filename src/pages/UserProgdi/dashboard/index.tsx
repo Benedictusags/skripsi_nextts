@@ -29,7 +29,7 @@ const DashboardPage: NextPage<{ userAgent: string }> = ({ userAgent }) => {
     return (
         <>
             <Head>
-                <title>Admin Program Studi</title>
+                <title>Organiasi Program Studi</title>
             </Head>
             <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
                 <div className="container">

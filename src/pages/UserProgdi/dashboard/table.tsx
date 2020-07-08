@@ -109,6 +109,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, submit_date, aprf_date, setShowFM, setShowMDU, setShowMUL }) => {
 
+
         return (
             <tr>
                 <td>{judul_acara}</td>
@@ -289,6 +290,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
             <FPProgdi
                 isOpen={showFM}
                 toggle={() => setShowFM(!showFM)}
+                data={daftar}
             />
 
             <DPUProgdi

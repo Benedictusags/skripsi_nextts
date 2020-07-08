@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 // reactstrap components
 import {
   Button,
@@ -17,21 +17,23 @@ import {
 } from "reactstrap";
 
 import DatePicker from 'react-datepicker';
-import CurrencyFormat from 'react-currency-format';
+// import CurrencyFormat from 'react-currency-format';
 import { AuthContext } from '~/src/store/context';
+// const CurrencyFormat = require('react-currency-format');
+import CurrencyFormat from 'react-currency-format';
+import { isatty } from "tty";
 
-
-const FormModal = ({ isOpen, toggle }) => {
+const FormModal = ({ isOpen, toggle, data }) => {
   
 
-  const CurrencyFormat = require('react-currency-format');
+  
   const {userEmail} = useContext(AuthContext);
   const [judulAcara, setJudulAcara] = useState('');
   const [tanggalMulai, setTanggalMulai] = useState(new Date());
   const [tanggalSelesai, setTanggalSelesai] = useState(new Date());
   const [tempat, setTempat] = useState('');
   const [anggaran, setAnggaran] = useState('');
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState<FileList>();
 
   function insertData() {
 
@@ -39,32 +41,30 @@ const FormModal = ({ isOpen, toggle }) => {
     if(!tempat) {window.alert("Tempat wajib diisi"); return;}
     if(!anggaran) {window.alert("Anggaran wajib diisi"); return;}
     if(!file) {window.alert("File wajib diisi"); return;}
+    console.log(file[0])
+
+    let form = new FormData();
+    form.append('file', file[0])
+    form.append('judul_acara', judulAcara)
+    form.append('tanggal_mulai', tanggalMulai.toString())
+    form.append('tanggal_selesai', tanggalSelesai.toString())
+    form.append('dikampus', '1')
+    form.append('tempat', tempat)
+    form.append('anggaran', anggaran)
+    form.append('user', userEmail)
+    form.append('aprf', "Pending")
+    form.append('aprp', "")
+    form.append('komenf', "")
+    form.append('komenp', "")
+    form.append('Lpj', "")
+    form.append('submit_date', new Date().toString())
+    form.append('aprf_date', new Date().toString())
+    form.append('aprp_date', "")
+    form.append('lpj_date', "")
 
     fetch('http://localhost:3001/addProposal', {
       method: 'POST', // GET / POST DARI POSTMAN 
-      body: JSON.stringify({
-        judul_acara: judulAcara,
-        tanggal_mulai: tanggalMulai,
-        tanggal_selesai: tanggalSelesai,
-        dikampus: 1,
-        tempat: tempat,
-        anggaran: anggaran,
-        file: file,
-        user: userEmail,
-        aprf: "Pending",
-        aprp: "",
-        komenf: "",
-        komenp: "",
-        Lpj: "",
-        submit_date: new Date(),
-        aprf_date: new Date(),
-        aprp_date: "",
-        lpj_date: "",
-      }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
+      body: form,
     })
       .then((res) => res.json())
       .then((data) => {
@@ -73,7 +73,8 @@ const FormModal = ({ isOpen, toggle }) => {
         toggle();
       })
       .catch((e) => {
-        window.alert("Gagal input proposal");;
+        window.alert("Gagal input proposal");
+        toggle();
       });
   }
 
@@ -171,7 +172,7 @@ const FormModal = ({ isOpen, toggle }) => {
             id="input_anggaran"
             placeholder="Tempat"
             type="file"
-            onChange={(e) => setFile(e.target.value)}
+            onChange={(e) => setFile(e.target.files)}
             
           />
           <br></br>

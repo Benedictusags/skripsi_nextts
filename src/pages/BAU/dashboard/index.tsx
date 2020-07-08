@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head'
 
@@ -22,9 +22,11 @@ import Header from "../../../components/Headers/Header";
 
 import { useRouter } from 'next/router';
 import { withAdminAuth } from '~/src/utils/withAdminAuth';
+import { AuthContext } from '~/src/store/context';
 
 const DashboardPage: NextPage<{ userAgent: string }> = ({ userAgent }) => {
     const router = useRouter();
+    const {userEmail} = useContext(AuthContext);
 
     return (
         <>
@@ -37,7 +39,7 @@ const DashboardPage: NextPage<{ userAgent: string }> = ({ userAgent }) => {
                         <div className="col-12 text-center">
                             <h1 className="text-white pl-3">
                                 <i className="ni ni-spaceship mr-3" />
-                                Selamat Datang di Sisforma  
+                                Selamat Datang di Sisforma, {userEmail}  
                             </h1>  
                         </div>
                     </div>

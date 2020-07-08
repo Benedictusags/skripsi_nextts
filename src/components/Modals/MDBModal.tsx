@@ -72,8 +72,7 @@ const MDBModal = ({isOpen, toggle, data}) => {
                             <tr>
                                 <td scope="col">Nama Barang</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.nama_barang}</td>
-                                <td scope="col">{data.QTY}</td>
+                                <td scope="col">{data.nama_barang}, Jumlah : {data.QTY}</td>
                             </tr>
                              <tr>
                                 <td scope="col">Status</td>

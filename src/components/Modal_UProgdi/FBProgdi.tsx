@@ -146,12 +146,17 @@ useEffect(() => {
               <div className="form-group"> 
               {/* Bagian Barang */}
               <label htmlFor="inputAddress" className="form-control-label">Nama Acara</label>
-                <select id="inputState" className="form-control form-control-alternative">
-              <option selected>Pilih Acara yang sudah di Setujui</option>
-              {
+               <select 
+                  id="namaacara" 
+                  className="form-control form-control-alternative"
+                  value={namaacara}
+                  onChange={e => setNamaAcara(e.currentTarget.value)}
+                >
+                 <option selected>Pilih Acara yang sudah di Setujui</option>
+                 {
                    daftar?
                    daftar.map((value,i)=> {
-                     return <option key={i}  onClick={() => {setNamaAcara(value.judul_acara)}}>{value.judul_acara}</option>
+                     return <option key={i}  value={value.judul_acara}>{value.judul_acara}</option>
                    }):null
                  }
                 </select>
@@ -195,15 +200,20 @@ useEffect(() => {
               <div className="form-row algin-center">
                  <div className="form-group col-md-6">
                  <label htmlFor="inputEmail4" className="form-control-label">Nama Barang</label>
-                 <select id="inputState" className="form-control form-control-alternative">
-                 <option selected>Pilih tempat yang terdaftar</option>
-                  {
+                 <select
+                 id="namatempat" 
+                 className="form-control form-control-alternative"
+                 value={namabarang}
+                 onChange={e => setNamaBarang(e.currentTarget.value)}
+              >
+              <option selected>Pilih barang yang terdaftar</option>
+                {
                    barang?
                    barang.map((value,a)=> {
-                     return <option key={a}  onClick={() => {setNamaBarang(value.nama_barang)}}>{value.nama_barang}</option>
+                     return <option key={a}  value={value.nama_barang}>{value.nama_barang}</option>
                    }):null
-                  }
-                 </select>
+                 }
+              </select>
                  </div>
               <div className="form-group col-md-6">
               <label htmlFor="inputEmail4" className="form-control-label">Qty</label>
