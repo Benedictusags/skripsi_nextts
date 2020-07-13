@@ -24,9 +24,6 @@ import CurrencyFormat from 'react-currency-format';
 import { isatty } from "tty";
 
 const FormModal = ({ isOpen, toggle, data }) => {
-  
-
-  
   const {userEmail} = useContext(AuthContext);
   const [judulAcara, setJudulAcara] = useState('');
   const [tanggalMulai, setTanggalMulai] = useState(new Date());
@@ -170,7 +167,7 @@ const FormModal = ({ isOpen, toggle, data }) => {
           <Input
             className="form-control form-control-alternative"
             id="input_anggaran"
-            placeholder="Tempat"
+            placeholder="Nama file jangan berspasi co: proposal_1"
             type="file"
             onChange={(e) => setFile(e.target.files)}
             

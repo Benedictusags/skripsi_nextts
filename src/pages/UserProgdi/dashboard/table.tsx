@@ -107,7 +107,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     }
 
 
-    const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprf, submit_date, aprf_date, setShowFM, setShowMDU, setShowMUL }) => {
+    const TableRow = ({judul_acara, tanggal_mulai, tanggal_selesai, aprf, submit_date, aprf_date, setShowFM, setShowMDU, setShowMUL }) => {
 
 
         return (

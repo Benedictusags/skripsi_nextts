@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 // reactstrap components
 import {
   DropdownMenu,
@@ -37,6 +37,38 @@ const AdminNavbar = () => {
     Router.reload()                               
   }
 
+  const [daftar, setDaftar] = useState([{ user: '', pass: '', nama_ketua: ''}]);
+  const [detailsData, setDetailsData] = useState({});
+
+  useEffect(() => {
+      fetch('http://localhost:3001/getUser', {
+          method: 'GET', // GET / POST DARI POSTMAN 
+           headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+          }
+          })
+          .then((res) => res.json())
+          .then((data) => {
+              const values = data.values;
+              let newDatas = [];
+              values.forEach(value => {
+                  if (value.user === userEmail) {
+                      newDatas.push({
+                          id: value.id,
+                          judul_acara: value.judul_acara,
+                          user: value.user,
+                          nama_ketua: value.nama_ketua,
+                  });
+              }
+              });
+              setDaftar(newDatas);
+          })
+          .catch((e) => {
+              window.alert(e);
+          });
+  },[]);
+
  
 
   return (
@@ -64,26 +96,13 @@ const AdminNavbar = () => {
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Welcome!</h6>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile">
+                <DropdownItem 
+                to="/admin/user-profile"
+                onClick={e => e.preventDefault()}
+                >
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile">
-                  <i className="ni ni-settings-gear-65" />
-                  <span>Settings</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile">
-                  <i className="ni ni-calendar-grid-58" />
-                  <span>Activity</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile">
-                  <i className="ni ni-support-16" />
-                  <span>Support</span>
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem onClick={signOut}>
-                  <i className="ni ni-user-run" />
-                  <span>Logout</span>
+                  
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>

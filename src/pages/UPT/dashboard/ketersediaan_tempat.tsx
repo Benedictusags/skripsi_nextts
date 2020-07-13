@@ -52,10 +52,10 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const [tanggalSelesai, setTanggalSelesai] = useState(new Date());
 
 
-    const [cekdaftar, setcekDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_barang: '', user: '', QTY: '', status: '', komen: '', submit_date: '', status_date: '' }]);
+    const [cekdaftar, setcekDaftar] = useState([{ acara: '', tanggal_mulai: '', tanggal_selesai: '', nama_tempat: '', user: '', status: '', komen: '', submit_date: '', status_date: '' }]);
 
     useEffect(() => {
-        fetch('http://localhost:3001/getPeminjamanBarang', {
+        fetch('http://localhost:3001/getPeminjamanTempat', {
             method: 'GET', // GET / POST DARI POSTMAN 
             headers: {
                 'Accept': 'application/json',
@@ -74,8 +74,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                         user: value.user,
                         tanggal_mulai: value.tanggal_mulai,
                         tanggal_selesai: value.tanggal_selesai,
-                        nama_barang: value.nama_barang,
-                        QTY: value.QTY,
+                        nama_tempat: value.nama_tempat,
                         status: value.status,
                     });
                 });
@@ -112,15 +111,14 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         return isAvailable;
     }
 
-    const TableRow = ({ nama_barang, QTY, status, user, tanggal_mulai, tanggal_selesai, setShowTBModal }) => {
+    const TableRow = ({ nama_tempat,  status, user, tanggal_mulai, tanggal_selesai, setShowTBModal }) => {
 
         return (
             <>
                 {
                     !checkAvailability(tanggalMulai, tanggalSelesai) && status === 'Approved' ? (
                         <tr>
-                            <td>{nama_barang}</td>
-                            <td>{QTY}</td>
+                            <td>{nama_tempat}</td>
                             <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
                                 {new Date(tanggal_selesai).toLocaleDateString() + ' ' + new Date(tanggal_selesai).toLocaleTimeString()}</td>
                             <td>{user}</td>
@@ -206,7 +204,6 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 <thead className="thead-light">
                                     <tr>
                                         <th scope="col">Nama Barang</th>
-                                        <th scope="col">Jumlah</th>
                                         <th scope="col">Tanggal Peminjaman</th>
                                         <th scope="col">Peminjam</th>
                                         <th scope="col" />
@@ -219,8 +216,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
                                                 return (
                                                     <TableRow
-                                                        nama_barang={data.nama_barang}
-                                                        QTY={data.QTY}
+                                                        nama_tempat={data.nama_tempat}
                                                         status={data.status}
                                                         tanggal_mulai={data.tanggal_mulai}
                                                         tanggal_selesai={data.tanggal_selesai}

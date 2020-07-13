@@ -29,7 +29,7 @@ const FormModal = ({isOpen, toggle, data}) => {
     fetch('http://localhost:3001/updateLPJ', {
       method: 'POST', // GET / POST DARI POSTMAN 
       body: JSON.stringify({
-          id: data.id, 
+          id: id, 
           Lpj: lpj,
           lpj_date: new Date(),
       }),

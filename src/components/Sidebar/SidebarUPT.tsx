@@ -55,6 +55,12 @@ import { useRouter } from 'next/router';
       layout: "/upt"
     },
     {
+      path: "/dashboard/ketersediaan_tempat",
+      name: "Ketersediaan Tempat",
+      icon: "fa fa-envelope-square text-red",
+      layout: "/upt"
+    },
+    {
       path: "/dashboard/archive_admintempat",
       name: "Archive",
       icon: "fa fa-envelope-square text-red",
