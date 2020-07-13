@@ -115,41 +115,46 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     const TableRow = ({ nama_barang, QTY, status, user, setShowTBModal }) => {
 
         return (
-            <tr>
-                <td>{nama_barang}</td>
-                <td>{QTY}</td>
-                <td>{user}</td>
-                <td>{!checkAvailability(tanggalMulai, tanggalSelesai) && status === 'Approved' ? "Tidak Tersedia" : " Tersedia"}</td>
-                <td className="text-right">
-                    <UncontrolledDropdown>
-                        <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={e => e.preventDefault()}
-                        >
-                            <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                                href="#pablo"
-                                onClick={e => e.preventDefault()}
-                            >
-                                Detail
+            <>
+                {
+                    !checkAvailability(tanggalMulai, tanggalSelesai) && status === 'Approved' ? (
+                        <tr>
+                            <td>{nama_barang}</td>
+                            <td>{QTY}</td>
+                            <td>{user}</td>
+                            <td className="text-right">
+                                <UncontrolledDropdown>
+                                    <DropdownToggle
+                                        className="btn-icon-only text-light"
+                                        href="#pablo"
+                                        role="button"
+                                        size="sm"
+                                        color=""
+                                        onClick={e => e.preventDefault()}
+                                    >
+                                        <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                        <DropdownItem
+                                            href="#pablo"
+                                            onClick={e => e.preventDefault()}
+                                        >
+                                            Detail
                                                             </DropdownItem>
-                            <DropdownItem
-                                href="#pablo"
-                                onClick={e => e.preventDefault()}
-                            >
-                                Delete
+                                        <DropdownItem
+                                            href="#pablo"
+                                            onClick={e => e.preventDefault()}
+                                        >
+                                            Delete
                                                             </DropdownItem>
 
-                        </DropdownMenu>
-                    </UncontrolledDropdown>
-                </td>
-            </tr>
+                                    </DropdownMenu>
+                                </UncontrolledDropdown>
+                            </td>
+                        </tr>
+                    ) : <></>
+                }
+            </>
         );
     }
 
