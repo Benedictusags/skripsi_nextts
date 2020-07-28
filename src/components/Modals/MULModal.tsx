@@ -20,33 +20,32 @@ import {
 
 const FormModal = ({isOpen, toggle, data}) => {
 
-  const [lpj, setLpj] = useState('');
+  const [lpj, setLpj] = useState('');  
+  const [file, setFile] = useState<FileList>();
   
   function updateData() {
 
-    if(!lpj) {window.alert("Dokumen LPJ kosong"); return;}
+    if(!file) {window.alert("File wajib diisi"); return;}
+    console.log(file[0])
+
+    let form = new FormData();
+    form.append('id', data.id)
+    form.append('Lpj', file[0])
+    form.append('lpj_date', new Date().toString())
 
     fetch('http://localhost:3001/updateLPJ', {
       method: 'POST', // GET / POST DARI POSTMAN 
-      body: JSON.stringify({
-          id: id, 
-          Lpj: lpj,
-          lpj_date: new Date(),
-      }),
-       headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-      }
-      })
+      body: form,
+    })
       .then((res) => res.json())
       .then((data) => {
-          console.log(data);
-          window.alert("Berhasil upload LPJ");
-          toggle();
+        console.log(data);    
+        window.alert("Berhasil input proposal");
+        toggle();
       })
       .catch((e) => {
-          window.alert("Gagal upload LPJ");
-          toggle();
+        window.alert("Gagal input proposal");
+        toggle();
       });
   }
 
@@ -58,7 +57,7 @@ const FormModal = ({isOpen, toggle, data}) => {
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-default">
-                  Type your modal title
+                  Type your modal title 
                 </h6>
                 <button
                   aria-label="Close"
@@ -77,20 +76,20 @@ const FormModal = ({isOpen, toggle, data}) => {
               </h6>
               <div className="form-group"> 
               <label htmlFor="inputAddress" className="form-control-label">Pilih File LPJ</label>
-              <Input  
-                className="form-control form-control-alternative" 
-                id="nama_acara"
-                placeholder="Upload LPJ"
+              <Input
+                className="form-control form-control-alternative"
+                id="input_anggaran"
+                placeholder="Nama file jangan berspasi co: proposal_1"
                 type="file"
-                onChange={(e) => setLpj(e.target.value)} 
-              />
+                onChange={(e) => setFile(e.target.files)}    
+          />
               </div>
               <br></br>
+              </form>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary btn-sm float-right" onClick={updateData} >Submit</button>
-                <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
+                <button type="submit" className="btn btn-secondary btn-sm float-right" onClick={toggle}>Cancel</button>
               </div>
-              </form>
               </div>
             </Modal>
           

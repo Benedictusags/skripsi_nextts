@@ -99,7 +99,7 @@ const MDUModal = ({isOpen, toggle, data}) => {
                             <tr>
                                 <td scope="col">Dokumen Proposal</td>
                                 <td scope="col">:</td>
-                                <td scope="col">{data.file}</td>
+                                <td scope="col"><a href={'http://localhost:3001' + data.file}>Download</a></td>
                             </tr>
                         </tbody>
                 </Table>

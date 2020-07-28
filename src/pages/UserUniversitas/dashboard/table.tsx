@@ -55,6 +55,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     const [daftar, setDaftar] = useState([{ judul_acara: '', tanggal_mulai: '', tanggal_selesai: '', tempat: '', user: '', aprf: '', aprf_date: '', aprp: '', aprp_date: '', komenf: '', anggaran: '', file: '',submit_date: ''}]);
     const [detailsData, setDetailsData] = useState({});
+    const [getid, setGetID] = useState({});
 
     useEffect(() => {
         fetch('http://localhost:3001/getProposal', {
@@ -71,6 +72,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                 values.forEach(value => {
                     if (value.user === userEmail) {
                         newDatas.push({
+                            id: value.ID,
                             judul_acara: value.judul_acara,
                             tanggal_mulai: value.tanggal_mulai,
                             tanggal_selesai: value.tanggal_selesai,
@@ -98,6 +100,13 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         setShowMDU(true);
         setDetailsData(data);
     }
+
+    function togetid(data) {
+        setShowMUL(true);
+        console.log(data)
+        setGetID(data);
+    }
+
 
 const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprp, submit_date, aprp_date, setShowFM, setShowMDU, setShowMUL }) => {
 
@@ -132,31 +141,9 @@ const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprp, submit_da
                                 (
                                 <DropdownItem
                                 href="#pablo"
-                                onClick={e => e.preventDefault()}
-                            >
-                                Print
-                                </DropdownItem>
-                                 ):null
-                            }
-                            {
-                                aprp === 'Approved' ?
-                                (
-                                <DropdownItem
-                                href="#pablo"
                                 onClick={() => setShowMUL(true)}
                             >
                                 Upload LPJ
-                                </DropdownItem>
-                                ):null
-                            }
-                            {
-                                aprp !== 'Approved' ?
-                                (
-                                <DropdownItem
-                                href="#pablo"
-                                onClick={e => e.preventDefault()}
-                            >
-                                Delete
                                 </DropdownItem>
                                 ):null
                             }
@@ -247,7 +234,7 @@ const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprp, submit_da
                                                     submit_date={data.submit_date} 
                                                     setShowFM={setShowFM} 
                                                     setShowMDU={() => openDetailsModal(data)} 
-                                                    setShowMUL={setShowMUL} />
+                                                    setShowMUL={() => togetid(data)} />
                                                 );
                                             }) : null
                                     }
@@ -304,6 +291,7 @@ const TableRow = ({ judul_acara, tanggal_mulai, tanggal_selesai, aprp, submit_da
             <MULModal
                 isOpen={showMUL}
                 toggle={() => setShowMUL(!showMUL)}
+                data={getid}
             />                                    
         </div>
 

@@ -39,37 +39,43 @@ var routes = [
     {
       path: "/dashboard",
       name: "Home",
-      icon: "ni ni-tv-2 text-primary",
+      icon: "fa fa-home text-primary",
       layout: "/userprogdi"
     },
     {
       path: "/dashboard/table",
       name: "Proposal",
-      icon: "fa fa-file-text text-red",
+      icon: "fa fa-file text-red",
       layout: "/userprogdi"
     },
     {
-      path: "/dashboard/tableketersediaan",
-      name: "Cek Ketersediaan",
-      icon: "fa fa-envelope-square text-red",
+      path: "/dashboard/ketersediaan_barang",
+      name: "Ketersediaan Barang",
+      icon: "fa fa-list-alt text-red",
       layout: "/userprogdi"
     },
     {
       path: "/dashboard/tablepeminjamanBarang",
       name: "Peminjaman Barang",
-      icon: "fa fa-envelope-square text-red",
+      icon: "fa fa-file-text text-red",
+      layout: "/userprogdi"
+    },
+    {
+      path: "/dashboard/ketersediaan_tempat",
+      name: "Ketersediaan Tempat",
+      icon: "fa fa-list-alt text-red",
       layout: "/userprogdi"
     },
     {
       path: "/dashboard/tablepeminjamanTempat",
       name: "Peminjaman Tempat",
-      icon: "fa fa-envelope-square text-red",
+      icon: "fa fa-file-text text-red",
       layout: "/userprogdi"
     },
     {
       path: "/dashboard/archiveuser",
       name: "Archive",
-      icon: "fa fa-envelope-square text-red",
+      icon: "fa fa-archive text-red",
       layout: "/userprogdi"
     },
   
@@ -208,6 +214,14 @@ const Sidebar = () => {
             </Row>
           </div>
           {/* Navigation */}
+          <p className="text-center">
+            <img 
+            width={210} 
+            height={126} 
+            src="/unika.png"
+            />
+            <strong />
+          </p>
           <Nav navbar>{createLinks(routes)}</Nav>
           {/* Divider */}
     

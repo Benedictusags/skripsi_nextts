@@ -74,7 +74,7 @@ const FormModal = ({isOpen, toggle, id}) => {
               <div className="form-group"> 
               <label htmlFor="inputAddress" className="form-control-label">Yakin untuk disetujui?</label>
               </div>
-              <br></br>
+              <p className="text-white pl-3">.....................................................................................</p>
               </form>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary btn-sm float-right" onClick={rejectData} >Submit</button>

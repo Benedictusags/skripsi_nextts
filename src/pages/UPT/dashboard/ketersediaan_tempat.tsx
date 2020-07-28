@@ -94,18 +94,28 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         let isAvailable = true;
         cekdaftar.forEach((dat) => {
             console.log(dat)
-            const nIn = new Date(dat.tanggal_mulai).getTime();
-            const nOut = new Date(dat.tanggal_selesai).getTime();
+            const nIn = new Date(tanggalMulai).getTime() / 1000;
+            const nOut = new Date(tanggalSelesai).getTime() / 1000;
 
-            const newInDate = new Date(inDate).getTime();
-            const newOutDate = new Date(outDate).getTime();
+            const newInDate = new Date(inDate).getTime() / 1000;
+            const newOutDate = new Date(outDate).getTime() / 1000;
             console.log(nIn, nOut, newInDate, newOutDate);
             console.log('a')
+
+            // if (
+            //    !(
+            //     (newInDate > nOut && newOutDate > nOut) ||
+            //     (newInDate < nIn && newOutDate < nIn)
+            //    )
+            // ) {
+            //     isAvailable = false
+            // }
 
             if (!((newInDate >= nOut && newOutDate >= nOut) || (newInDate <= nIn && newOutDate <= nIn))) {
                 console.log('b')
                 isAvailable = false;
             }
+
 
         });
         return isAvailable;
@@ -116,7 +126,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
         return (
             <>
                 {
-                    !checkAvailability(tanggalMulai, tanggalSelesai) && status === 'Approved' ? (
+                    !checkAvailability(tanggal_mulai, tanggal_selesai) && status === 'Approved' ? (
                         <tr>
                             <td>{nama_tempat}</td>
                             <td>{new Date(tanggal_mulai).toLocaleDateString() + ' ' + new Date(tanggal_mulai).toLocaleTimeString()} - 
@@ -146,7 +156,8 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Ketersediaan Barang</h3>
+                                        <h3 className="mb-0">Daftar Peminjam Tempat</h3>
+                                        <p className="mb-0"> Jika kosong berarti tempat tersedia </p>
                                     </div>
                                     <div className="col text-right">
                                         <Button

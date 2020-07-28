@@ -39,7 +39,7 @@ const DashboardPage: NextPage<{ userAgent: string }> = ({ userAgent }) => {
                         <div className="col-12 text-center">
                             <h1 className="text-white pl-3">
                                 <i className="ni ni-spaceship mr-3" />
-                                Selamat Datang di Sisforma, {userEmail}  
+                                Selamat Datang di Portal Ormawa, admin {userEmail}  
                             </h1>  
                         </div>
                     </div>

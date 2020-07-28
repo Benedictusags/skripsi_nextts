@@ -89,7 +89,7 @@ const FormModal = ({isOpen, toggle, id}) => {
                 prefix={'Rp. '}
               />
               </div>
-              <br></br>
+              <p className="text-white pl-3">.....................................................................................</p>
               </form>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary btn-sm float-right" onClick={approveData} >Submit</button>

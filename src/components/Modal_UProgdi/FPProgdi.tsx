@@ -177,6 +177,7 @@ const FormModal = ({ isOpen, toggle, data }) => {
         <button type="submit" className="btn btn-primary btn-sm float-right" onClick={insertData}>Submit</button>
         <button type="submit" className="btn btn-secondary btn-sm float-right" aria-hidden={true}>Cancel</button>
       </div>
+      <br></br>
     </Modal>
 
   );

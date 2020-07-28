@@ -85,7 +85,7 @@ const FormModal = ({isOpen, toggle, id}) => {
                 onChange={(e) => setKomenf(e.target.value)} 
               />
               </div>
-              <br></br>
+              <p className="text-white pl-3">.....................................................................................</p>
               </form>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-primary btn-sm float-right" onClick={rejectData} >Submit</button>

@@ -158,7 +158,7 @@ const TableRow = ({ acara, tanggal_mulai, tanggal_selesai, status, submit_date, 
     return (
         <div>
             <Head>
-                <title>Sisforma - Peminjaman </title>
+                <title>Portal Ormawa</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             {/* <Header /> */}

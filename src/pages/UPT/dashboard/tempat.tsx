@@ -131,7 +131,7 @@ const TableRow = ({nama_tempat, deskripsi, status }) => {
                             <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                     <div className="col">
-                                        <h3 className="mb-0">Daftar dan Ketersediaan Tempat</h3>
+                                        <h3 className="mb-0">Daftar Tempat</h3>
                                     </div>
                                     <div className="col text-right">
                                         <Button

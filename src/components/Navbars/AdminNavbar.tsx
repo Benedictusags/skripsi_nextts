@@ -102,7 +102,11 @@ const AdminNavbar = () => {
                 >
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
-                  
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem onClick={signOut}>
+                  <i className="ni ni-user-run" />
+                  <span>Logout</span>
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>

@@ -107,8 +107,8 @@ function insertData() {
               <button type="submit" className="btn btn-primary btn-sm float-right" onClick={insertData} >Submit</button>
               <button type="submit" className="btn btn-secondary btn-sm float-right" >Cancel</button>
               </div>
+              <p className="text-white pl-3">.....................................................................................</p>
             </Modal>
-          
     );
 }
 

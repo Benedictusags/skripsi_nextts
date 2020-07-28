@@ -39,19 +39,19 @@ import { useRouter } from 'next/router';
     {
       path: "/dashboard",
       name: "Home",
-      icon: "ni ni-tv-2 text-primary",
+      icon: "fa fa-home text-primary",
       layout: "/adminprogdi"
     },
     {
       path: "/dashboard/table_permohonanproposalP",
       name: "Daftar Permohonan",
-      icon: "fa fa-envelope-square text-red",
+      icon: "fa fa-file text-red",
       layout: "/adminprogdi"
     },
     {
       path: "/dashboard/archive_adminprogdi",
       name: "Archive",
-      icon: "fa fa-envelope-square text-red",
+      icon: "fa fa-archive text-red",
       layout: "/adminprogdi"
     },
   ];
@@ -184,6 +184,14 @@ const Sidebar = () => {
               </Col>
             </Row>
           </div>
+          <p className="text-center">
+            <img 
+            width={210} 
+            height={126} 
+            src="/unika.png"
+            />
+            <strong />
+          </p>
           <Nav navbar>{createLinks(routes35)}</Nav>
           {/* Navigation */}
         </Collapse>

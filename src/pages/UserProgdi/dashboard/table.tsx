@@ -33,7 +33,7 @@ import {
 
 
 
-import _ from 'lodash';
+import _, { values } from 'lodash';
 
 import { SortableTableHead, filterItem, getItems } from '~/src/utils/TableHelper';
 import FPProgdi from '~/src/components/Modal_UProgdi/FPProgdi';
@@ -74,7 +74,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                     console.log(value)
                     if (value.user === userEmail) {
                     newDatas.push({
-                        id: value.id,
+                        id: value.ID,
                         judul_acara: value.judul_acara,
                         tanggal_mulai: value.tanggal_mulai,
                         tanggal_selesai: value.tanggal_selesai,
@@ -103,6 +103,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
 
     function togetid(data) {
         setShowMUL(true);
+        console.log(data)
         setGetID(data);
     }
 
@@ -140,17 +141,6 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                 (
                                 <DropdownItem
                                 href="#pablo"
-                                onClick={e => e.preventDefault()}
-                            >
-                                Print
-                                </DropdownItem>
-                                 ):null
-                            }
-                            {
-                                aprf === 'Approved' ?
-                                (
-                                <DropdownItem
-                                href="#pablo"
                                 onClick={() => setShowMUL(true)}
                             >
                                 Upload LPJ
@@ -167,7 +157,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
     return (
         <div>
             <Head>
-                <title>My page title</title>
+                <title>Portal Ormawa</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             {/* <Header /> */}
@@ -234,7 +224,7 @@ const DashboardTablePage: NextPage<{ userAgent: string }> = () => {
                                     {
                                         daftar ?
                                             getItems(daftar, text, ['judul_acara', 'aprf'], currPage, sortPath, flag).map((data) => {
-                                
+                                                console.log(data)
                                                 return (
                                                     <TableRow 
                                                     judul_acara={data.judul_acara}
