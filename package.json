@@ -27,7 +27,7 @@
     "firebase": "^7.15.5",
     "framer-motion": "^1.11.1",
     "lodash": "^4.17.15",
-    "next": "^9.4.4",
+    "next": "^11.1.0",
     "nodemailer": "^6.4.10",
     "react": "^16.13.1",
     "react-currency-format": "^1.0.0",
